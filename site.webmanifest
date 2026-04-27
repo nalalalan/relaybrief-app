@@ -1,0 +1,14 @@
+{
+  "name": "Relay Live",
+  "short_name": "Relay Live",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#111418",
+  "background_color": "#101214",
+  "display": "standalone"
+}

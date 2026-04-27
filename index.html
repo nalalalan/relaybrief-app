@@ -374,10 +374,24 @@
     }
 
     .event {
+      width: 100%;
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 12px;
       background: rgba(16, 18, 20, 0.44);
+      color: inherit;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+      transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+    }
+
+    .event:hover,
+    .event:focus-visible {
+      border-color: rgba(120, 174, 245, 0.72);
+      background: rgba(29, 35, 42, 0.9);
+      outline: none;
+      transform: translateY(-1px);
     }
 
     .event-top {
@@ -410,6 +424,90 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+
+    .mail-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      background: rgba(8, 10, 12, 0.74);
+      backdrop-filter: blur(10px);
+    }
+
+    .mail-modal[hidden] {
+      display: none;
+    }
+
+    .mail-window {
+      width: min(900px, calc(100vw - 28px));
+      max-height: calc(100vh - 48px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #11161c;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
+    }
+
+    .mail-toolbar {
+      min-height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(17, 22, 28, 0.96);
+    }
+
+    .mail-kind {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .mail-content {
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .mail-subject {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 38px);
+      line-height: 1.05;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .mail-fields {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mail-fields strong {
+      color: var(--text);
+      font-weight: 850;
+    }
+
+    .mail-body {
+      min-height: 220px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      color: #edf1f5;
+      font-size: 15px;
+      line-height: 1.58;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     details {
@@ -659,6 +757,25 @@
       </article>
     </section>
 
+    <section class="mail-modal" id="mailModal" hidden>
+      <article class="mail-window" role="dialog" aria-modal="true" aria-labelledby="mailSubject">
+        <div class="mail-toolbar">
+          <span class="mail-kind" id="mailKind">Message</span>
+          <button class="btn" id="mailClose" type="button">Close</button>
+        </div>
+        <div class="mail-content">
+          <h2 class="mail-subject" id="mailSubject">Email</h2>
+          <div class="mail-fields">
+            <div><strong>From:</strong> <span id="mailFrom">--</span></div>
+            <div><strong>To:</strong> <span id="mailTo">--</span></div>
+            <div><strong>When:</strong> <span id="mailWhen">--</span></div>
+            <div><strong>Contact:</strong> <span id="mailContact">--</span></div>
+          </div>
+          <div class="mail-body" id="mailBody"></div>
+        </div>
+      </article>
+    </section>
+
     <details>
       <summary>
         <span>Audit Trail</span>
@@ -672,6 +789,7 @@
     const BASE = "https://alan-operator-backend-production.up.railway.app";
     const TARGET_WEEKLY_TESTS = 3;
     let latest = null;
+    const messageEvents = new Map();
 
     const $ = (id) => document.getElementById(id);
 
@@ -858,6 +976,53 @@
       $("nextCheck").textContent = classification.next;
     }
 
+    function fullMessageBody(event) {
+      return String(
+        event.body_text ||
+        event.plain_text ||
+        event.body ||
+        event.reply_text ||
+        event.body_preview ||
+        "No body stored."
+      ).trim();
+    }
+
+    function messageContact(event, incoming) {
+      const name = event.contact_name || event.company_name || event.from_name || "";
+      const email = incoming ? event.from_email || "" : event.to_email || "";
+      if (name && email && name.toLowerCase() !== email.toLowerCase()) return `${name} <${email}>`;
+      return name || email || "unknown";
+    }
+
+    function openMessage(key) {
+      const item = messageEvents.get(key);
+      if (!item) return;
+      const event = item.event;
+      const incoming = item.incoming;
+      const from = incoming
+        ? messageContact(event, true)
+        : event.sender_address || event.provider || "Relay";
+      const to = incoming
+        ? latest?.status?.reply_mailbox_address || latest?.status?.reply_to_email || "Relay"
+        : event.to_email || "unknown";
+      const company = event.company_name || event.contact_name || event.from_name || event.to_email || event.from_email || "unknown";
+      const when = event.created_at ? `${ago(event.created_at)} (${parseBackendTime(event.created_at).toLocaleString()})` : "--";
+
+      $("mailKind").textContent = incoming ? "Inbound reply" : "Outbound email";
+      $("mailSubject").textContent = event.subject || "(no subject)";
+      $("mailFrom").textContent = from;
+      $("mailTo").textContent = to;
+      $("mailWhen").textContent = when;
+      $("mailContact").textContent = company;
+      $("mailBody").textContent = fullMessageBody(event);
+      $("mailModal").hidden = false;
+      $("mailClose").focus();
+    }
+
+    function closeMessage() {
+      $("mailModal").hidden = true;
+    }
+
     function renderEvents(id, events, incoming = false) {
       const container = $(id);
       if (!events || events.length === 0) {
@@ -866,16 +1031,18 @@
       }
 
       container.innerHTML = events.slice(0, 5).map((event) => {
+        const key = `${id}:${event.event_type || "event"}:${event.prospect_external_id || ""}:${event.created_at || ""}`;
+        messageEvents.set(key, { event, incoming });
         const address = incoming ? event.from_email || "" : event.to_email || "";
         const name = event.company_name || event.from_name || address || "unknown";
         const meta = incoming ? event.intent || event.status || "" : event.sender_address || event.provider || "";
         return `
-          <div class="event">
+          <button class="event" type="button" data-event-key="${esc(key)}">
             <div class="event-top"><span>${esc(ago(event.created_at))}</span><span>${esc(event.subject || "")}</span></div>
             <div class="event-title">${esc(name)}</div>
             <div class="event-sub">${esc(address)}${meta ? " / " + esc(meta) : ""}</div>
             <div class="event-preview">${esc(event.body_preview || "No preview stored.")}</div>
-          </div>
+          </button>
         `;
       }).join("");
     }
@@ -944,6 +1111,7 @@
 
       $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
       $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";
+      messageEvents.clear();
       renderEvents("recentSentList", status.recent_sent || []);
       renderEvents("recentReplyList", status.recent_replies || [], true);
       auditRows(status, cash);
@@ -989,6 +1157,24 @@
       ].join("\n");
       await navigator.clipboard.writeText(text);
       $("lastUpdated").textContent = "Status copied";
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const eventButton = target.closest("[data-event-key]");
+      if (eventButton) {
+        openMessage(eventButton.getAttribute("data-event-key") || "");
+        return;
+      }
+      if (target.id === "mailModal") {
+        closeMessage();
+      }
+    });
+
+    $("mailClose").addEventListener("click", closeMessage);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !$("mailModal").hidden) closeMessage();
     });
 
     refresh();

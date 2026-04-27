@@ -529,6 +529,45 @@
       font-weight: 900;
     }
 
+    .pressure-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .pressure-card {
+      min-width: 0;
+      border: 1px solid rgba(255, 123, 131, 0.24);
+      border-radius: 8px;
+      padding: 16px;
+      background:
+        linear-gradient(135deg, rgba(255, 123, 131, 0.08), transparent 48%),
+        rgba(23, 27, 32, 0.96);
+      display: grid;
+      gap: 10px;
+    }
+
+    .pressure-card.good {
+      border-color: rgba(105, 213, 139, 0.28);
+      background:
+        linear-gradient(135deg, rgba(105, 213, 139, 0.08), transparent 48%),
+        rgba(23, 27, 32, 0.96);
+    }
+
+    .pressure-card .metric {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .pressure-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
     .panels {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -746,7 +785,8 @@
     @media (max-width: 1100px) {
       .command,
       .panels,
-      .money-board {
+      .money-board,
+      .pressure-strip {
         grid-template-columns: 1fr;
       }
 
@@ -816,6 +856,7 @@
       .contract strong,
       .fact .value,
       .money-card .big,
+      .pressure-card .metric,
       .event-title,
       .event-sub,
       .event-preview {
@@ -831,7 +872,7 @@
         <div class="mark">AO</div>
         <div>
           <h1>Relay Live</h1>
-          <p class="subtle">Out-of-loop mode for the money machine.</p>
+          <p class="subtle">Cash-pressure monitor for Relay.</p>
         </div>
       </div>
       <div class="actions">
@@ -940,6 +981,24 @@
           <p class="label">All-Time Sends</p>
           <div class="value" id="totalSendsValue">--</div>
           <div class="detail" id="totalSendsDetail">sent since launch</div>
+        </article>
+      </section>
+
+      <section class="pressure-strip" aria-label="Cash pressure mode">
+        <article class="pressure-card" id="gapCard">
+          <p class="label">Cash Pressure Mode</p>
+          <div class="metric" id="weeklyGapValue">--</div>
+          <p id="weeklyGapBody">Checking how far this week is from the minimum target.</p>
+        </article>
+        <article class="pressure-card good" id="nextCashCard">
+          <p class="label">Next Cash Move</p>
+          <div class="metric" id="nextCashValue">--</div>
+          <p id="nextCashBody">The next action depends on replies, payments, sends, and clean lead supply.</p>
+        </article>
+        <article class="pressure-card" id="stopRuleCard">
+          <p class="label">Stop Rule</p>
+          <div class="metric" id="stopRuleValue">Signal</div>
+          <p id="stopRuleBody">If Relay gives no reply signal after a clean run, change targeting or offer clarity. Do not just wait harder.</p>
         </article>
       </section>
 
@@ -1281,10 +1340,17 @@
       const weekProgress = percent(weekMoney, TARGET_WEEKLY_REVENUE);
       const inventoryValue = inventory * PACKET_PRICE;
       const dueValue = directDue * PACKET_PRICE;
+      const weeklyGap = Math.max(0, TARGET_WEEKLY_REVENUE - weekMoney);
+      const paidTestsNeeded = Math.ceil(weeklyGap / PACKET_PRICE);
+      const sentEnoughToday = cap > 0 && sent >= cap;
 
       $("scenarioOne").textContent = money(PACKET_PRICE);
       $("scenarioThree").textContent = money(PACKET_PRICE * TARGET_WEEKLY_TESTS);
       $("scenarioFive").textContent = money(PACKET_PRICE * 5);
+      $("weeklyGapValue").textContent = weeklyGap > 0 ? money(weeklyGap) : "Covered";
+      $("weeklyGapBody").textContent = weeklyGap > 0
+        ? `${paidTestsNeeded} more paid test${paidTestsNeeded === 1 ? "" : "s"} at ${money(PACKET_PRICE)} would clear the ${money(TARGET_WEEKLY_REVENUE)}/week floor. This is the real pressure number.`
+        : `${money(weekMoney)} is already recorded this week. The job becomes fulfillment and repeatability.`;
 
       if (todayMoney > 0) {
         $("moneyCaseTitle").textContent = "Money already proved today";
@@ -1316,6 +1382,37 @@
         $("moneyCaseValue").textContent = "--";
         $("moneyCaseBody").textContent = "There is no clean signal to interpret yet. The next useful move is lead supply, not refreshing.";
         $("moneyCaseBar").style.width = "0%";
+      }
+
+      if (replies > 0) {
+        $("nextCashValue").textContent = "Reply";
+        $("nextCashBody").textContent = "Highest-leverage move: answer the real person and move only genuine interest toward the $40 test.";
+      } else if (todayMoney > 0) {
+        $("nextCashValue").textContent = "Fulfill";
+        $("nextCashBody").textContent = "A buyer paid. Fast fulfillment matters more than more checking.";
+      } else if (sentEnoughToday) {
+        $("nextCashValue").textContent = "Wait";
+        $("nextCashBody").textContent = "Today’s batch is already in market. A refresh cannot create replies. Watch for red signals.";
+      } else if (directDue > 0) {
+        $("nextCashValue").textContent = "Send";
+        $("nextCashBody").textContent = "Clean leads are ready. Let the send cycle run; intervene only if sends stall during an open window.";
+      } else {
+        $("nextCashValue").textContent = "Leads";
+        $("nextCashBody").textContent = "No clean lead supply means no money path. The next useful input is better qualified founder-led agency leads.";
+      }
+
+      if (classification.kind === "needs") {
+        $("stopRuleValue").textContent = "Fix";
+        $("stopRuleBody").textContent = "Backend or payment/reply handling comes before any more waiting.";
+      } else if ((allTimeSends || sent) >= 50 && replies <= 0) {
+        $("stopRuleValue").textContent = "Adjust";
+        $("stopRuleBody").textContent = "Enough emails have gone out to take zero replies seriously. Next change should be targeting and opener clarity, not volume.";
+      } else if (sentEnoughToday) {
+        $("stopRuleValue").textContent = "Hold";
+        $("stopRuleBody").textContent = "Today's batch is out. The stop rule is simple: no action unless reply, payment, failure, or repeated zero-signal days.";
+      } else {
+        $("stopRuleValue").textContent = "Run";
+        $("stopRuleBody").textContent = "The system still has an operational next step. Let it run before interpreting the result.";
       }
 
       $("scenarioBody").textContent = `${TARGET_WEEKLY_TESTS} paid tests at ${money(PACKET_PRICE)} each is ${money(PACKET_PRICE * TARGET_WEEKLY_TESTS)}. This clears the $${TARGET_WEEKLY_REVENUE}/week target without needing a large number of buyers.`;
@@ -1526,6 +1623,7 @@
         `total_sends_all_time=${totalSends(status) ?? ""}`,
         `packet_price_usd=${PACKET_PRICE}`,
         `weekly_target_usd=${TARGET_WEEKLY_REVENUE}`,
+        `weekly_gap_usd=${Math.max(0, TARGET_WEEKLY_REVENUE - Number(cash.week?.gross_usd || 0))}`,
         `daily_send_cap=${status.daily_send_cap || 0}`,
         `direct_due_count=${status.direct_due_count || 0}`,
         `generic_paused_count=${status.generic_paused_count || 0}`,

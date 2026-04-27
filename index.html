@@ -42,9 +42,9 @@
     }
 
     .app {
-      width: min(1180px, calc(100vw - 28px));
+      width: min(1320px, calc(100vw - 28px));
       margin: 0 auto;
-      padding: 18px 0 28px;
+      padding: 16px 0 24px;
       display: grid;
       gap: 12px;
       min-width: 0;
@@ -131,8 +131,67 @@
       border-color: transparent;
     }
 
+    .tabbar {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 8px 0;
+      background: linear-gradient(180deg, rgba(16, 18, 20, 0.98), rgba(16, 18, 20, 0.86));
+      backdrop-filter: blur(10px);
+    }
+
+    .tabs {
+      display: inline-grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      min-width: min(520px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 5px;
+      background: rgba(16, 18, 20, 0.64);
+    }
+
+    .tab {
+      min-height: 36px;
+      min-width: 0;
+      border: 0;
+      border-radius: 6px;
+      padding: 0 12px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--surface-2);
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(244, 240, 232, 0.08);
+    }
+
+    .tab:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .tab-panel {
+      min-width: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .tab-panel[hidden] {
+      display: none;
+    }
+
     .command {
-      min-height: 360px;
+      min-height: 0;
       display: grid;
       grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
       gap: 12px;
@@ -155,10 +214,10 @@
     }
 
     .state {
-      padding: clamp(24px, 5vw, 46px);
+      padding: clamp(18px, 3.4vw, 32px);
       display: grid;
       align-content: space-between;
-      gap: 34px;
+      gap: 22px;
       overflow: hidden;
       position: relative;
     }
@@ -186,7 +245,7 @@
 
     .mode {
       width: fit-content;
-      margin-bottom: 22px;
+      margin-bottom: 14px;
       display: inline-flex;
       align-items: center;
       gap: 9px;
@@ -221,16 +280,16 @@
 
     .state-title {
       margin: 0;
-      font-size: clamp(54px, 9vw, 112px);
-      line-height: 0.92;
+      font-size: clamp(42px, 6.2vw, 80px);
+      line-height: 0.96;
       letter-spacing: 0;
     }
 
     .state-body {
       max-width: 760px;
-      margin: 18px 0 0;
+      margin: 12px 0 0;
       color: #d8d0c4;
-      font-size: clamp(19px, 2.1vw, 28px);
+      font-size: clamp(16px, 1.55vw, 22px);
       line-height: 1.35;
       overflow-wrap: anywhere;
     }
@@ -244,7 +303,7 @@
     }
 
     .contract div {
-      min-height: 76px;
+      min-height: 68px;
       min-width: 0;
       border: 1px solid rgba(244, 240, 232, 0.12);
       border-radius: 8px;
@@ -264,21 +323,21 @@
     .fact strong {
       display: block;
       margin-top: 8px;
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.15;
       overflow-wrap: anywhere;
     }
 
     .interrupts {
-      padding: 22px;
+      padding: 18px;
       display: grid;
-      gap: 18px;
+      gap: 14px;
       align-content: start;
     }
 
     .signal-map {
       width: 100%;
-      min-height: 150px;
+      min-height: 118px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #11161c;
@@ -286,7 +345,7 @@
 
     .interrupts h2 {
       margin-bottom: 0;
-      font-size: 30px;
+      font-size: 24px;
       line-height: 1.05;
       letter-spacing: 0;
     }
@@ -322,15 +381,15 @@
     }
 
     .fact {
-      min-height: 116px;
-      padding: 16px;
+      min-height: 94px;
+      padding: 14px;
       display: grid;
       align-content: space-between;
       gap: 10px;
     }
 
     .fact .value {
-      font-size: 31px;
+      font-size: 28px;
       font-weight: 900;
       line-height: 1;
       color: var(--text);
@@ -350,7 +409,7 @@
 
     .panel {
       padding: 18px;
-      min-height: 250px;
+      min-height: 0;
     }
 
     .panel-head {
@@ -526,8 +585,7 @@
     }
 
     .audit {
-      border-top: 1px solid var(--line);
-      padding: 16px;
+      padding: 0;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 8px;
@@ -577,6 +635,16 @@
       .topbar {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      .tabbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .tabs {
+        width: 100%;
+        min-width: 0;
       }
 
       .actions {
@@ -646,115 +714,128 @@
       </div>
     </header>
 
-    <section class="command">
-      <div class="state" id="statePanel">
-        <div class="state-main">
-          <div class="mode"><span class="dot" id="stateDot"></span><span id="modeText">Checking</span></div>
-          <h2 class="state-title" id="stateTitle">Reading Relay</h2>
-          <p class="state-body" id="stateBody">Checking the live backend before saying anything.</p>
-        </div>
-
-        <div class="contract">
-          <div>
-            <p class="label">You step in</p>
-            <strong id="stepInRule">Only for replies, payments, or failures.</strong>
-          </div>
-          <div>
-            <p class="label">System job</p>
-            <strong id="systemJob">Send clean leads and watch replies.</strong>
-          </div>
-          <div>
-            <p class="label">Next check</p>
-            <strong id="nextCheck">After the send window.</strong>
-          </div>
-        </div>
+    <nav class="tabbar" aria-label="Relay Live sections">
+      <div class="tabs" role="tablist">
+        <button class="tab" id="overviewTab" type="button" role="tab" data-tab="overview" aria-controls="overviewPanel" aria-selected="true">Overview</button>
+        <button class="tab" id="mailTab" type="button" role="tab" data-tab="mail" aria-controls="mailPanel" aria-selected="false">Mail</button>
+        <button class="tab" id="auditTab" type="button" role="tab" data-tab="audit" aria-controls="auditPanel" aria-selected="false">Audit</button>
       </div>
+      <span class="small" id="lastUpdated">Not loaded yet</span>
+    </nav>
 
-      <aside class="interrupts">
-        <svg class="signal-map" viewBox="0 0 480 180" role="img" aria-label="Relay flow from clean leads to sends, replies, and paid tests">
-          <defs>
-            <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#78aef5"></stop>
-              <stop offset="0.55" stop-color="#69d58b"></stop>
-              <stop offset="1" stop-color="#edc76f"></stop>
-            </linearGradient>
-          </defs>
-          <path d="M52 92 C126 30, 178 150, 250 90 S365 48, 430 88" fill="none" stroke="url(#flow)" stroke-width="5" stroke-linecap="round"></path>
-          <g fill="#171b20" stroke="#303843" stroke-width="2">
-            <circle cx="52" cy="92" r="23"></circle>
-            <circle cx="190" cy="112" r="23"></circle>
-            <circle cx="322" cy="72" r="23"></circle>
-            <circle cx="430" cy="88" r="23"></circle>
-          </g>
-          <g fill="#f4f0e8" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" text-anchor="middle">
-            <text x="52" y="137">leads</text>
-            <text x="190" y="157">sends</text>
-            <text x="322" y="117">replies</text>
-            <text x="430" y="133">paid</text>
-          </g>
-        </svg>
+    <section class="tab-panel" id="overviewPanel" role="tabpanel" aria-labelledby="overviewTab" data-panel="overview">
+      <section class="command">
+        <div class="state" id="statePanel">
+          <div class="state-main">
+            <div class="mode"><span class="dot" id="stateDot"></span><span id="modeText">Checking</span></div>
+            <h2 class="state-title" id="stateTitle">Reading Relay</h2>
+            <p class="state-body" id="stateBody">Checking the live backend before saying anything.</p>
+          </div>
 
-        <div>
-          <p class="label">Interrupt Conditions</p>
-          <h2 id="interruptTitle">No open loop yet.</h2>
+          <div class="contract">
+            <div>
+              <p class="label">You step in</p>
+              <strong id="stepInRule">Only for replies, payments, or failures.</strong>
+            </div>
+            <div>
+              <p class="label">System job</p>
+              <strong id="systemJob">Send clean leads and watch replies.</strong>
+            </div>
+            <div>
+              <p class="label">Next check</p>
+              <strong id="nextCheck">After the send window.</strong>
+            </div>
+          </div>
         </div>
-        <ul>
-          <li id="conditionHealth">Backend health is still being checked.</li>
-          <li id="conditionReply">Replies are still being checked.</li>
-          <li id="conditionMoney">Payments are still being checked.</li>
-        </ul>
-      </aside>
+
+        <aside class="interrupts">
+          <svg class="signal-map" viewBox="0 0 480 180" role="img" aria-label="Relay flow from clean leads to sends, replies, and paid tests">
+            <defs>
+              <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#78aef5"></stop>
+                <stop offset="0.55" stop-color="#69d58b"></stop>
+                <stop offset="1" stop-color="#edc76f"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M52 92 C126 30, 178 150, 250 90 S365 48, 430 88" fill="none" stroke="url(#flow)" stroke-width="5" stroke-linecap="round"></path>
+            <g fill="#171b20" stroke="#303843" stroke-width="2">
+              <circle cx="52" cy="92" r="23"></circle>
+              <circle cx="190" cy="112" r="23"></circle>
+              <circle cx="322" cy="72" r="23"></circle>
+              <circle cx="430" cy="88" r="23"></circle>
+            </g>
+            <g fill="#f4f0e8" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" text-anchor="middle">
+              <text x="52" y="137">leads</text>
+              <text x="190" y="157">sends</text>
+              <text x="322" y="117">replies</text>
+              <text x="430" y="133">paid</text>
+            </g>
+          </svg>
+
+          <div>
+            <p class="label">Interrupt Conditions</p>
+            <h2 id="interruptTitle">No open loop yet.</h2>
+          </div>
+          <ul>
+            <li id="conditionHealth">Backend health is still being checked.</li>
+            <li id="conditionReply">Replies are still being checked.</li>
+            <li id="conditionMoney">Payments are still being checked.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="facts" aria-label="Current Relay facts">
+        <article class="fact">
+          <p class="label">Backend</p>
+          <div class="value" id="healthValue">--</div>
+          <div class="detail" id="healthDetail">checking</div>
+        </article>
+        <article class="fact">
+          <p class="label">Replies</p>
+          <div class="value" id="repliesValue">--</div>
+          <div class="detail" id="repliesDetail">today</div>
+        </article>
+        <article class="fact">
+          <p class="label">Money</p>
+          <div class="value" id="moneyValue">$0</div>
+          <div class="detail" id="moneyDetail">today</div>
+        </article>
+        <article class="fact">
+          <p class="label">Sends</p>
+          <div class="value" id="sendsValue">--</div>
+          <div class="detail" id="sendsDetail">cap</div>
+        </article>
+        <article class="fact">
+          <p class="label">Clean Leads</p>
+          <div class="value" id="directValue">--</div>
+          <div class="detail" id="directDetail">direct due</div>
+        </article>
+        <article class="fact">
+          <p class="label">Waste</p>
+          <div class="value" id="wasteValue">--</div>
+          <div class="detail" id="wasteDetail">blocked bad emails</div>
+        </article>
+      </section>
     </section>
 
-    <section class="facts" aria-label="Current Relay facts">
-      <article class="fact">
-        <p class="label">Backend</p>
-        <div class="value" id="healthValue">--</div>
-        <div class="detail" id="healthDetail">checking</div>
-      </article>
-      <article class="fact">
-        <p class="label">Replies</p>
-        <div class="value" id="repliesValue">--</div>
-        <div class="detail" id="repliesDetail">today</div>
-      </article>
-      <article class="fact">
-        <p class="label">Money</p>
-        <div class="value" id="moneyValue">$0</div>
-        <div class="detail" id="moneyDetail">today</div>
-      </article>
-      <article class="fact">
-        <p class="label">Sends</p>
-        <div class="value" id="sendsValue">--</div>
-        <div class="detail" id="sendsDetail">cap</div>
-      </article>
-      <article class="fact">
-        <p class="label">Clean Leads</p>
-        <div class="value" id="directValue">--</div>
-        <div class="detail" id="directDetail">direct due</div>
-      </article>
-      <article class="fact">
-        <p class="label">Waste</p>
-        <div class="value" id="wasteValue">--</div>
-        <div class="detail" id="wasteDetail">blocked bad emails</div>
-      </article>
-    </section>
+    <section class="tab-panel" id="mailPanel" role="tabpanel" aria-labelledby="mailTab" data-panel="mail" hidden>
+      <section class="panels">
+        <article class="panel">
+          <div class="panel-head">
+            <h3>Recent Sends</h3>
+            <span class="small" id="sentMeta">latest outbound</span>
+          </div>
+          <div class="event-list" id="recentSentList"></div>
+        </article>
 
-    <section class="panels">
-      <article class="panel">
-        <div class="panel-head">
-          <h3>Recent Sends</h3>
-          <span class="small" id="sentMeta">latest outbound</span>
-        </div>
-        <div class="event-list" id="recentSentList"></div>
-      </article>
-
-      <article class="panel">
-        <div class="panel-head">
-          <h3>Recent Replies</h3>
-          <span class="small" id="replyMeta">latest inbound</span>
-        </div>
-        <div class="event-list" id="recentReplyList"></div>
-      </article>
+        <article class="panel">
+          <div class="panel-head">
+            <h3>Recent Replies</h3>
+            <span class="small" id="replyMeta">latest inbound</span>
+          </div>
+          <div class="event-list" id="recentReplyList"></div>
+        </article>
+      </section>
     </section>
 
     <section class="mail-modal" id="mailModal" hidden>
@@ -776,13 +857,15 @@
       </article>
     </section>
 
-    <details>
-      <summary>
-        <span>Audit Trail</span>
-        <span class="small" id="lastUpdated">Not loaded yet</span>
-      </summary>
-      <div class="audit" id="auditGrid"></div>
-    </details>
+    <section class="tab-panel" id="auditPanel" role="tabpanel" aria-labelledby="auditTab" data-panel="audit" hidden>
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Audit Trail</h3>
+          <span class="small">Raw Relay counters</span>
+        </div>
+        <div class="audit" id="auditGrid"></div>
+      </article>
+    </section>
   </main>
 
   <script>
@@ -1023,6 +1106,15 @@
       $("mailModal").hidden = true;
     }
 
+    function setTab(name) {
+      document.querySelectorAll("[data-tab]").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.getAttribute("data-tab") === name));
+      });
+      document.querySelectorAll("[data-panel]").forEach((panel) => {
+        panel.hidden = panel.getAttribute("data-panel") !== name;
+      });
+    }
+
     function renderEvents(id, events, incoming = false) {
       const container = $(id);
       if (!events || events.length === 0) {
@@ -1111,6 +1203,7 @@
 
       $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
       $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";
+      $("mailTab").textContent = replies > 0 ? `Mail (${replies} replies)` : `Mail (${sent} sent)`;
       messageEvents.clear();
       renderEvents("recentSentList", status.recent_sent || []);
       renderEvents("recentReplyList", status.recent_replies || [], true);
@@ -1162,6 +1255,11 @@
     document.addEventListener("click", (event) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
+      const tabButton = target.closest("[data-tab]");
+      if (tabButton) {
+        setTab(tabButton.getAttribute("data-tab") || "overview");
+        return;
+      }
       const eventButton = target.closest("[data-event-key]");
       if (eventButton) {
         openMessage(eventButton.getAttribute("data-event-key") || "");

@@ -1,79 +1,998 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Relay Live</title>
-<style>
-:root{--bg:#080b10;--panel:#10151f;--panel2:#141b27;--line:#263143;--text:#f6f8fb;--muted:#97a3b7;--green:#38e070;--red:#ff5d70;--yellow:#f1c75b;--blue:#7ab8ff;--shadow:0 18px 50px rgba(0,0,0,.34)}
-*{box-sizing:border-box}body{margin:0;padding:12px;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}button{font:inherit}.app{display:grid;gap:10px;min-height:calc(100vh - 24px)}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(56,224,112,.13);border:1px solid rgba(56,224,112,.25);font-weight:900;color:var(--green)}h1{margin:0;font-size:25px;letter-spacing:-.05em}.sub{margin-top:5px;color:var(--muted);font-size:13px}.actions{display:flex;gap:10px}.btn{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);color:var(--text);padding:10px 14px;font-weight:800;cursor:pointer}.btn.good{background:rgba(56,224,112,.12);border-color:rgba(56,224,112,.25);color:var(--green)}.hero,.card,.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);box-shadow:var(--shadow)}.hero{border-radius:24px;padding:18px;display:grid;grid-template-columns:1.35fr .9fr;gap:12px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.score{font-size:52px;line-height:.9;font-weight:950;letter-spacing:-.08em;margin:10px 0}.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:12px;font-weight:750}.dot{display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--green);margin-right:7px}.status{font-size:13px;color:var(--muted);margin-top:12px;line-height:1.4}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}.miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{border:1px solid var(--line);border-radius:18px;padding:13px;background:rgba(255,255,255,.02)}.mini .v{font-size:21px;font-weight:900;margin-top:6px;overflow-wrap:anywhere}.mini .s{font-size:12px;color:var(--muted);margin-top:5px}.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.card{border-radius:20px;padding:15px;min-height:124px}.card .v{font-size:39px;font-weight:950;letter-spacing:-.06em;margin-top:8px}.card .s,.card .foot{color:var(--muted);font-size:12px;line-height:1.35}.card .foot{margin-top:10px}.bottom{display:grid;grid-template-columns:1fr 1fr .9fr;gap:10px;min-height:0}.panel{border-radius:20px;padding:13px;min-height:270px;display:grid;grid-template-rows:auto 1fr}.panelHead{display:flex;justify-content:space-between;gap:10px;margin-bottom:9px}h3{margin:0;font-size:15px}.body{overflow:auto}.list{display:grid;gap:8px}.item{border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.02);padding:10px}.itemTop{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px}.itemTitle{font-weight:900;font-size:13px;margin-top:5px}.itemSub{color:var(--muted);font-size:11px;margin-top:5px;overflow-wrap:anywhere}.preview{font-size:12px;line-height:1.35;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.row{display:flex;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px;background:rgba(255,255,255,.02);font-size:12px}.row span:first-child{color:var(--muted)}.diagnosis{border-color:rgba(241,199,91,.35)}@media(max-width:1100px){.hero,.bottom{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.miniGrid{grid-template-columns:1fr}}@media(max-width:650px){.metrics{grid-template-columns:1fr}.top{display:block}.actions{margin-top:12px}.score{font-size:42px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Relay Live</title>
+  <meta name="theme-color" content="#111418">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101214;
+      --surface: #171b20;
+      --surface-2: #1d232a;
+      --line: #303843;
+      --text: #f4f0e8;
+      --muted: #aab3bd;
+      --quiet: #7f8994;
+      --good: #69d58b;
+      --blue: #78aef5;
+      --amber: #edc76f;
+      --bad: #ff7b83;
+      --ink: #080a0c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        linear-gradient(155deg, rgba(120, 174, 245, 0.08), transparent 34%),
+        linear-gradient(180deg, #101214 0%, #151719 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      width: min(1180px, calc(100vw - 28px));
+      margin: 0 auto;
+      padding: 18px 0 28px;
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #202731;
+      border: 1px solid var(--line);
+      color: var(--good);
+      font-weight: 900;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 3px;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtle,
+    .label,
+    .small,
+    .detail {
+      color: var(--muted);
+    }
+
+    .subtle {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .btn {
+      min-height: 40px;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 13px;
+      background: #1b2027;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: var(--good);
+      color: var(--ink);
+      border-color: transparent;
+    }
+
+    .command {
+      min-height: 360px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+      gap: 12px;
+    }
+
+    .command > *,
+    .panels > *,
+    .facts > * {
+      min-width: 0;
+    }
+
+    .state,
+    .interrupts,
+    .fact,
+    .panel,
+    details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(23, 27, 32, 0.96);
+    }
+
+    .state {
+      padding: clamp(24px, 5vw, 46px);
+      display: grid;
+      align-content: space-between;
+      gap: 34px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .state::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg, rgba(105, 213, 139, 0.1), transparent 44%);
+      pointer-events: none;
+    }
+
+    .state.needs::before {
+      background: linear-gradient(125deg, rgba(255, 123, 131, 0.12), transparent 44%);
+    }
+
+    .state.wait::before {
+      background: linear-gradient(125deg, rgba(237, 199, 111, 0.13), transparent 44%);
+    }
+
+    .state-main {
+      position: relative;
+      z-index: 1;
+    }
+
+    .mode {
+      width: fit-content;
+      margin-bottom: 22px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(244, 240, 232, 0.16);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      background: rgba(16, 18, 20, 0.48);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 99px;
+      background: var(--good);
+      box-shadow: 0 0 0 5px rgba(105, 213, 139, 0.14);
+    }
+
+    .dot.wait {
+      background: var(--amber);
+      box-shadow: 0 0 0 5px rgba(237, 199, 111, 0.14);
+    }
+
+    .dot.bad {
+      background: var(--bad);
+      box-shadow: 0 0 0 5px rgba(255, 123, 131, 0.14);
+    }
+
+    .state-title {
+      margin: 0;
+      font-size: clamp(54px, 9vw, 112px);
+      line-height: 0.92;
+      letter-spacing: 0;
+    }
+
+    .state-body {
+      max-width: 760px;
+      margin: 18px 0 0;
+      color: #d8d0c4;
+      font-size: clamp(19px, 2.1vw, 28px);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .contract {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .contract div {
+      min-height: 76px;
+      min-width: 0;
+      border: 1px solid rgba(244, 240, 232, 0.12);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(16, 18, 20, 0.52);
+    }
+
+    .label {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .contract strong,
+    .fact strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 18px;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    .interrupts {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .signal-map {
+      width: 100%;
+      min-height: 150px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #11161c;
+    }
+
+    .interrupts h2 {
+      margin-bottom: 0;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    ul {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      border-left: 3px solid var(--blue);
+      padding-left: 11px;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+
+    li.hot {
+      border-left-color: var(--bad);
+      color: var(--text);
+    }
+
+    li.good {
+      border-left-color: var(--good);
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .fact {
+      min-height: 116px;
+      padding: 16px;
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+    }
+
+    .fact .value {
+      font-size: 31px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--text);
+      overflow-wrap: anywhere;
+    }
+
+    .fact .detail {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .panel {
+      padding: 18px;
+      min-height: 250px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      margin-bottom: 0;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .event-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .event {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(16, 18, 20, 0.44);
+    }
+
+    .event-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--quiet);
+      font-size: 12px;
+    }
+
+    .event-title {
+      margin-top: 6px;
+      font-weight: 850;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .event-sub,
+    .event-preview {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .event-preview {
+      color: #d6dbe0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    details {
+      padding: 0;
+    }
+
+    summary {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      cursor: pointer;
+      font-weight: 850;
+    }
+
+    .audit {
+      border-top: 1px solid var(--line);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .audit-row {
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: rgba(16, 18, 20, 0.44);
+      overflow-wrap: anywhere;
+    }
+
+    .audit-row span {
+      display: block;
+      color: var(--quiet);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 850;
+    }
+
+    .audit-row strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .small {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 1100px) {
+      .command,
+      .panels {
+        grid-template-columns: 1fr;
+      }
+
+      .facts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .contract,
+      .facts,
+      .audit {
+        grid-template-columns: 1fr;
+      }
+
+      .command {
+        min-height: 0;
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .state-title {
+        font-size: 54px;
+      }
+
+      .app {
+        width: calc(100vw - 14px);
+      }
+
+      .state,
+      .interrupts,
+      .panel,
+      details {
+        overflow: hidden;
+      }
+
+      .state {
+        padding: 24px;
+      }
+
+      .state-body,
+      .contract strong,
+      .fact .value,
+      .event-title,
+      .event-sub,
+      .event-preview {
+        word-break: break-word;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-  <div class="top">
-    <div class="brand"><div class="logo">AO</div><div><h1>Relay Live</h1><div class="sub">Operator view for sends, replies, money, and the next real move.</div></div></div>
-    <div class="actions"><button class="btn" id="refreshBtn">Refresh</button><button class="btn good" id="copyBtn">Copy status</button></div>
-  </div>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark">AO</div>
+        <div>
+          <h1>Relay Live</h1>
+          <p class="subtle">Out-of-loop mode for the money machine.</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="refreshBtn" type="button">Refresh</button>
+        <button class="btn primary" id="copyBtn" type="button">Copy status</button>
+      </div>
+    </header>
 
-  <section class="hero">
-    <div>
-      <div class="eyebrow">Main score</div>
-      <div class="score" id="heroValue">$0.00</div>
-      <div class="pills"><div class="pill"><span class="dot"></span><span id="liveState">connecting</span></div><div class="pill" id="marketPill">Window --</div><div class="pill" id="lastUpdatedPill">Last update --</div></div>
-      <div class="status" id="statusLine">Loading live backend data.</div>
-    </div>
-    <div class="miniGrid">
-      <div class="mini"><div class="eyebrow">Reply mailbox</div><div class="v" id="replyMailbox">--</div><div class="s" id="replyToMeta">reply-to route</div></div>
-      <div class="mini"><div class="eyebrow">Sender split</div><div class="v" id="senderSummaryTop">--</div><div class="s">today's usage</div></div>
-      <div class="mini"><div class="eyebrow">Money today</div><div class="v" id="moneyTodayMini">$0.00</div><div class="s" id="moneyTodayMiniSub">0 payments</div></div>
-      <div class="mini"><div class="eyebrow">Next likely tick</div><div class="v" id="nextTick">--</div><div class="s" id="nextTickSub">waiting</div></div>
-    </div>
-  </section>
+    <section class="command">
+      <div class="state" id="statePanel">
+        <div class="state-main">
+          <div class="mode"><span class="dot" id="stateDot"></span><span id="modeText">Checking</span></div>
+          <h2 class="state-title" id="stateTitle">Reading Relay</h2>
+          <p class="state-body" id="stateBody">Checking the live backend before saying anything.</p>
+        </div>
 
-  <section class="metrics">
-    <div class="card"><div class="eyebrow">1. Replies</div><div class="v" id="repliesToday">0</div><div class="s" id="repliesSub">today</div><div class="foot" id="repliesFoot">watch this first</div></div>
-    <div class="card"><div class="eyebrow">2. Money</div><div class="v" id="moneyToday">$0.00</div><div class="s" id="moneySub">today - 0 payments</div><div class="foot" id="moneyFoot">week $0.00 - month $0.00</div></div>
-    <div class="card"><div class="eyebrow">3. Sends</div><div class="v" id="sentToday">0</div><div class="s" id="sentSub">0 / 0 cap</div><div class="foot" id="sentFoot">sender split --</div></div>
-    <div class="card"><div class="eyebrow">4. Queue</div><div class="v" id="dueNow">0</div><div class="s" id="queueSub">due now</div><div class="foot" id="queueFoot">0 in sequence</div></div>
-    <div class="card diagnosis"><div class="eyebrow">5. Diagnosis</div><div class="v" id="diagValue">--</div><div class="s" id="diagSub">waiting</div><div class="foot" id="diagFoot">load backend first</div></div>
-  </section>
+        <div class="contract">
+          <div>
+            <p class="label">You step in</p>
+            <strong id="stepInRule">Only for replies, payments, or failures.</strong>
+          </div>
+          <div>
+            <p class="label">System job</p>
+            <strong id="systemJob">Send clean leads and watch replies.</strong>
+          </div>
+          <div>
+            <p class="label">Next check</p>
+            <strong id="nextCheck">After the send window.</strong>
+          </div>
+        </div>
+      </div>
 
-  <section class="bottom">
-    <div class="panel"><div class="panelHead"><h3>Recent sent emails</h3><div class="sub">latest outbound</div></div><div class="body"><div class="list" id="recentSentList"></div></div></div>
-    <div class="panel"><div class="panelHead"><h3>Recent replies</h3><div class="sub">latest inbound</div></div><div class="body"><div class="list" id="recentReplyList"></div></div></div>
-    <div class="panel"><div class="panelHead"><h3>Quick details</h3><div class="sub">ops state</div></div><div class="body" id="details"></div></div>
-  </section>
-</div>
-<script>
-const STATUS_URL='https://alan-operator-backend-production.up.railway.app/custom-outreach/status';
-const MONEY_URL='https://alan-operator-backend-production.up.railway.app/ops/money-summary';
-let lastPayload=null;
-const $=id=>document.getElementById(id);
-function clean(v){return String(v??'').replace(/\u00c2\u00b7/g,' - ').replace(/\u00e2\u2020\u2019/g,' -> ').replace(/\u00e2\u20ac\u201c/g,'-').replace(/\u00e2\u20ac\u201d/g,'-').replace(/\u00e2\u20ac\u00a6/g,'...');}
-function esc(v){return clean(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function money(v){return '$'+Number(v||0).toFixed(2)}
-function time(d){return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'})}
-function short(d){return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}
-function ago(iso){if(!iso)return '';const m=Math.max(0,Math.round((Date.now()-new Date(iso).getTime())/60000));if(m<1)return'just now';if(m<60)return m+'m ago';const h=Math.round(m/60);if(h<24)return h+'h ago';return Math.round(h/24)+'d ago'}
-function win(status){if(status.send_window_start_local&&status.send_window_end_local){return{start:new Date(status.send_window_start_local),end:new Date(status.send_window_end_local),tz:status.send_window_timezone||'America/New_York',open:Boolean(status.send_window_is_open)}}const n=new Date(),s=new Date(),e=new Date();s.setHours(9,30,0,0);e.setHours(17,0,0,0);return{start:s,end:e,tz:'America/New_York',open:n>=s&&n<e}}
-function nextOpen(w){const n=new Date();const d=new Date(w.start);if(n>=w.end)d.setDate(d.getDate()+1);return d}
-function senderSummary(c){const e=Object.entries(c||{});return e.length?e.map(([k,v])=>(k.split('@')[0]||k)+' '+v).join(' - '):'none yet'}
-function diagnose(s,m){const replies=Number(s.replies_today||0),sent=Number(s.sent_today||0),due=Number(s.due_now_count||0),cap=Number(s.daily_send_cap||0),cash=Number(m.today?.gross_usd||0),w=win(s);if(cash>0)return['MONEY','Payment landed. Fulfill fast.','Convert proof into next outreach.'];if(replies>0)return['REPLIES','Human signal exists.','Manually close replies before changing the system.'];if(w.open&&due>0&&sent===0)return['RUNNER','Due leads exist but no sends today.','Run workflow now and inspect SMTP failures.'];if(!w.open&&due>0)return['WAIT','Queue loaded. Window closed.','Next real check is the send window.'];if(sent>=cap&&cap>0&&replies===0)return['COPY','Cap hit with zero replies.','Change targeting or first email before scaling.'];if(due===0)return['IDLE','No leads due.','Load better prospects or reset sequence.'];return['WATCH','System active.','Replies are the first money signal.']}
-function list(id,items,incoming=false){const el=$(id);if(!items||!items.length){el.innerHTML='<div class="item"><div class="itemTitle">none yet</div><div class="itemSub">No events logged.</div></div>';return}el.innerHTML=items.slice(0,5).map(x=>{const address=incoming?(x.from_email||''):(x.to_email||'');const sec=incoming?(x.status||''):(x.sender_address||'');return `<div class="item"><div class="itemTop"><span>${esc(ago(x.created_at))}</span><span>${esc(x.subject||'')}</span></div><div class="itemTitle">${esc(x.company_name||x.from_name||address||'unknown')}</div><div class="itemSub">${esc(address)}${sec?' - '+esc(sec):''}</div><div class="preview">${esc(x.body_preview||'no preview stored')}</div></div>`}).join('')}
-function render(s,m){
-  lastPayload={s,m};
-  const w=win(s),d=diagnose(s,m),payments=Number(m.today?.payments_count||0);
-  const direct=Number(s.direct_inbox_count||0),generic=Number(s.generic_inbox_count||0);
-  $('liveState').textContent='live';$('marketPill').textContent=(w.open?'OPEN':'CLOSED')+' - '+(w.open?'send window':'outside send window');$('lastUpdatedPill').textContent='Last update '+time(new Date());$('heroValue').textContent=money(m.today?.gross_usd||0);$('replyMailbox').textContent=s.reply_mailbox_address||'--';$('replyToMeta').textContent='Reply-To '+(s.reply_to_email||'--');$('senderSummaryTop').textContent=senderSummary(s.sender_counts_today);$('moneyTodayMini').textContent=money(m.today?.gross_usd||0);$('moneyTodayMiniSub').textContent=payments+' payment'+(payments===1?'':'s');$('nextTick').textContent=w.open?'now':short(nextOpen(w));$('nextTickSub').textContent=w.open?'send/check cycle should be active':'next open '+short(nextOpen(w))+' - '+w.tz;$('repliesToday').textContent=s.replies_today??0;$('repliesSub').textContent=(s.replies_today??0)+' today';$('repliesFoot').textContent=(s.replies_today??0)>0?'reply handling now':'first money signal';$('moneyToday').textContent=money(m.today?.gross_usd||0);$('moneySub').textContent='today - '+payments+' payments';$('moneyFoot').textContent='week '+money(m.week?.gross_usd||0)+' - month '+money(m.month?.gross_usd||0);$('sentToday').textContent=s.sent_today??0;$('sentSub').textContent=(s.sent_today??0)+' / '+(s.daily_send_cap??0)+' cap';$('sentFoot').textContent='sender split '+senderSummary(s.sender_counts_today);$('dueNow').textContent=s.due_now_count??0;$('queueSub').textContent=(s.due_now_count??0)+' due now';$('queueFoot').textContent=(s.in_sequence_count??0)+' in sequence';$('diagValue').textContent=d[0];$('diagSub').textContent=d[1];$('diagFoot').textContent=d[2];
-  const inboxWarning=generic>direct?' Generic inboxes dominate; fix lead source before scaling.':' Direct inbox mix is usable.';
-  $('statusLine').innerHTML='<span class="green">Priority: replies, money, direct inboxes, sends.</span>'+inboxWarning;
-  list('recentSentList',s.recent_sent||[]);list('recentReplyList',s.recent_replies||[],true);
-  $('details').innerHTML=`<div class="row"><span>Provider</span><b>${esc(s.provider||'--')}</b></div><div class="row"><span>Reply-To</span><b>${esc(s.reply_to_email||'--')}</b></div><div class="row"><span>Mailboxes</span><b>${esc(s.smtp_mailboxes_configured??0)}</b></div><div class="row"><span>Per-mailbox cap</span><b>${esc(s.per_mailbox_daily_cap??0)}</b></div><div class="row"><span>Direct inboxes</span><b>${esc(direct)}</b></div><div class="row"><span>Generic inboxes</span><b>${esc(generic)}</b></div><div class="row"><span>Window</span><b>${esc(short(w.start)+'-'+short(w.end)+' '+w.tz)}</b></div><div class="row"><span>Week money</span><b>${esc(money(m.week?.gross_usd||0))}</b></div><div class="row"><span>Month money</span><b>${esc(money(m.month?.gross_usd||0))}</b></div>`;
-}
-async function fetchAll(){try{const [sr,mr]=await Promise.all([fetch(STATUS_URL,{cache:'no-store'}),fetch(MONEY_URL,{cache:'no-store'})]);if(!sr.ok||!mr.ok)throw new Error('status '+sr.status+' / money '+mr.status);render(await sr.json(),await mr.json())}catch(e){$('liveState').textContent='stale';$('statusLine').innerHTML='<span class="red">Fetch failed: '+esc(e.message||e)+'</span>'}}
-$('refreshBtn').addEventListener('click',fetchAll);$('copyBtn').addEventListener('click',async()=>{if(!lastPayload)return;const s=lastPayload.s,m=lastPayload.m;await navigator.clipboard.writeText(['Relay Live','replies_today='+s.replies_today,'money_today='+(m.today?.gross_usd||0),'sent_today='+s.sent_today,'due_now_count='+s.due_now_count,'in_sequence_count='+s.in_sequence_count,'direct_inbox_count='+(s.direct_inbox_count||0),'generic_inbox_count='+(s.generic_inbox_count||0),'daily_send_cap='+s.daily_send_cap,'send_window_is_open='+s.send_window_is_open,'sender_counts_today='+JSON.stringify(s.sender_counts_today||{})].join('\n'));$('statusLine').innerHTML='<span class="green">Status copied.</span>'});
-fetchAll();setInterval(fetchAll,5000);
-</script>
+      <aside class="interrupts">
+        <svg class="signal-map" viewBox="0 0 480 180" role="img" aria-label="Relay flow from clean leads to sends, replies, and paid tests">
+          <defs>
+            <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#78aef5"></stop>
+              <stop offset="0.55" stop-color="#69d58b"></stop>
+              <stop offset="1" stop-color="#edc76f"></stop>
+            </linearGradient>
+          </defs>
+          <path d="M52 92 C126 30, 178 150, 250 90 S365 48, 430 88" fill="none" stroke="url(#flow)" stroke-width="5" stroke-linecap="round"></path>
+          <g fill="#171b20" stroke="#303843" stroke-width="2">
+            <circle cx="52" cy="92" r="23"></circle>
+            <circle cx="190" cy="112" r="23"></circle>
+            <circle cx="322" cy="72" r="23"></circle>
+            <circle cx="430" cy="88" r="23"></circle>
+          </g>
+          <g fill="#f4f0e8" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" text-anchor="middle">
+            <text x="52" y="137">leads</text>
+            <text x="190" y="157">sends</text>
+            <text x="322" y="117">replies</text>
+            <text x="430" y="133">paid</text>
+          </g>
+        </svg>
+
+        <div>
+          <p class="label">Interrupt Conditions</p>
+          <h2 id="interruptTitle">No open loop yet.</h2>
+        </div>
+        <ul>
+          <li id="conditionHealth">Backend health is still being checked.</li>
+          <li id="conditionReply">Replies are still being checked.</li>
+          <li id="conditionMoney">Payments are still being checked.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="facts" aria-label="Current Relay facts">
+      <article class="fact">
+        <p class="label">Backend</p>
+        <div class="value" id="healthValue">--</div>
+        <div class="detail" id="healthDetail">checking</div>
+      </article>
+      <article class="fact">
+        <p class="label">Replies</p>
+        <div class="value" id="repliesValue">--</div>
+        <div class="detail" id="repliesDetail">today</div>
+      </article>
+      <article class="fact">
+        <p class="label">Money</p>
+        <div class="value" id="moneyValue">$0</div>
+        <div class="detail" id="moneyDetail">today</div>
+      </article>
+      <article class="fact">
+        <p class="label">Sends</p>
+        <div class="value" id="sendsValue">--</div>
+        <div class="detail" id="sendsDetail">cap</div>
+      </article>
+      <article class="fact">
+        <p class="label">Clean Leads</p>
+        <div class="value" id="directValue">--</div>
+        <div class="detail" id="directDetail">direct due</div>
+      </article>
+      <article class="fact">
+        <p class="label">Waste</p>
+        <div class="value" id="wasteValue">--</div>
+        <div class="detail" id="wasteDetail">blocked bad emails</div>
+      </article>
+    </section>
+
+    <section class="panels">
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Recent Sends</h3>
+          <span class="small" id="sentMeta">latest outbound</span>
+        </div>
+        <div class="event-list" id="recentSentList"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Recent Replies</h3>
+          <span class="small" id="replyMeta">latest inbound</span>
+        </div>
+        <div class="event-list" id="recentReplyList"></div>
+      </article>
+    </section>
+
+    <details>
+      <summary>
+        <span>Audit Trail</span>
+        <span class="small" id="lastUpdated">Not loaded yet</span>
+      </summary>
+      <div class="audit" id="auditGrid"></div>
+    </details>
+  </main>
+
+  <script>
+    const BASE = "https://alan-operator-backend-production.up.railway.app";
+    const TARGET_WEEKLY_TESTS = 3;
+    let latest = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function esc(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function money(value) {
+      return "$" + Number(value || 0).toFixed(0);
+    }
+
+    function compactMoney(value) {
+      return "$" + Number(value || 0).toFixed(2);
+    }
+
+    function time(value = new Date()) {
+      return value.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function parseBackendTime(iso) {
+      const value = String(iso || "");
+      if (!value) return null;
+      if (/[zZ]$|[+-]\d\d:\d\d$/.test(value)) return new Date(value);
+      return new Date(value + "Z");
+    }
+
+    function ago(iso) {
+      if (!iso) return "";
+      const parsed = parseBackendTime(iso);
+      const diff = Math.max(0, Math.round((Date.now() - parsed.getTime()) / 60000));
+      if (diff < 1) return "just now";
+      if (diff < 60) return diff + "m ago";
+      const hours = Math.round(diff / 60);
+      if (hours < 24) return hours + "h ago";
+      return Math.round(hours / 24) + "d ago";
+    }
+
+    async function json(path) {
+      const response = await fetch(BASE + path, { cache: "no-store" });
+      if (!response.ok) throw new Error(path + " returned " + response.status);
+      return response.json();
+    }
+
+    async function moneySummary() {
+      try {
+        return await json("/ops/money-summary");
+      } catch {
+        return {
+          today: { gross_usd: 0, payments_count: 0 },
+          week: { gross_usd: 0, payments_count: 0 },
+          month: { gross_usd: 0, payments_count: 0 },
+        };
+      }
+    }
+
+    function windowState(status) {
+      const open = Boolean(status.send_window_is_open);
+      const start = status.send_window_start_local ? new Date(status.send_window_start_local) : null;
+      const end = status.send_window_end_local ? new Date(status.send_window_end_local) : null;
+      return { open, start, end, timezone: status.send_window_timezone || "America/New_York" };
+    }
+
+    function classify(health, status, cash) {
+      const healthy = health && health.status === "healthy";
+      const replies = Number(status.replies_today || 0);
+      const todayMoney = Number(cash.today?.gross_usd || 0);
+      const todayPayments = Number(cash.today?.payments_count || 0);
+      const sent = Number(status.sent_today || 0);
+      const cap = Number(status.daily_send_cap || 0);
+      const capRemaining = Number(status.cap_remaining || Math.max(cap - sent, 0));
+      const directDue = Number(status.direct_due_count || 0);
+      const directActive = Number(status.direct_inbox_count || 0);
+      const win = windowState(status);
+
+      if (!healthy) {
+        return {
+          kind: "needs",
+          title: "Needs attention",
+          mode: "System issue",
+          body: "Relay could not prove the backend is healthy. This is worth checking before thinking about money.",
+          interrupt: "Backend issue.",
+          next: "Check Railway/backend.",
+        };
+      }
+
+      if (todayMoney > 0 || todayPayments > 0) {
+        return {
+          kind: "needs",
+          title: "Money landed",
+          mode: "Step in",
+          body: "A payment exists. The highest-value action is fulfillment, not monitoring.",
+          interrupt: "Payment needs fulfillment.",
+          next: "Fulfill the paid test.",
+        };
+      }
+
+      if (replies > 0) {
+        return {
+          kind: "needs",
+          title: "Reply signal",
+          mode: "Step in",
+          body: "A human replied. That is the signal closest to money. Handle the reply before changing the system.",
+          interrupt: "Reply needs handling.",
+          next: "Open the reply.",
+        };
+      }
+
+      if (directDue <= 0 && directActive <= 0) {
+        return {
+          kind: "wait",
+          title: "Needs leads",
+          mode: "System input",
+          body: "There are no clean direct leads ready. This is a lead-supply problem, not a reason to stare at Gmail.",
+          interrupt: "Clean lead supply is empty.",
+          next: "Refill decision-maker leads.",
+        };
+      }
+
+      if (cap > 0 && capRemaining <= 0) {
+        return {
+          kind: "good",
+          title: "Off duty",
+          mode: "Closed for now",
+          body: "Today's campaign quota is used. No reply and no payment yet. Nothing improves by staring at it.",
+          interrupt: "No human action right now.",
+          next: "Next send window.",
+        };
+      }
+
+      if (!win.open && directDue > 0) {
+        return {
+          kind: "good",
+          title: "Loaded",
+          mode: "Waiting",
+          body: "Clean direct leads are ready. The system is waiting for the send window.",
+          interrupt: "No human action right now.",
+          next: "Send window.",
+        };
+      }
+
+      if (win.open && directDue > 0 && capRemaining > 0) {
+        return {
+          kind: "wait",
+          title: "Working window",
+          mode: "Observe",
+          body: "The send window is open and clean leads are due. Let the workflow run; only step in if sends do not move.",
+          interrupt: "Only if sends stall.",
+          next: "After this cycle.",
+        };
+      }
+
+      return {
+        kind: "good",
+        title: "Quiet",
+        mode: "Monitoring",
+        body: "Relay is online. No reply, payment, or failure needs you right now.",
+        interrupt: "No human action right now.",
+        next: "Next scheduled check.",
+      };
+    }
+
+    function setState(classification) {
+      const panel = $("statePanel");
+      const dot = $("stateDot");
+      panel.classList.remove("needs", "wait");
+      dot.classList.remove("bad", "wait");
+      if (classification.kind === "needs") {
+        panel.classList.add("needs");
+        dot.classList.add("bad");
+      }
+      if (classification.kind === "wait") {
+        panel.classList.add("wait");
+        dot.classList.add("wait");
+      }
+      $("modeText").textContent = classification.mode;
+      $("stateTitle").textContent = classification.title;
+      $("stateBody").textContent = classification.body;
+      $("interruptTitle").textContent = classification.interrupt;
+      $("nextCheck").textContent = classification.next;
+    }
+
+    function renderEvents(id, events, incoming = false) {
+      const container = $(id);
+      if (!events || events.length === 0) {
+        container.innerHTML = '<div class="event"><div class="event-title">None yet</div><div class="event-sub">No events logged.</div></div>';
+        return;
+      }
+
+      container.innerHTML = events.slice(0, 5).map((event) => {
+        const address = incoming ? event.from_email || "" : event.to_email || "";
+        const name = event.company_name || event.from_name || address || "unknown";
+        const meta = incoming ? event.intent || event.status || "" : event.sender_address || event.provider || "";
+        return `
+          <div class="event">
+            <div class="event-top"><span>${esc(ago(event.created_at))}</span><span>${esc(event.subject || "")}</span></div>
+            <div class="event-title">${esc(name)}</div>
+            <div class="event-sub">${esc(address)}${meta ? " / " + esc(meta) : ""}</div>
+            <div class="event-preview">${esc(event.body_preview || "No preview stored.")}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function auditRows(status, cash) {
+      const rows = [
+        ["Reply mailbox", status.reply_mailbox_address || "--"],
+        ["Reply-To", status.reply_to_email || "--"],
+        ["Auto-close", status.reply_autoclose_mode || "not reported"],
+        ["Provider", status.provider || "--"],
+        ["Mailboxes", status.smtp_mailboxes_configured ?? 0],
+        ["Per mailbox cap", status.per_mailbox_daily_cap ?? "--"],
+        ["Sender counts", JSON.stringify(status.sender_counts_today || {})],
+        ["Direct active", status.direct_inbox_count ?? 0],
+        ["Generic active", status.generic_inbox_count ?? 0],
+        ["Direct due", status.direct_due_count ?? 0],
+        ["Generic due", status.generic_due_count ?? 0],
+        ["Generic paused", status.generic_paused_count ?? 0],
+        ["Raw due", status.raw_due_now_count ?? status.due_now_count ?? 0],
+        ["Cap remaining", status.cap_remaining ?? 0],
+        ["Week money", compactMoney(cash.week?.gross_usd || 0)],
+        ["Month money", compactMoney(cash.month?.gross_usd || 0)],
+      ];
+
+      $("auditGrid").innerHTML = rows.map(([key, value]) => `
+        <div class="audit-row"><span>${esc(key)}</span><strong>${esc(value)}</strong></div>
+      `).join("");
+    }
+
+    function render(health, status, cash) {
+      latest = { health, status, cash };
+      const classification = classify(health, status, cash);
+      setState(classification);
+
+      const healthy = health.status === "healthy";
+      const replies = Number(status.replies_today || 0);
+      const sent = Number(status.sent_today || 0);
+      const cap = Number(status.daily_send_cap || 0);
+      const directDue = Number(status.direct_due_count || 0);
+      const badEmails = Number(status.blocked_bad_email_count || 0);
+      const weekPayments = Number(cash.week?.payments_count || 0);
+      const win = windowState(status);
+
+      $("healthValue").textContent = healthy ? "OK" : "Issue";
+      $("healthDetail").textContent = healthy ? "backend healthy" : "backend check failed";
+      $("repliesValue").textContent = String(replies);
+      $("repliesDetail").textContent = replies > 0 ? "handle now" : "no reply signal yet";
+      $("moneyValue").textContent = money(cash.today?.gross_usd || 0);
+      $("moneyDetail").textContent = `${cash.today?.payments_count || 0} payments today / ${weekPayments}/${TARGET_WEEKLY_TESTS} weekly tests`;
+      $("sendsValue").textContent = `${sent}/${cap || 0}`;
+      $("sendsDetail").textContent = win.open ? "send window open" : "send window closed";
+      $("directValue").textContent = String(directDue);
+      $("directDetail").textContent = "clean direct leads due";
+      $("wasteValue").textContent = String(badEmails);
+      $("wasteDetail").textContent = badEmails > 0 ? "will be blocked" : "none active";
+
+      $("stepInRule").textContent = replies > 0 ? "A reply exists. Step in." : "Only for replies, payments, or failures.";
+      $("systemJob").textContent = `${directDue} clean leads ready; ${status.generic_paused_count || 0} generic paused.`;
+
+      $("conditionHealth").textContent = healthy ? "Backend is healthy." : "Backend needs attention.";
+      $("conditionHealth").className = healthy ? "good" : "hot";
+      $("conditionReply").textContent = replies > 0 ? `${replies} replies need handling.` : "No replies need you right now.";
+      $("conditionReply").className = replies > 0 ? "hot" : "good";
+      $("conditionMoney").textContent = Number(cash.today?.gross_usd || 0) > 0 ? "Payment needs fulfillment." : "No paid test needs fulfillment yet.";
+      $("conditionMoney").className = Number(cash.today?.gross_usd || 0) > 0 ? "hot" : "good";
+
+      $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
+      $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";
+      renderEvents("recentSentList", status.recent_sent || []);
+      renderEvents("recentReplyList", status.recent_replies || [], true);
+      auditRows(status, cash);
+
+      $("lastUpdated").textContent = `Last updated ${time()}`;
+    }
+
+    async function refresh() {
+      try {
+        const [health, status, cash] = await Promise.all([
+          json("/health"),
+          json("/custom-outreach/status"),
+          moneySummary(),
+        ]);
+        render(health, status, cash);
+      } catch (error) {
+        const health = { status: "error" };
+        const status = {};
+        const cash = { today: { gross_usd: 0, payments_count: 0 }, week: {}, month: {} };
+        render(health, status, cash);
+        $("stateBody").textContent = "Relay Live could not read the backend. This is a system issue, not a personal one.";
+        $("lastUpdated").textContent = `Fetch failed: ${String(error.message || error)}`;
+      }
+    }
+
+    $("refreshBtn").addEventListener("click", refresh);
+    $("copyBtn").addEventListener("click", async () => {
+      if (!latest) return;
+      const { health, status, cash } = latest;
+      const text = [
+        "Relay Live",
+        `backend=${health.status}`,
+        `mode=${$("stateTitle").textContent}`,
+        `money_today=${cash.today?.gross_usd || 0}`,
+        `payments_today=${cash.today?.payments_count || 0}`,
+        `replies_today=${status.replies_today || 0}`,
+        `sent_today=${status.sent_today || 0}`,
+        `daily_send_cap=${status.daily_send_cap || 0}`,
+        `direct_due_count=${status.direct_due_count || 0}`,
+        `generic_paused_count=${status.generic_paused_count || 0}`,
+        `cap_remaining=${status.cap_remaining || 0}`,
+        `next_money_move=${status.next_money_move || ""}`,
+      ].join("\n");
+      await navigator.clipboard.writeText(text);
+      $("lastUpdated").textContent = "Status copied";
+    });
+
+    refresh();
+    setInterval(refresh, 60000);
+  </script>
 </body>
 </html>

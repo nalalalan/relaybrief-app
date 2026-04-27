@@ -489,36 +489,22 @@
       overflow: hidden;
     }
 
-    .mail-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      padding: 24px;
-      display: grid;
-      place-items: center;
-      background: rgba(8, 10, 12, 0.74);
-      backdrop-filter: blur(10px);
-    }
-
-    .mail-modal[hidden] {
-      display: none;
+    .mail-viewer {
+      padding: 0;
+      min-height: 420px;
+      overflow: hidden;
     }
 
     .mail-window {
-      width: min(900px, calc(100vw - 28px));
-      max-height: calc(100vh - 48px);
-      overflow: auto;
-      border: 1px solid var(--line);
-      border-radius: 8px;
+      width: 100%;
+      min-height: 420px;
+      display: grid;
+      grid-template-rows: auto 1fr;
       background: #11161c;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
     }
 
     .mail-toolbar {
       min-height: 52px;
-      position: sticky;
-      top: 0;
-      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -526,6 +512,10 @@
       padding: 0 16px;
       border-bottom: 1px solid var(--line);
       background: rgba(17, 22, 28, 0.96);
+    }
+
+    .mail-toolbar .small {
+      text-align: right;
     }
 
     .mail-kind {
@@ -571,6 +561,11 @@
       line-height: 1.58;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
+    }
+
+    .event[aria-selected="true"] {
+      border-color: rgba(105, 213, 139, 0.82);
+      background: rgba(105, 213, 139, 0.08);
     }
 
     details {
@@ -815,9 +810,9 @@
           <div class="detail" id="directDetail">direct due</div>
         </article>
         <article class="fact">
-          <p class="label">Waste</p>
-          <div class="value" id="wasteValue">--</div>
-          <div class="detail" id="wasteDetail">blocked bad emails</div>
+          <p class="label">All-Time Sends</p>
+          <div class="value" id="totalSendsValue">--</div>
+          <div class="detail" id="totalSendsDetail">sent since launch</div>
         </article>
       </section>
     </section>
@@ -840,16 +835,15 @@
           <div class="event-list" id="recentReplyList"></div>
         </article>
       </section>
-    </section>
 
-    <section class="mail-modal" id="mailModal" hidden>
-      <article class="mail-window" role="dialog" aria-modal="true" aria-labelledby="mailSubject">
+      <article class="panel mail-viewer" aria-labelledby="mailSubject">
+        <div class="mail-window">
         <div class="mail-toolbar">
           <span class="mail-kind" id="mailKind">Message</span>
-          <button class="btn" id="mailClose" type="button">Close</button>
+          <span class="small" id="mailHint">Select an email from the lists above.</span>
         </div>
         <div class="mail-content">
-          <h2 class="mail-subject" id="mailSubject">Email</h2>
+          <h2 class="mail-subject" id="mailSubject">Mail viewer</h2>
           <div class="mail-fields">
             <div><strong>From:</strong> <span id="mailFrom">--</span></div>
             <div><strong>To:</strong> <span id="mailTo">--</span></div>
@@ -857,6 +851,7 @@
             <div><strong>Contact:</strong> <span id="mailContact">--</span></div>
           </div>
           <div class="mail-body" id="mailBody"></div>
+        </div>
         </div>
       </article>
     </section>
@@ -877,6 +872,7 @@
     const TARGET_WEEKLY_TESTS = 3;
     let latest = null;
     const messageEvents = new Map();
+    let selectedMessageKey = "";
 
     const $ = (id) => document.getElementById(id);
 
@@ -1081,9 +1077,29 @@
       return name || email || "unknown";
     }
 
+    function totalSends(status) {
+      const candidates = [
+        status.total_sends_all_time,
+        status.total_sent_all_time,
+        status.all_time_sends,
+        status.all_time_sent,
+        status.sent_all_time,
+        status.total_sent_count,
+      ];
+      const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
+      return value === undefined ? null : Number(value || 0);
+    }
+
+    function updateSelectedEventButtons() {
+      document.querySelectorAll("[data-event-key]").forEach((button) => {
+        button.setAttribute("aria-selected", String(button.getAttribute("data-event-key") === selectedMessageKey));
+      });
+    }
+
     function openMessage(key) {
       const item = messageEvents.get(key);
       if (!item) return;
+      selectedMessageKey = key;
       const event = item.event;
       const incoming = item.incoming;
       const from = incoming
@@ -1102,12 +1118,29 @@
       $("mailWhen").textContent = when;
       $("mailContact").textContent = company;
       $("mailBody").textContent = fullMessageBody(event);
-      $("mailModal").hidden = false;
-      $("mailClose").focus();
+      $("mailHint").textContent = incoming ? "Reply opened inline." : "Outbound email opened inline.";
+      updateSelectedEventButtons();
     }
 
-    function closeMessage() {
-      $("mailModal").hidden = true;
+    function selectDefaultMessage() {
+      if (selectedMessageKey && messageEvents.has(selectedMessageKey)) {
+        openMessage(selectedMessageKey);
+        return;
+      }
+      const firstKey = messageEvents.keys().next().value;
+      if (firstKey) {
+        openMessage(firstKey);
+        return;
+      }
+      selectedMessageKey = "";
+      $("mailKind").textContent = "Message";
+      $("mailSubject").textContent = "Mail viewer";
+      $("mailFrom").textContent = "--";
+      $("mailTo").textContent = "--";
+      $("mailWhen").textContent = "--";
+      $("mailContact").textContent = "--";
+      $("mailBody").textContent = "No recent mail stored yet.";
+      $("mailHint").textContent = "Select an email from the lists above.";
     }
 
     function setTab(name) {
@@ -1133,7 +1166,7 @@
         const name = event.company_name || event.from_name || address || "unknown";
         const meta = incoming ? event.intent || event.status || "" : event.sender_address || event.provider || "";
         return `
-          <button class="event" type="button" data-event-key="${esc(key)}">
+          <button class="event" type="button" data-event-key="${esc(key)}" aria-selected="${esc(String(key === selectedMessageKey))}">
             <div class="event-top"><span>${esc(ago(event.created_at))}</span><span>${esc(event.subject || "")}</span></div>
             <div class="event-title">${esc(name)}</div>
             <div class="event-sub">${esc(address)}${meta ? " / " + esc(meta) : ""}</div>
@@ -1157,6 +1190,7 @@
         ["Direct due", status.direct_due_count ?? 0],
         ["Generic due", status.generic_due_count ?? 0],
         ["Generic paused", status.generic_paused_count ?? 0],
+        ["All-time sends", totalSends(status) ?? "--"],
         ["Raw due", status.raw_due_now_count ?? status.due_now_count ?? 0],
         ["Cap remaining", status.cap_remaining ?? 0],
         ["Week money", compactMoney(cash.week?.gross_usd || 0)],
@@ -1178,7 +1212,7 @@
       const sent = Number(status.sent_today || 0);
       const cap = Number(status.daily_send_cap || 0);
       const directDue = Number(status.direct_due_count || 0);
-      const badEmails = Number(status.blocked_bad_email_count || 0);
+      const allTimeSends = totalSends(status);
       const weekPayments = Number(cash.week?.payments_count || 0);
       const win = windowState(status);
 
@@ -1192,8 +1226,8 @@
       $("sendsDetail").textContent = win.open ? "send window open" : "send window closed";
       $("directValue").textContent = String(directDue);
       $("directDetail").textContent = "clean direct leads due";
-      $("wasteValue").textContent = String(badEmails);
-      $("wasteDetail").textContent = badEmails > 0 ? "will be blocked" : "none active";
+      $("totalSendsValue").textContent = allTimeSends === null ? "--" : String(allTimeSends);
+      $("totalSendsDetail").textContent = allTimeSends === null ? "backend pending" : "all outbound emails";
 
       $("stepInRule").textContent = replies > 0 ? "A reply exists. Step in." : "Only for replies, payments, or failures.";
       $("systemJob").textContent = `${directDue} clean leads ready; ${status.generic_paused_count || 0} generic paused.`;
@@ -1211,6 +1245,7 @@
       messageEvents.clear();
       renderEvents("recentSentList", status.recent_sent || []);
       renderEvents("recentReplyList", status.recent_replies || [], true);
+      selectDefaultMessage();
       auditRows(status, cash);
 
       $("lastUpdated").textContent = `Last updated ${time()}`;
@@ -1246,6 +1281,7 @@
         `payments_today=${cash.today?.payments_count || 0}`,
         `replies_today=${status.replies_today || 0}`,
         `sent_today=${status.sent_today || 0}`,
+        `total_sends_all_time=${totalSends(status) ?? ""}`,
         `daily_send_cap=${status.daily_send_cap || 0}`,
         `direct_due_count=${status.direct_due_count || 0}`,
         `generic_paused_count=${status.generic_paused_count || 0}`,
@@ -1269,14 +1305,6 @@
         openMessage(eventButton.getAttribute("data-event-key") || "");
         return;
       }
-      if (target.id === "mailModal") {
-        closeMessage();
-      }
-    });
-
-    $("mailClose").addEventListener("click", closeMessage);
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !$("mailModal").hidden) closeMessage();
     });
 
     refresh();

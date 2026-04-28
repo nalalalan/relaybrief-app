@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Relay Live</title>
-  <meta name="description" content="Live status for Relay sends, replies, money, and action needed." />
+  <meta name="description" content="Relay money path, workability, sends, replies, payments, and action needed." />
   <link rel="canonical" href="https://relaylive.aolabs.io/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AO Labs" />
   <meta property="og:title" content="Relay Live" />
-  <meta property="og:description" content="Live status for Relay sends, replies, money, and action needed." />
+  <meta property="og:description" content="Relay money path, workability, sends, replies, payments, and action needed." />
   <meta property="og:url" content="https://relaylive.aolabs.io/" />
   <meta property="og:image" content="https://relaylive.aolabs.io/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Relay Live" />
-  <meta name="twitter:description" content="Live status for Relay sends, replies, money, and action needed." />
+  <meta name="twitter:description" content="Relay money path, workability, sends, replies, payments, and action needed." />
   <meta name="twitter:image" content="https://relaylive.aolabs.io/og-image.png" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="shortcut icon" href="/favicon.svg">
@@ -568,6 +568,125 @@
       line-height: 1.42;
     }
 
+    .belief-board {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr) minmax(0, 0.9fr);
+      gap: 12px;
+    }
+
+    .belief-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: rgba(23, 27, 32, 0.96);
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .belief-card.primary {
+      border-color: rgba(120, 174, 245, 0.34);
+      background:
+        linear-gradient(135deg, rgba(120, 174, 245, 0.1), transparent 46%),
+        rgba(23, 27, 32, 0.96);
+    }
+
+    .belief-score {
+      color: var(--blue);
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 950;
+      line-height: 0.95;
+      overflow-wrap: anywhere;
+    }
+
+    .belief-card h3 {
+      margin-bottom: 0;
+    }
+
+    .belief-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .meter-track {
+      width: 100%;
+      height: 9px;
+      border-radius: 999px;
+      background: #262d35;
+      overflow: hidden;
+    }
+
+    .meter-track > span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--good));
+      transition: width 200ms ease;
+    }
+
+    .proof-steps {
+      display: grid;
+      gap: 8px;
+    }
+
+    .proof-step {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .proof-step span:first-child {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 900;
+      background: rgba(16, 18, 20, 0.62);
+    }
+
+    .proof-step.done span:first-child {
+      border-color: rgba(105, 213, 139, 0.48);
+      color: var(--ink);
+      background: var(--good);
+    }
+
+    .proof-step.active span:first-child {
+      border-color: rgba(237, 199, 111, 0.52);
+      background: rgba(237, 199, 111, 0.16);
+      color: var(--amber);
+    }
+
+    .reality-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .reality-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .reality-row strong {
+      color: var(--text);
+      font-weight: 900;
+    }
+
     .panels {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -786,7 +905,8 @@
       .command,
       .panels,
       .money-board,
-      .pressure-strip {
+      .pressure-strip,
+      .belief-board {
         grid-template-columns: 1fr;
       }
 
@@ -823,6 +943,7 @@
 
       .contract,
       .facts,
+      .belief-board,
       .scenario-grid,
       .audit {
         grid-template-columns: 1fr;
@@ -856,6 +977,7 @@
       .contract strong,
       .fact .value,
       .money-card .big,
+      .belief-score,
       .pressure-card .metric,
       .event-title,
       .event-sub,
@@ -872,7 +994,7 @@
         <div class="mark">AO</div>
         <div>
           <h1>Relay Live</h1>
-          <p class="subtle">Cash-pressure monitor for Relay.</p>
+          <p class="subtle">Money path and workability monitor.</p>
         </div>
       </div>
       <div class="actions">
@@ -999,6 +1121,32 @@
           <p class="label">Stop Rule</p>
           <div class="metric" id="stopRuleValue">Signal</div>
           <p id="stopRuleBody">If Relay gives no reply signal after a clean run, change targeting or offer clarity. Do not just wait harder.</p>
+        </article>
+      </section>
+
+      <section class="belief-board" aria-label="Relay workability">
+        <article class="belief-card primary">
+          <p class="label">Why this can work</p>
+          <h3 id="beliefTitle">Checking the actual path</h3>
+          <div class="belief-score" id="beliefScore">--</div>
+          <div class="meter-track" aria-hidden="true"><span id="beliefBar"></span></div>
+          <p id="beliefBody">Relay Live is reading sends, lead supply, reply signal, money signal, and backend health.</p>
+        </article>
+
+        <article class="belief-card">
+          <p class="label">Proof ladder</p>
+          <h3>From quiet to money</h3>
+          <div class="proof-steps" id="proofSteps"></div>
+        </article>
+
+        <article class="belief-card">
+          <p class="label">Reality check</p>
+          <h3 id="realityTitle">Use rules, not panic</h3>
+          <div class="reality-list">
+            <div class="reality-row"><strong>Belief</strong><span id="beliefRule">A simple paid test can work if enough qualified people see a clear offer.</span></div>
+            <div class="reality-row"><strong>Doubt</strong><span id="doubtRule">If sends are clean and replies stay zero, targeting or opener clarity needs changing.</span></div>
+            <div class="reality-row"><strong>Next</strong><span id="decisionRule">Let the next send cycle finish before judging.</span></div>
+          </div>
         </article>
       </section>
 
@@ -1315,6 +1463,18 @@
       return value === undefined ? null : Number(value || 0);
     }
 
+    function totalReplies(status) {
+      const candidates = [
+        status.total_replies_all_time,
+        status.total_reply_count,
+        status.all_time_replies,
+        status.replies_all_time,
+        status.total_replies,
+      ];
+      const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
+      return value === undefined ? null : Number(value || 0);
+    }
+
     function loopState(status) {
       return status.money_loop && typeof status.money_loop === "object" ? status.money_loop : {};
     }
@@ -1358,6 +1518,106 @@
     function percent(value, total) {
       if (!total || total <= 0) return 0;
       return clamp(Math.round((Number(value || 0) / total) * 100), 0, 100);
+    }
+
+    function proofStep(label, text, state) {
+      return `
+        <div class="proof-step ${state}">
+          <span>${state === "done" ? "OK" : state === "active" ? ">" : ""}</span>
+          <div><strong>${esc(label)}</strong><br>${esc(text)}</div>
+        </div>
+      `;
+    }
+
+    function updateBeliefBoard(status, cash, classification) {
+      const healthy = latest?.health?.status === "healthy";
+      const sent = Number(status.sent_today || 0);
+      const cap = Number(status.daily_send_cap || 0);
+      const allTimeSends = totalSends(status) || 0;
+      const todayReplies = Number(status.replies_today || 0);
+      const allTimeReplies = totalReplies(status);
+      const replySignal = allTimeReplies !== null ? allTimeReplies : todayReplies;
+      const todayMoney = Number(cash.today?.gross_usd || 0);
+      const weekMoney = Number(cash.week?.gross_usd || 0);
+      const directDue = Number(status.direct_due_count || 0);
+      const directActive = Number(status.direct_inbox_count || 0);
+      const inventory = directDue + directActive;
+      const genericPaused = Number(status.generic_paused_count || 0);
+      const win = windowState(status);
+      const capRemaining = Number(status.cap_remaining || Math.max(cap - sent, 0));
+
+      let score = 18;
+      if (healthy) score += 18;
+      if (allTimeSends > 0 || sent > 0) score += 18;
+      if (inventory > 0) score += 14;
+      if (directDue > 0) score += 10;
+      if (todayReplies > 0 || replySignal > 0) score += 20;
+      if (todayMoney > 0 || weekMoney > 0) score += 24;
+      if (!healthy) score = 12;
+      score = clamp(score, 0, 100);
+
+      let label = "Testable";
+      let title = "This is still a real experiment";
+      let body = "The path is simple enough to test: qualified leads see a clear $40 offer, replies create conversations, and payments prove demand. The current job is to keep the machine observable and change only when the signal says to.";
+
+      if (!healthy) {
+        label = "Fix first";
+        title = "Money cannot be judged while the backend is unhealthy";
+        body = "A broken monitor or backend is not market feedback. Fix health first, then judge sends, replies, and payments.";
+      } else if (todayMoney > 0 || weekMoney > 0) {
+        label = "Proven";
+        title = "Payment signal exists";
+        body = "A payment is the strongest proof. Fulfillment and repeatability matter more than more dashboard watching.";
+      } else if (todayReplies > 0 || replySignal > 0) {
+        label = "Signal";
+        title = "Someone answered";
+        body = "Replies are the bridge between cold outreach and money. The next move is to understand the objection or interest, then route real buyers to the paid test.";
+      } else if ((allTimeSends || sent) >= 50 && todayReplies <= 0) {
+        label = "Diagnose";
+        title = "Enough exposure to improve the experiment";
+        body = "Zero replies after a clean send sample is useful information. It means adjust targeting, subject line, or first sentence. It does not mean the business is dead.";
+      } else if (directDue > 0 || capRemaining > 0 || sent > 0) {
+        label = "Running";
+        title = "The machine has a next move";
+        body = "Relay has either sent, has clean leads due, or has capacity remaining. This is not a blank page; it is a sales test in progress.";
+      } else if (genericPaused > 0 && directDue <= 0) {
+        label = "Refill";
+        title = "The bottleneck is lead quality";
+        body = "Generic inboxes are paused because they are weaker. The path improves by feeding better direct decision-maker leads, not by forcing bad volume.";
+      }
+
+      $("beliefTitle").textContent = title;
+      $("beliefScore").textContent = label;
+      $("beliefBody").textContent = body;
+      $("beliefBar").style.width = score + "%";
+
+      const steps = [
+        ["System", healthy ? "Backend is healthy and measurable." : "Backend health must be restored before market feedback counts.", healthy ? "done" : "active"],
+        ["Inventory", inventory > 0 ? `${inventory} direct leads are active or due.` : "Need direct decision-maker lead supply.", inventory > 0 ? "done" : "active"],
+        ["Exposure", (allTimeSends || sent) > 0 ? `${allTimeSends || sent} outbound emails have been sent.` : "Need the first clean send batch.", (allTimeSends || sent) > 0 ? "done" : "active"],
+        ["Reply", replySignal > 0 ? `${replySignal} reply signal${replySignal === 1 ? "" : "s"} recorded.` : "Waiting for a real human response.", replySignal > 0 ? "done" : "active"],
+        ["Paid", weekMoney > 0 ? `${money(weekMoney)} recorded this week.` : `Need ${TARGET_WEEKLY_TESTS} paid tests to clear ${money(PACKET_PRICE * TARGET_WEEKLY_TESTS)}.`, weekMoney > 0 ? "done" : ""],
+      ];
+      $("proofSteps").innerHTML = steps.map(([labelText, text, state]) => proofStep(labelText, text, state)).join("");
+
+      $("beliefRule").textContent = `${TARGET_WEEKLY_TESTS} paid tests at ${money(PACKET_PRICE)} is ${money(PACKET_PRICE * TARGET_WEEKLY_TESTS)}. This is reachable with small numbers if the lead quality and offer are right.`;
+      $("doubtRule").textContent = (allTimeSends || sent) >= 50 && todayReplies <= 0
+        ? "Zero replies after this much exposure is a targeting/opener problem to fix, not a reason to stare harder."
+        : "Until a clean sample has been sent, the market has not really answered yet.";
+      if (!healthy) {
+        $("decisionRule").textContent = "Fix backend health before interpreting anything.";
+      } else if (todayReplies > 0) {
+        $("decisionRule").textContent = "Answer replies before tuning anything else.";
+      } else if (todayMoney > 0 || weekMoney > 0) {
+        $("decisionRule").textContent = "Fulfill paid work and preserve the proof.";
+      } else if (win.open && directDue > 0) {
+        $("decisionRule").textContent = "Let the send window run; watch whether sends move.";
+      } else if (directDue > 0) {
+        $("decisionRule").textContent = sendWindowPhrase(status);
+      } else {
+        $("decisionRule").textContent = "Refill direct leads, then run the next clean batch.";
+      }
+      $("realityTitle").textContent = classification.kind === "needs" ? "Act on the real issue" : "A clear test beats vague fear";
     }
 
     function updateMoneyBoard(status, cash, classification) {
@@ -1429,7 +1689,7 @@
         $("nextCashBody").textContent = "A buyer paid. Fast fulfillment matters more than more checking.";
       } else if (sentEnoughToday) {
         $("nextCashValue").textContent = "Wait";
-        $("nextCashBody").textContent = "Today’s batch is already in market. A refresh cannot create replies. Watch for red signals.";
+        $("nextCashBody").textContent = "Today's batch is already in market. A refresh cannot create replies. Watch for red signals.";
       } else if (directDue > 0) {
         $("nextCashValue").textContent = "Send";
         $("nextCashBody").textContent = `Clean leads are ready. ${status.next_money_move || "Let the send cycle run."}${refill ? " " + refill : ""}`;
@@ -1610,6 +1870,7 @@
       $("totalSendsDetail").textContent = allTimeSends === null ? "backend pending" : "all outbound emails";
 
       updateMoneyBoard(status, cash, classification);
+      updateBeliefBoard(status, cash, classification);
 
       $("stepInRule").textContent = replies > 0 ? "A reply exists. Step in." : "Only for replies, payments, or failures.";
       $("systemJob").textContent = `${directDue} clean leads ready; ${status.generic_paused_count || 0} generic paused; ${allTimeSends ?? 0} all-time sends; ${loopPhrase(status)}.`;

@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#171b20"/>
-  <rect x="2.5" y="2.5" width="59" height="59" rx="11.5" fill="none" stroke="#303843" stroke-width="5"/>
-  <circle cx="48" cy="18" r="5" fill="#69d58b"/>
-  <path fill="#69d58b" d="M15.7 43h-7l10-24h7.1l10 24h-7.2l-1.5-4.1h-9.9L15.7 43Zm3.4-9.5h6l-3-8.2-3 8.2Z"/>
-  <path fill="#f4f0e8" d="M45.4 43.6c-7.4 0-12.5-5.3-12.5-12.6s5.1-12.6 12.5-12.6S58 23.7 58 31s-5.2 12.6-12.6 12.6Zm0-6.4c3.2 0 5.4-2.5 5.4-6.2s-2.2-6.2-5.4-6.2S40 27.3 40 31s2.2 6.2 5.4 6.2Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Relay Live">
+  <rect width="64" height="64" rx="18" fill="#c88452"/>
+  <rect x="12" y="14" width="40" height="36" rx="10" fill="#fff8f2"/>
+  <path d="M21 38 C27 29, 33 35, 41 24" fill="none" stroke="#c88452" stroke-width="5" stroke-linecap="round"/>
+  <path d="M36 23 H43 V30" fill="none" stroke="#c88452" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="46" cy="18" r="6.5" fill="#fff8f2"/>
+  <circle cx="46" cy="18" r="4.2" fill="#69d58b"/>
+  <circle cx="22" cy="39" r="4" fill="#c88452"/>
 </svg>

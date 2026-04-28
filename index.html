@@ -271,6 +271,14 @@
       gap: 12px;
     }
 
+    .mail-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
+      gap: 12px;
+      align-items: stretch;
+      min-height: min(720px, calc(100vh - 152px));
+    }
+
     .panel {
       padding: 18px;
       min-height: 0;
@@ -294,6 +302,41 @@
     .event-list {
       display: grid;
       gap: 8px;
+    }
+
+    .mailbox {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .mailbox .panel-head {
+      min-height: 58px;
+      margin: 0;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mailbox-scroll {
+      min-height: 0;
+      overflow: auto;
+      padding: 10px;
+      display: grid;
+      align-content: start;
+      gap: 14px;
+    }
+
+    .mail-section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 2px 2px 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0;
     }
 
     .event {
@@ -428,6 +471,18 @@
       background: rgba(105, 213, 139, 0.08);
     }
 
+    .event.empty-event {
+      cursor: default;
+      color: var(--muted);
+    }
+
+    .event.empty-event:hover,
+    .event.empty-event:focus-visible {
+      border-color: var(--line);
+      background: rgba(16, 18, 20, 0.44);
+      transform: none;
+    }
+
     details {
       padding: 0;
     }
@@ -451,6 +506,11 @@
     @media (max-width: 1100px) {
       .panels {
         grid-template-columns: 1fr;
+      }
+
+      .mail-layout {
+        grid-template-columns: 1fr;
+        min-height: 0;
       }
 
       .facts {
@@ -566,42 +626,49 @@
     </section>
 
     <section class="tab-panel" id="mailPanel" role="tabpanel" aria-labelledby="mailTab" data-panel="mail" hidden>
-      <section class="panels">
-        <article class="panel">
+      <section class="mail-layout" aria-label="Relay mail viewer">
+        <aside class="panel mailbox">
           <div class="panel-head">
-            <h3>Recent Sends</h3>
-            <span class="small" id="sentMeta">latest outbound</span>
+            <h3>Mail</h3>
+            <span class="small" id="mailMeta">latest activity</span>
           </div>
-          <div class="event-list" id="recentSentList"></div>
-        </article>
+          <div class="mailbox-scroll">
+            <section>
+              <div class="mail-section-title">
+                <span>Replies</span>
+                <span id="replyMeta">latest inbound</span>
+              </div>
+              <div class="event-list" id="recentReplyList"></div>
+            </section>
+            <section>
+              <div class="mail-section-title">
+                <span>Sends</span>
+                <span id="sentMeta">latest outbound</span>
+              </div>
+              <div class="event-list" id="recentSentList"></div>
+            </section>
+          </div>
+        </aside>
 
-        <article class="panel">
-          <div class="panel-head">
-            <h3>Recent Replies</h3>
-            <span class="small" id="replyMeta">latest inbound</span>
+        <article class="panel mail-viewer" aria-labelledby="mailSubject">
+          <div class="mail-window">
+            <div class="mail-toolbar">
+              <span class="mail-kind" id="mailKind">Message</span>
+              <span class="small" id="mailHint">Select an email on the left.</span>
+            </div>
+            <div class="mail-content">
+              <h2 class="mail-subject" id="mailSubject">Mail viewer</h2>
+              <div class="mail-fields">
+                <div><strong>From:</strong> <span id="mailFrom">--</span></div>
+                <div><strong>To:</strong> <span id="mailTo">--</span></div>
+                <div><strong>When:</strong> <span id="mailWhen">--</span></div>
+                <div><strong>Contact:</strong> <span id="mailContact">--</span></div>
+              </div>
+              <div class="mail-body" id="mailBody"></div>
+            </div>
           </div>
-          <div class="event-list" id="recentReplyList"></div>
         </article>
       </section>
-
-      <article class="panel mail-viewer" aria-labelledby="mailSubject">
-        <div class="mail-window">
-        <div class="mail-toolbar">
-          <span class="mail-kind" id="mailKind">Message</span>
-          <span class="small" id="mailHint">Select an email from the lists above.</span>
-        </div>
-        <div class="mail-content">
-          <h2 class="mail-subject" id="mailSubject">Mail viewer</h2>
-          <div class="mail-fields">
-            <div><strong>From:</strong> <span id="mailFrom">--</span></div>
-            <div><strong>To:</strong> <span id="mailTo">--</span></div>
-            <div><strong>When:</strong> <span id="mailWhen">--</span></div>
-            <div><strong>Contact:</strong> <span id="mailContact">--</span></div>
-          </div>
-          <div class="mail-body" id="mailBody"></div>
-        </div>
-        </div>
-      </article>
     </section>
 
   </main>
@@ -670,10 +737,16 @@
     function fullMessageBody(event) {
       return String(
         event.body_text ||
+        event.body_plain ||
         event.plain_text ||
+        event.message_body ||
+        event.email_body ||
         event.body ||
+        event.text ||
         event.reply_text ||
+        event.reply_body ||
         event.body_preview ||
+        event.snippet ||
         "No body stored."
       ).trim();
     }
@@ -726,7 +799,7 @@
       $("mailWhen").textContent = when;
       $("mailContact").textContent = company;
       $("mailBody").textContent = fullMessageBody(event);
-      $("mailHint").textContent = incoming ? "Reply opened inline." : "Outbound email opened inline.";
+      $("mailHint").textContent = incoming ? "Reply opened in reading pane." : "Outbound email opened in reading pane.";
       updateSelectedEventButtons();
     }
 
@@ -748,7 +821,7 @@
       $("mailWhen").textContent = "--";
       $("mailContact").textContent = "--";
       $("mailBody").textContent = "No recent mail stored yet.";
-      $("mailHint").textContent = "Select an email from the lists above.";
+      $("mailHint").textContent = "Select an email on the left.";
     }
 
     function setTab(name) {
@@ -763,11 +836,11 @@
     function renderEvents(id, events, incoming = false) {
       const container = $(id);
       if (!events || events.length === 0) {
-        container.innerHTML = '<div class="event"><div class="event-title">None yet</div><div class="event-sub">No events logged.</div></div>';
+        container.innerHTML = '<div class="event empty-event"><div class="event-title">None yet</div><div class="event-sub">No events logged.</div></div>';
         return;
       }
 
-      container.innerHTML = events.slice(0, 5).map((event) => {
+      container.innerHTML = events.slice(0, 12).map((event) => {
         const key = `${id}:${event.event_type || "event"}:${event.prospect_external_id || ""}:${event.created_at || ""}`;
         messageEvents.set(key, { event, incoming });
         const address = incoming ? event.from_email || "" : event.to_email || "";
@@ -808,10 +881,11 @@
 
       $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
       $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";
+      $("mailMeta").textContent = `${(status.recent_replies || []).length} replies / ${(status.recent_sent || []).length} sends`;
       $("mailTab").textContent = replies > 0 ? `Mail (${replies} replies)` : `Mail (${sent} sent)`;
       messageEvents.clear();
-      renderEvents("recentSentList", status.recent_sent || []);
       renderEvents("recentReplyList", status.recent_replies || [], true);
+      renderEvents("recentSentList", status.recent_sent || []);
       selectDefaultMessage();
 
       $("lastUpdated").textContent = `Last updated ${time()}`;

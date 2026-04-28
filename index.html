@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Relay Live</title>
-  <meta name="description" content="Relay money path, workability, sends, replies, payments, and action needed." />
+  <meta name="description" content="Basic Relay status: backend, replies, money, sends, clean leads, and all-time sends." />
   <link rel="canonical" href="https://relaylive.aolabs.io/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AO Labs" />
   <meta property="og:title" content="Relay Live" />
-  <meta property="og:description" content="Relay money path, workability, sends, replies, payments, and action needed." />
+  <meta property="og:description" content="Basic Relay status: backend, replies, money, sends, clean leads, and all-time sends." />
   <meta property="og:url" content="https://relaylive.aolabs.io/" />
   <meta property="og:image" content="https://relaylive.aolabs.io/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Relay Live" />
-  <meta name="twitter:description" content="Relay money path, workability, sends, replies, payments, and action needed." />
+  <meta name="twitter:description" content="Basic Relay status: backend, replies, money, sends, clean leads, and all-time sends." />
   <meta name="twitter:image" content="https://relaylive.aolabs.io/og-image.png" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="shortcut icon" href="/favicon.svg">
@@ -166,7 +166,7 @@
 
     .tabs {
       display: inline-grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 6px;
       min-width: min(520px, 100%);
       border: 1px solid var(--line);
@@ -209,125 +209,17 @@
       display: none;
     }
 
-    .command {
-      min-height: 0;
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
-      gap: 12px;
-    }
-
-    .command > *,
     .panels > *,
     .facts > * {
       min-width: 0;
     }
 
-    .state,
-    .interrupts,
     .fact,
     .panel,
     details {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: rgba(23, 27, 32, 0.96);
-    }
-
-    .state {
-      padding: clamp(18px, 3.4vw, 32px);
-      display: grid;
-      align-content: space-between;
-      gap: 22px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .state::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(125deg, rgba(105, 213, 139, 0.1), transparent 44%);
-      pointer-events: none;
-    }
-
-    .state.needs::before {
-      background: linear-gradient(125deg, rgba(255, 123, 131, 0.12), transparent 44%);
-    }
-
-    .state.wait::before {
-      background: linear-gradient(125deg, rgba(237, 199, 111, 0.13), transparent 44%);
-    }
-
-    .state-main {
-      position: relative;
-      z-index: 1;
-    }
-
-    .mode {
-      width: fit-content;
-      margin-bottom: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      border: 1px solid rgba(244, 240, 232, 0.16);
-      border-radius: 8px;
-      padding: 8px 10px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0;
-      background: rgba(16, 18, 20, 0.48);
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 99px;
-      background: var(--good);
-      box-shadow: 0 0 0 5px rgba(105, 213, 139, 0.14);
-    }
-
-    .dot.wait {
-      background: var(--amber);
-      box-shadow: 0 0 0 5px rgba(237, 199, 111, 0.14);
-    }
-
-    .dot.bad {
-      background: var(--bad);
-      box-shadow: 0 0 0 5px rgba(255, 123, 131, 0.14);
-    }
-
-    .state-title {
-      margin: 0;
-      font-size: clamp(42px, 6.2vw, 80px);
-      line-height: 0.96;
-      letter-spacing: 0;
-    }
-
-    .state-body {
-      max-width: 760px;
-      margin: 12px 0 0;
-      color: #d8d0c4;
-      font-size: clamp(16px, 1.55vw, 22px);
-      line-height: 1.35;
-      overflow-wrap: anywhere;
-    }
-
-    .contract {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .contract div {
-      min-height: 68px;
-      min-width: 0;
-      border: 1px solid rgba(244, 240, 232, 0.12);
-      border-radius: 8px;
-      padding: 12px;
-      background: rgba(16, 18, 20, 0.52);
     }
 
     .label {
@@ -338,59 +230,12 @@
       letter-spacing: 0;
     }
 
-    .contract strong,
     .fact strong {
       display: block;
       margin-top: 8px;
       font-size: 16px;
       line-height: 1.15;
       overflow-wrap: anywhere;
-    }
-
-    .interrupts {
-      padding: 18px;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .signal-map {
-      width: 100%;
-      min-height: 118px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #11161c;
-    }
-
-    .interrupts h2 {
-      margin-bottom: 0;
-      font-size: 24px;
-      line-height: 1.05;
-      letter-spacing: 0;
-    }
-
-    ul {
-      display: grid;
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    li {
-      border-left: 3px solid var(--blue);
-      padding-left: 11px;
-      color: var(--muted);
-      line-height: 1.42;
-    }
-
-    li.hot {
-      border-left-color: var(--bad);
-      color: var(--text);
-    }
-
-    li.good {
-      border-left-color: var(--good);
     }
 
     .facts {
@@ -418,257 +263,6 @@
     .fact .detail {
       font-size: 12px;
       line-height: 1.35;
-    }
-
-    .money-board {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) minmax(0, 0.8fr);
-      gap: 12px;
-    }
-
-    .money-card {
-      min-width: 0;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      background: rgba(23, 27, 32, 0.96);
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .money-card.primary {
-      border-color: rgba(105, 213, 139, 0.32);
-      background:
-        linear-gradient(135deg, rgba(105, 213, 139, 0.09), transparent 44%),
-        rgba(23, 27, 32, 0.96);
-    }
-
-    .money-card h3 {
-      font-size: 18px;
-    }
-
-    .money-card .big {
-      font-size: clamp(30px, 4vw, 48px);
-      font-weight: 950;
-      line-height: 0.95;
-      color: var(--money);
-      overflow-wrap: anywhere;
-    }
-
-    .money-copy {
-      margin: 0;
-      color: #d8d0c4;
-      font-size: 14px;
-      line-height: 1.48;
-    }
-
-    .scenario-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .scenario {
-      min-width: 0;
-      min-height: 78px;
-      border: 1px solid rgba(244, 240, 232, 0.12);
-      border-radius: 8px;
-      padding: 11px;
-      background: rgba(16, 18, 20, 0.52);
-    }
-
-    .scenario span {
-      display: block;
-      color: var(--quiet);
-      font-size: 11px;
-      font-weight: 850;
-      text-transform: uppercase;
-    }
-
-    .scenario strong {
-      display: block;
-      margin-top: 8px;
-      font-size: 21px;
-      line-height: 1;
-    }
-
-    .bar {
-      height: 9px;
-      border-radius: 999px;
-      background: #262d35;
-      overflow: hidden;
-    }
-
-    .bar > span {
-      display: block;
-      width: 0;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--blue), var(--good));
-      transition: width 200ms ease;
-    }
-
-    .check-contract {
-      display: grid;
-      gap: 9px;
-    }
-
-    .check-row {
-      display: grid;
-      grid-template-columns: 88px minmax(0, 1fr);
-      gap: 10px;
-      align-items: start;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    .check-row strong {
-      color: var(--text);
-      font-weight: 900;
-    }
-
-    .pressure-strip {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-      gap: 12px;
-    }
-
-    .pressure-card {
-      min-width: 0;
-      border: 1px solid rgba(255, 123, 131, 0.24);
-      border-radius: 8px;
-      padding: 16px;
-      background:
-        linear-gradient(135deg, rgba(255, 123, 131, 0.08), transparent 48%),
-        rgba(23, 27, 32, 0.96);
-      display: grid;
-      gap: 10px;
-    }
-
-    .pressure-card.good {
-      border-color: rgba(105, 213, 139, 0.28);
-      background:
-        linear-gradient(135deg, rgba(105, 213, 139, 0.08), transparent 48%),
-        rgba(23, 27, 32, 0.96);
-    }
-
-    .pressure-card .metric {
-      font-size: 28px;
-      line-height: 1;
-      font-weight: 950;
-      overflow-wrap: anywhere;
-    }
-
-    .pressure-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.42;
-    }
-
-    .belief-board {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr) minmax(0, 0.9fr);
-      gap: 12px;
-    }
-
-    .belief-card {
-      min-width: 0;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 16px;
-      background: rgba(23, 27, 32, 0.96);
-      display: grid;
-      gap: 12px;
-      align-content: start;
-    }
-
-    .belief-card.primary {
-      border-color: rgba(120, 174, 245, 0.34);
-      background:
-        linear-gradient(135deg, rgba(120, 174, 245, 0.1), transparent 46%),
-        rgba(23, 27, 32, 0.96);
-    }
-
-    .belief-score {
-      color: var(--blue);
-      font-size: clamp(30px, 4vw, 48px);
-      font-weight: 950;
-      line-height: 0.95;
-      overflow-wrap: anywhere;
-    }
-
-    .belief-card h3 {
-      margin-bottom: 0;
-    }
-
-    .belief-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .belief-board.simple {
-      grid-template-columns: 1fr;
-    }
-
-    .belief-card.simple {
-      grid-template-columns: 160px minmax(0, 1fr);
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-    }
-
-    .belief-card.simple .meter-track {
-      grid-column: 1 / -1;
-    }
-
-    .belief-status {
-      min-width: 0;
-    }
-
-    .belief-copy {
-      min-width: 0;
-      display: grid;
-      gap: 6px;
-    }
-
-    .path-line {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 2px;
-    }
-
-    .path-chip {
-      border: 1px solid rgba(244, 240, 232, 0.12);
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(16, 18, 20, 0.42);
-      font-size: 12px;
-      font-weight: 800;
-      padding: 5px 8px;
-      white-space: nowrap;
-    }
-
-    .meter-track {
-      width: 100%;
-      height: 9px;
-      border-radius: 999px;
-      background: #262d35;
-      overflow: hidden;
-    }
-
-    .meter-track > span {
-      display: block;
-      width: 0;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, var(--blue), var(--good));
-      transition: width 200ms ease;
     }
 
     .panels {
@@ -849,48 +443,13 @@
       font-weight: 850;
     }
 
-    .audit {
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .audit-row {
-      min-height: 58px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px;
-      background: rgba(16, 18, 20, 0.44);
-      overflow-wrap: anywhere;
-    }
-
-    .audit-row span {
-      display: block;
-      color: var(--quiet);
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 850;
-    }
-
-    .audit-row strong {
-      display: block;
-      margin-top: 6px;
-      font-size: 14px;
-      line-height: 1.2;
-    }
-
     .small {
       font-size: 12px;
       line-height: 1.35;
     }
 
     @media (max-width: 1100px) {
-      .command,
-      .panels,
-      .money-board,
-      .pressure-strip,
-      .belief-board {
+      .panels {
         grid-template-columns: 1fr;
       }
 
@@ -925,48 +484,20 @@
         width: 100%;
       }
 
-      .contract,
-      .facts,
-      .belief-board,
-      .scenario-grid,
-      .audit {
+      .facts {
         grid-template-columns: 1fr;
-      }
-
-      .command {
-        min-height: 0;
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .state-title {
-        font-size: 54px;
       }
 
       .app {
         width: calc(100vw - 14px);
       }
 
-      .state,
-      .interrupts,
       .panel,
       details {
         overflow: hidden;
       }
 
-      .state {
-        padding: 24px;
-      }
-
-      .belief-card.simple {
-        grid-template-columns: 1fr;
-      }
-
-      .state-body,
-      .contract strong,
       .fact .value,
-      .money-card .big,
-      .belief-score,
-      .pressure-card .metric,
       .event-title,
       .event-sub,
       .event-preview {
@@ -982,7 +513,7 @@
         <div class="mark">AO</div>
         <div>
           <h1>Relay Live</h1>
-          <p class="subtle">Money path and workability monitor.</p>
+          <p class="subtle">Basic Relay status.</p>
         </div>
       </div>
       <div class="actions">
@@ -995,72 +526,11 @@
       <div class="tabs" role="tablist">
         <button class="tab" id="overviewTab" type="button" role="tab" data-tab="overview" aria-controls="overviewPanel" aria-selected="true">Overview</button>
         <button class="tab" id="mailTab" type="button" role="tab" data-tab="mail" aria-controls="mailPanel" aria-selected="false">Mail</button>
-        <button class="tab" id="auditTab" type="button" role="tab" data-tab="audit" aria-controls="auditPanel" aria-selected="false">Audit</button>
       </div>
       <span class="small" id="lastUpdated">Not loaded yet</span>
     </nav>
 
     <section class="tab-panel" id="overviewPanel" role="tabpanel" aria-labelledby="overviewTab" data-panel="overview">
-      <section class="command">
-        <div class="state" id="statePanel">
-          <div class="state-main">
-            <div class="mode"><span class="dot" id="stateDot"></span><span id="modeText">Checking</span></div>
-            <h2 class="state-title" id="stateTitle">Reading Relay</h2>
-            <p class="state-body" id="stateBody">Checking the live backend before saying anything.</p>
-          </div>
-
-          <div class="contract">
-            <div>
-              <p class="label">You step in</p>
-              <strong id="stepInRule">Only for replies, payments, or failures.</strong>
-            </div>
-            <div>
-              <p class="label">System job</p>
-              <strong id="systemJob">Send clean leads and watch replies.</strong>
-            </div>
-            <div>
-              <p class="label">Next check</p>
-              <strong id="nextCheck">After the send window.</strong>
-            </div>
-          </div>
-        </div>
-
-        <aside class="interrupts">
-          <svg class="signal-map" viewBox="0 0 480 180" role="img" aria-label="Relay flow from clean leads to sends, replies, and paid tests">
-            <defs>
-              <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#78aef5"></stop>
-                <stop offset="0.55" stop-color="#69d58b"></stop>
-                <stop offset="1" stop-color="#edc76f"></stop>
-              </linearGradient>
-            </defs>
-            <path d="M52 92 C126 30, 178 150, 250 90 S365 48, 430 88" fill="none" stroke="url(#flow)" stroke-width="5" stroke-linecap="round"></path>
-            <g fill="#171b20" stroke="#303843" stroke-width="2">
-              <circle cx="52" cy="92" r="23"></circle>
-              <circle cx="190" cy="112" r="23"></circle>
-              <circle cx="322" cy="72" r="23"></circle>
-              <circle cx="430" cy="88" r="23"></circle>
-            </g>
-            <g fill="#f4f0e8" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="800" text-anchor="middle">
-              <text x="52" y="137">leads</text>
-              <text x="190" y="157">sends</text>
-              <text x="322" y="117">replies</text>
-              <text x="430" y="133">paid</text>
-            </g>
-          </svg>
-
-          <div>
-            <p class="label">Interrupt Conditions</p>
-            <h2 id="interruptTitle">No open loop yet.</h2>
-          </div>
-          <ul>
-            <li id="conditionHealth">Backend health is still being checked.</li>
-            <li id="conditionReply">Replies are still being checked.</li>
-            <li id="conditionMoney">Payments are still being checked.</li>
-          </ul>
-        </aside>
-      </section>
-
       <section class="facts" aria-label="Current Relay facts">
         <article class="fact">
           <p class="label">Backend</p>
@@ -1080,87 +550,17 @@
         <article class="fact">
           <p class="label">Sends</p>
           <div class="value" id="sendsValue">--</div>
-          <div class="detail" id="sendsDetail">cap</div>
+          <div class="detail" id="sendsDetail">today</div>
         </article>
         <article class="fact">
           <p class="label">Clean Leads</p>
           <div class="value" id="directValue">--</div>
-          <div class="detail" id="directDetail">direct due</div>
+          <div class="detail" id="directDetail">clean leads</div>
         </article>
         <article class="fact">
           <p class="label">All-Time Sends</p>
           <div class="value" id="totalSendsValue">--</div>
-          <div class="detail" id="totalSendsDetail">sent since launch</div>
-        </article>
-      </section>
-
-      <section class="pressure-strip" aria-label="Cash pressure mode">
-        <article class="pressure-card" id="gapCard">
-          <p class="label">Cash Pressure Mode</p>
-          <div class="metric" id="weeklyGapValue">--</div>
-          <p id="weeklyGapBody">Checking how far this week is from the minimum target.</p>
-        </article>
-        <article class="pressure-card good" id="nextCashCard">
-          <p class="label">Next Cash Move</p>
-          <div class="metric" id="nextCashValue">--</div>
-          <p id="nextCashBody">The next action depends on replies, payments, sends, and clean lead supply.</p>
-        </article>
-        <article class="pressure-card" id="stopRuleCard">
-          <p class="label">Stop Rule</p>
-          <div class="metric" id="stopRuleValue">Signal</div>
-          <p id="stopRuleBody">If Relay gives no reply signal after a clean run, change targeting or offer clarity. Do not just wait harder.</p>
-        </article>
-      </section>
-
-      <section class="belief-board simple" aria-label="Relay workability">
-        <article class="belief-card primary simple">
-          <div class="belief-status">
-            <p class="label">Money path</p>
-            <div class="belief-score" id="beliefScore">--</div>
-          </div>
-          <div class="belief-copy">
-            <h3 id="beliefTitle">Checking the actual path</h3>
-            <p id="beliefBody">Relay Live is reading sends, lead supply, reply signal, money signal, and backend health.</p>
-            <div class="path-line" id="pathLine"></div>
-          </div>
-          <div class="meter-track" aria-hidden="true"><span id="beliefBar"></span></div>
-        </article>
-      </section>
-
-      <section class="money-board" aria-label="Relay money potential">
-        <article class="money-card primary">
-          <div>
-            <p class="label">Money Case</p>
-            <h3 id="moneyCaseTitle">Waiting for live data</h3>
-          </div>
-          <div class="big" id="moneyCaseValue">--</div>
-          <p class="money-copy" id="moneyCaseBody">Relay Live is checking inventory, send history, and the $40 test path.</p>
-          <div class="bar" aria-hidden="true"><span id="moneyCaseBar"></span></div>
-        </article>
-
-        <article class="money-card">
-          <div>
-            <p class="label">$100/week math</p>
-            <h3>Small numbers can matter</h3>
-          </div>
-          <div class="scenario-grid">
-            <div class="scenario"><span>1 paid test</span><strong id="scenarioOne">$40</strong></div>
-            <div class="scenario"><span>3 paid tests</span><strong id="scenarioThree">$120</strong></div>
-            <div class="scenario"><span>5 paid tests</span><strong id="scenarioFive">$200</strong></div>
-          </div>
-          <p class="money-copy" id="scenarioBody">The goal is not huge volume. It is enough qualified conversations that a few people buy the low-friction test.</p>
-        </article>
-
-        <article class="money-card">
-          <div>
-            <p class="label">When Waiting Feels Bad</p>
-            <h3 id="waitTitle">Use the signal rules</h3>
-          </div>
-          <div class="check-contract">
-            <div class="check-row"><strong>Green</strong><span id="greenRule">Backend healthy and leads/sends exist.</span></div>
-            <div class="check-row"><strong>Red</strong><span id="redRule">Reply, payment, or backend failure.</span></div>
-            <div class="check-row"><strong>Check</strong><span id="checkRule">Let auto-refresh watch it. Manual refresh does not create replies.</span></div>
-          </div>
+          <div class="detail" id="totalSendsDetail">all outbound emails</div>
         </article>
       </section>
     </section>
@@ -1204,22 +604,10 @@
       </article>
     </section>
 
-    <section class="tab-panel" id="auditPanel" role="tabpanel" aria-labelledby="auditTab" data-panel="audit" hidden>
-      <article class="panel">
-        <div class="panel-head">
-          <h3>Audit Trail</h3>
-          <span class="small">Raw Relay counters</span>
-        </div>
-        <div class="audit" id="auditGrid"></div>
-      </article>
-    </section>
   </main>
 
   <script>
     const BASE = "https://alan-operator-backend-production.up.railway.app";
-    const PACKET_PRICE = 40;
-    const TARGET_WEEKLY_TESTS = 3;
-    const TARGET_WEEKLY_REVENUE = 100;
     let latest = null;
     const messageEvents = new Map();
     let selectedMessageKey = "";
@@ -1237,10 +625,6 @@
 
     function money(value) {
       return "$" + Number(value || 0).toFixed(0);
-    }
-
-    function compactMoney(value) {
-      return "$" + Number(value || 0).toFixed(2);
     }
 
     function time(value = new Date()) {
@@ -1283,132 +667,6 @@
       }
     }
 
-    function windowState(status) {
-      const open = Boolean(status.send_window_is_open);
-      const start = status.send_window_start_local ? new Date(status.send_window_start_local) : null;
-      const end = status.send_window_end_local ? new Date(status.send_window_end_local) : null;
-      return { open, start, end, timezone: status.send_window_timezone || "America/New_York" };
-    }
-
-    function classify(health, status, cash) {
-      const healthy = health && health.status === "healthy";
-      const replies = Number(status.replies_today || 0);
-      const todayMoney = Number(cash.today?.gross_usd || 0);
-      const todayPayments = Number(cash.today?.payments_count || 0);
-      const sent = Number(status.sent_today || 0);
-      const cap = Number(status.daily_send_cap || 0);
-      const capRemaining = Number(status.cap_remaining || Math.max(cap - sent, 0));
-      const directDue = Number(status.direct_due_count || 0);
-      const directActive = Number(status.direct_inbox_count || 0);
-      const win = windowState(status);
-
-      if (!healthy) {
-        return {
-          kind: "needs",
-          title: "Needs attention",
-          mode: "System issue",
-          body: "Relay could not prove the backend is healthy. This is worth checking before thinking about money.",
-          interrupt: "Backend issue.",
-          next: "Check Railway/backend.",
-        };
-      }
-
-      if (todayMoney > 0 || todayPayments > 0) {
-        return {
-          kind: "needs",
-          title: "Money landed",
-          mode: "Step in",
-          body: "A payment exists. The highest-value action is fulfillment, not monitoring.",
-          interrupt: "Payment needs fulfillment.",
-          next: "Fulfill the paid test.",
-        };
-      }
-
-      if (replies > 0) {
-        return {
-          kind: "needs",
-          title: "Reply signal",
-          mode: "Step in",
-          body: "A human replied. That is the signal closest to money. Handle the reply before changing the system.",
-          interrupt: "Reply needs handling.",
-          next: "Open the reply.",
-        };
-      }
-
-      if (directDue <= 0 && directActive <= 0) {
-        return {
-          kind: "wait",
-          title: "Needs leads",
-          mode: "System input",
-          body: "There are no clean direct leads ready. This is a lead-supply problem, not a reason to stare at Gmail.",
-          interrupt: "Clean lead supply is empty.",
-          next: "Refill decision-maker leads.",
-        };
-      }
-
-      if (cap > 0 && capRemaining <= 0) {
-        return {
-          kind: "good",
-          title: "In market",
-          mode: "Waiting on buyers",
-          body: "Today's send batch is out. The money potential is sitting in inboxes now; the useful signal is a reply, a payment, or a system failure.",
-          interrupt: "No human action right now.",
-          next: "Next send window.",
-        };
-      }
-
-      if (!win.open && directDue > 0) {
-        return {
-          kind: "good",
-          title: "Loaded",
-          mode: "Waiting",
-          body: "Clean direct leads are ready. The system has inventory; the next useful event is the send window.",
-          interrupt: "No human action right now.",
-          next: "Send window.",
-        };
-      }
-
-      if (win.open && directDue > 0 && capRemaining > 0) {
-        return {
-          kind: "wait",
-          title: "Working window",
-          mode: "Observe",
-          body: "The send window is open and clean leads are due. Let the workflow run; only step in if sends do not move or a reply appears.",
-          interrupt: "Only if sends stall.",
-          next: "After this cycle.",
-        };
-      }
-
-      return {
-        kind: "good",
-        title: "Quiet",
-        mode: "Monitoring",
-        body: "Relay is online. No reply, payment, or failure needs you right now.",
-        interrupt: "No human action right now.",
-        next: "Next scheduled check.",
-      };
-    }
-
-    function setState(classification) {
-      const panel = $("statePanel");
-      const dot = $("stateDot");
-      panel.classList.remove("needs", "wait");
-      dot.classList.remove("bad", "wait");
-      if (classification.kind === "needs") {
-        panel.classList.add("needs");
-        dot.classList.add("bad");
-      }
-      if (classification.kind === "wait") {
-        panel.classList.add("wait");
-        dot.classList.add("wait");
-      }
-      $("modeText").textContent = classification.mode;
-      $("stateTitle").textContent = classification.title;
-      $("stateBody").textContent = classification.body;
-      $("interruptTitle").textContent = classification.interrupt;
-      $("nextCheck").textContent = classification.next;
-    }
-
     function fullMessageBody(event) {
       return String(
         event.body_text ||
@@ -1438,248 +696,6 @@
       ];
       const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
       return value === undefined ? null : Number(value || 0);
-    }
-
-    function totalReplies(status) {
-      const candidates = [
-        status.total_replies_all_time,
-        status.total_reply_count,
-        status.all_time_replies,
-        status.replies_all_time,
-        status.total_replies,
-      ];
-      const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
-      return value === undefined ? null : Number(value || 0);
-    }
-
-    function loopState(status) {
-      return status.money_loop && typeof status.money_loop === "object" ? status.money_loop : {};
-    }
-
-    function loopPhrase(status) {
-      const loop = loopState(status);
-      if (loop.enabled === true && loop.running === true) return "money loop running";
-      if (loop.enabled === true) return "money loop on";
-      if (loop.enabled === false) return "money loop off";
-      return "money loop not reported";
-    }
-
-    function refillPhrase(status) {
-      const loop = loopState(status);
-      const result = loop.last_manual_result || loop.last_result || null;
-      const refill = result && result.refill_result ? result.refill_result : null;
-      if (!refill) return "";
-      const fallback = refill.fallback_result || null;
-      if (refill.status === "degraded_ok" && fallback) {
-        return `Apollo blocked; Apify imported ${fallback.upserted ?? 0}/${fallback.searched ?? 0}.`;
-      }
-      if (refill.status === "error") return `Lead refill error: ${refill.reason || "failed"}.`;
-      if (refill.status === "skipped") return `Lead refill skipped: ${refill.reason || "not needed"}.`;
-      if (refill.status === "ok") return `Lead refill added ${refill.upserted ?? 0}/${refill.searched ?? 0}.`;
-      return "";
-    }
-
-    function sendWindowPhrase(status) {
-      const win = windowState(status);
-      if (win.open) return "send window open";
-      if (win.start) {
-        return `next send window: ${win.start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} ET`;
-      }
-      return "send window closed";
-    }
-
-    function clamp(value, min, max) {
-      return Math.max(min, Math.min(max, value));
-    }
-
-    function percent(value, total) {
-      if (!total || total <= 0) return 0;
-      return clamp(Math.round((Number(value || 0) / total) * 100), 0, 100);
-    }
-
-    function updateBeliefBoard(status, cash, classification) {
-      const healthy = latest?.health?.status === "healthy";
-      const sent = Number(status.sent_today || 0);
-      const cap = Number(status.daily_send_cap || 0);
-      const allTimeSends = totalSends(status) || 0;
-      const todayReplies = Number(status.replies_today || 0);
-      const allTimeReplies = totalReplies(status);
-      const replySignal = allTimeReplies !== null ? allTimeReplies : todayReplies;
-      const todayMoney = Number(cash.today?.gross_usd || 0);
-      const weekMoney = Number(cash.week?.gross_usd || 0);
-      const directDue = Number(status.direct_due_count || 0);
-      const directActive = Number(status.direct_inbox_count || 0);
-      const inventory = directDue + directActive;
-      const genericPaused = Number(status.generic_paused_count || 0);
-      const win = windowState(status);
-      const capRemaining = Number(status.cap_remaining || Math.max(cap - sent, 0));
-
-      let score = 18;
-      if (healthy) score += 18;
-      if (allTimeSends > 0 || sent > 0) score += 18;
-      if (inventory > 0) score += 14;
-      if (directDue > 0) score += 10;
-      if (todayReplies > 0 || replySignal > 0) score += 20;
-      if (todayMoney > 0 || weekMoney > 0) score += 24;
-      if (!healthy) score = 12;
-      score = clamp(score, 0, 100);
-
-      let label = "Testable";
-      let title = "This is still a real experiment";
-      let body = "The path is simple enough to test: qualified leads see a clear $40 offer, replies create conversations, and payments prove demand. The current job is to keep the machine observable and change only when the signal says to.";
-
-      if (!healthy) {
-        label = "Fix first";
-        title = "Money cannot be judged while the backend is unhealthy";
-        body = "A broken monitor or backend is not market feedback. Fix health first, then judge sends, replies, and payments.";
-      } else if (todayMoney > 0 || weekMoney > 0) {
-        label = "Proven";
-        title = "Payment signal exists";
-        body = "A payment is the strongest proof. Fulfillment and repeatability matter more than more dashboard watching.";
-      } else if (todayReplies > 0 || replySignal > 0) {
-        label = "Signal";
-        title = "Someone answered";
-        body = "Replies are the bridge between cold outreach and money. The next move is to understand the objection or interest, then route real buyers to the paid test.";
-      } else if ((allTimeSends || sent) >= 50 && todayReplies <= 0) {
-        label = "Diagnose";
-        title = "Enough exposure to improve the experiment";
-        body = "Zero replies after a clean send sample is useful information. It means adjust targeting, subject line, or first sentence. It does not mean the business is dead.";
-      } else if (directDue > 0 || capRemaining > 0 || sent > 0) {
-        label = "Running";
-        title = "The machine has a next move";
-        body = "Relay has either sent, has clean leads due, or has capacity remaining. This is not a blank page; it is a sales test in progress.";
-      } else if (genericPaused > 0 && directDue <= 0) {
-        label = "Refill";
-        title = "The bottleneck is lead quality";
-        body = "Generic inboxes are paused because they are weaker. The path improves by feeding better direct decision-maker leads, not by forcing bad volume.";
-      }
-
-      $("beliefTitle").textContent = title;
-      $("beliefScore").textContent = label;
-      $("beliefBody").textContent = body;
-      $("beliefBar").style.width = score + "%";
-
-      const nextChip = !healthy
-        ? "next: fix backend"
-        : todayReplies > 0
-          ? "next: answer reply"
-          : todayMoney > 0 || weekMoney > 0
-            ? "next: fulfill"
-            : directDue > 0
-              ? `next: ${sendWindowPhrase(status)}`
-              : "next: refill leads";
-      const chips = [
-        healthy ? "backend OK" : "backend issue",
-        `${allTimeSends || sent} sent`,
-        `${directDue} due`,
-        replySignal > 0 ? `${replySignal} replies` : "no replies yet",
-        nextChip,
-      ];
-      $("pathLine").innerHTML = chips.map((chip) => `<span class="path-chip">${esc(chip)}</span>`).join("");
-    }
-
-    function updateMoneyBoard(status, cash, classification) {
-      const sent = Number(status.sent_today || 0);
-      const cap = Number(status.daily_send_cap || 0);
-      const directDue = Number(status.direct_due_count || 0);
-      const directActive = Number(status.direct_inbox_count || 0);
-      const genericPaused = Number(status.generic_paused_count || 0);
-      const allTimeSends = totalSends(status) || 0;
-      const replies = Number(status.replies_today || 0);
-      const refill = refillPhrase(status);
-      const todayMoney = Number(cash.today?.gross_usd || 0);
-      const weekMoney = Number(cash.week?.gross_usd || 0);
-      const weekPayments = Number(cash.week?.payments_count || 0);
-      const inventory = directDue + directActive;
-      const sendProgress = percent(sent, cap || TARGET_WEEKLY_TESTS);
-      const weekProgress = percent(weekMoney, TARGET_WEEKLY_REVENUE);
-      const inventoryValue = inventory * PACKET_PRICE;
-      const dueValue = directDue * PACKET_PRICE;
-      const weeklyGap = Math.max(0, TARGET_WEEKLY_REVENUE - weekMoney);
-      const paidTestsNeeded = Math.ceil(weeklyGap / PACKET_PRICE);
-      const sentEnoughToday = cap > 0 && sent >= cap;
-
-      $("scenarioOne").textContent = money(PACKET_PRICE);
-      $("scenarioThree").textContent = money(PACKET_PRICE * TARGET_WEEKLY_TESTS);
-      $("scenarioFive").textContent = money(PACKET_PRICE * 5);
-      $("weeklyGapValue").textContent = weeklyGap > 0 ? money(weeklyGap) : "Covered";
-      $("weeklyGapBody").textContent = weeklyGap > 0
-        ? `${paidTestsNeeded} more paid test${paidTestsNeeded === 1 ? "" : "s"} at ${money(PACKET_PRICE)} would clear the ${money(TARGET_WEEKLY_REVENUE)}/week floor. This is the real pressure number.`
-        : `${money(weekMoney)} is already recorded this week. The job becomes fulfillment and repeatability.`;
-
-      if (todayMoney > 0) {
-        $("moneyCaseTitle").textContent = "Money already proved today";
-        $("moneyCaseValue").textContent = money(todayMoney);
-        $("moneyCaseBody").textContent = `${cash.today?.payments_count || 0} paid test(s) today. Fulfillment is now worth more than watching the dashboard.`;
-        $("moneyCaseBar").style.width = percent(todayMoney, TARGET_WEEKLY_REVENUE) + "%";
-      } else if (replies > 0) {
-        $("moneyCaseTitle").textContent = "Reply signal exists";
-        $("moneyCaseValue").textContent = `${replies} reply${replies === 1 ? "" : "ies"}`;
-        $("moneyCaseBody").textContent = "This is the closest non-money signal. Open the reply, keep the response simple, and move toward the $40 test only if there is real interest.";
-        $("moneyCaseBar").style.width = "72%";
-      } else if (allTimeSends > 0 || sent > 0) {
-        $("moneyCaseTitle").textContent = "The market has been contacted";
-        $("moneyCaseValue").textContent = `${allTimeSends || sent} sends`;
-        $("moneyCaseBody").textContent = `${sent}/${cap || 0} sent today. ${directDue} clean leads are still due. At $40 per test, the current clean-due batch represents ${money(dueValue)} of possible test inventory, not a forecast.`;
-        $("moneyCaseBar").style.width = Math.max(sendProgress, 18) + "%";
-      } else if (inventory > 0) {
-        $("moneyCaseTitle").textContent = "Inventory exists";
-        $("moneyCaseValue").textContent = `${inventory} leads`;
-        $("moneyCaseBody").textContent = `${directDue} clean leads are due and ${directActive} are active. At $40 per test, the current direct inventory is ${money(inventoryValue)} of possible test inventory, not guaranteed revenue.`;
-        $("moneyCaseBar").style.width = "32%";
-      } else if (classification.kind === "needs") {
-        $("moneyCaseTitle").textContent = "Fix the system first";
-        $("moneyCaseValue").textContent = "Issue";
-        $("moneyCaseBody").textContent = "Money potential cannot be read until the backend is healthy. This is an operations problem, not evidence that Relay cannot work.";
-        $("moneyCaseBar").style.width = "8%";
-      } else {
-        $("moneyCaseTitle").textContent = "Waiting for inventory";
-        $("moneyCaseValue").textContent = "--";
-        $("moneyCaseBody").textContent = "There is no clean signal to interpret yet. The next useful move is lead supply, not refreshing.";
-        $("moneyCaseBar").style.width = "0%";
-      }
-
-      if (replies > 0) {
-        $("nextCashValue").textContent = "Reply";
-        $("nextCashBody").textContent = "Highest-leverage move: answer the real person and move only genuine interest toward the $40 test.";
-      } else if (todayMoney > 0) {
-        $("nextCashValue").textContent = "Fulfill";
-        $("nextCashBody").textContent = "A buyer paid. Fast fulfillment matters more than more checking.";
-      } else if (sentEnoughToday) {
-        $("nextCashValue").textContent = "Wait";
-        $("nextCashBody").textContent = "Today's batch is already in market. A refresh cannot create replies. Watch for red signals.";
-      } else if (directDue > 0) {
-        $("nextCashValue").textContent = "Send";
-        $("nextCashBody").textContent = `Clean leads are ready. ${status.next_money_move || "Let the send cycle run."}${refill ? " " + refill : ""}`;
-      } else {
-        $("nextCashValue").textContent = "Leads";
-        $("nextCashBody").textContent = `No clean lead supply means no money path. The next useful input is better qualified founder-led agency leads.${refill ? " " + refill : ""}`;
-      }
-
-      if (classification.kind === "needs") {
-        $("stopRuleValue").textContent = "Fix";
-        $("stopRuleBody").textContent = "Backend or payment/reply handling comes before any more waiting.";
-      } else if ((allTimeSends || sent) >= 50 && replies <= 0) {
-        $("stopRuleValue").textContent = "Adjust";
-        $("stopRuleBody").textContent = "Enough emails have gone out to take zero replies seriously. Next change should be targeting and opener clarity, not volume.";
-      } else if (sentEnoughToday) {
-        $("stopRuleValue").textContent = "Hold";
-        $("stopRuleBody").textContent = "Today's batch is out. The stop rule is simple: no action unless reply, payment, failure, or repeated zero-signal days.";
-      } else {
-        $("stopRuleValue").textContent = "Run";
-        $("stopRuleBody").textContent = "The system still has an operational next step. Let it run before interpreting the result.";
-      }
-
-      $("scenarioBody").textContent = `${TARGET_WEEKLY_TESTS} paid tests at ${money(PACKET_PRICE)} each is ${money(PACKET_PRICE * TARGET_WEEKLY_TESTS)}. This clears the $${TARGET_WEEKLY_REVENUE}/week target without needing a large number of buyers.`;
-      $("greenRule").textContent = `Healthy backend, ${loopPhrase(status)}, ${allTimeSends || 0} all-time sends, ${directDue} clean leads due, ${genericPaused} generic paused.${refill ? " " + refill : ""}`;
-      $("redRule").textContent = "Reply, payment, backend failure, or send count stuck during an open window.";
-      $("checkRule").textContent = weekMoney > 0
-        ? `${money(weekMoney)} this week from ${weekPayments} paid test(s). Next useful check: fulfillment and replies.`
-        : "Let auto-refresh watch it. A manual refresh only matters when the red rule is true.";
-      $("waitTitle").textContent = classification.kind === "needs" ? "Act only on red" : "Do not turn quiet into panic";
-      if (weekProgress > 0 && todayMoney <= 0) {
-        $("moneyCaseBar").style.width = Math.max(Number.parseInt($("moneyCaseBar").style.width || "0", 10), weekProgress) + "%";
-      }
     }
 
     function updateSelectedEventButtons() {
@@ -1768,80 +784,27 @@
       }).join("");
     }
 
-    function auditRows(status, cash) {
-      const loop = loopState(status);
-      const rows = [
-        ["Reply mailbox", status.reply_mailbox_address || "--"],
-        ["Reply-To", status.reply_to_email || "--"],
-        ["Auto-close", status.reply_autoclose_mode || "not reported"],
-        ["Money loop", loopPhrase(status)],
-        ["Last loop tick", loop.last_tick_at ? ago(loop.last_tick_at) : "--"],
-        ["Last manual kick", loop.last_manual_kick_at ? ago(loop.last_manual_kick_at) : "--"],
-        ["Refill result", refillPhrase(status) || "--"],
-        ["Provider", status.provider || "--"],
-        ["Mailboxes", status.smtp_mailboxes_configured ?? 0],
-        ["Per mailbox cap", status.per_mailbox_daily_cap ?? "--"],
-        ["Sender counts", JSON.stringify(status.sender_counts_today || {})],
-        ["Direct active", status.direct_inbox_count ?? 0],
-        ["Generic active", status.generic_inbox_count ?? 0],
-        ["Direct due", status.direct_due_count ?? 0],
-        ["Generic due", status.generic_due_count ?? 0],
-        ["Generic paused", status.generic_paused_count ?? 0],
-        ["All-time sends", totalSends(status) ?? "--"],
-        ["Raw due", status.raw_due_now_count ?? status.due_now_count ?? 0],
-        ["Cap remaining", status.cap_remaining ?? 0],
-        ["Week money", compactMoney(cash.week?.gross_usd || 0)],
-        ["Month money", compactMoney(cash.month?.gross_usd || 0)],
-      ];
-
-      $("auditGrid").innerHTML = rows.map(([key, value]) => `
-        <div class="audit-row"><span>${esc(key)}</span><strong>${esc(value)}</strong></div>
-      `).join("");
-    }
-
     function render(health, status, cash) {
       latest = { health, status, cash };
-      const classification = classify(health, status, cash);
-      setState(classification);
-
-      const healthy = health.status === "healthy";
+      const healthy = health && health.status === "healthy";
       const replies = Number(status.replies_today || 0);
       const sent = Number(status.sent_today || 0);
       const cap = Number(status.daily_send_cap || 0);
       const directDue = Number(status.direct_due_count || 0);
       const allTimeSends = totalSends(status);
-      const weekPayments = Number(cash.week?.payments_count || 0);
-      const win = windowState(status);
-      const loop = loopState(status);
 
       $("healthValue").textContent = healthy ? "OK" : "Issue";
-      $("healthDetail").textContent = healthy ? `backend healthy / ${loopPhrase(status)}` : "backend check failed";
+      $("healthDetail").textContent = healthy ? "backend healthy" : "backend check failed";
       $("repliesValue").textContent = String(replies);
-      $("repliesDetail").textContent = replies > 0 ? "handle now" : "no reply signal yet";
+      $("repliesDetail").textContent = "today";
       $("moneyValue").textContent = money(cash.today?.gross_usd || 0);
-      $("moneyDetail").textContent = `${cash.today?.payments_count || 0} payments today / ${weekPayments}/${TARGET_WEEKLY_TESTS} weekly tests`;
+      $("moneyDetail").textContent = `${cash.today?.payments_count || 0} payments today`;
       $("sendsValue").textContent = `${sent}/${cap || 0}`;
-      $("sendsDetail").textContent = win.open ? "send window open" : "send window closed";
+      $("sendsDetail").textContent = "today";
       $("directValue").textContent = String(directDue);
-      $("directDetail").textContent = "clean direct leads due";
+      $("directDetail").textContent = "clean leads";
       $("totalSendsValue").textContent = allTimeSends === null ? "--" : String(allTimeSends);
       $("totalSendsDetail").textContent = allTimeSends === null ? "backend pending" : "all outbound emails";
-
-      updateMoneyBoard(status, cash, classification);
-      updateBeliefBoard(status, cash, classification);
-
-      $("stepInRule").textContent = replies > 0 ? "A reply exists. Step in." : "Only for replies, payments, or failures.";
-      $("systemJob").textContent = `${directDue} clean leads ready; ${status.generic_paused_count || 0} generic paused; ${allTimeSends ?? 0} all-time sends; ${loopPhrase(status)}.`;
-      if (!win.open && directDue > 0 && classification.kind !== "needs") {
-        $("nextCheck").textContent = sendWindowPhrase(status);
-      }
-
-      $("conditionHealth").textContent = healthy ? `Backend is healthy; ${loopPhrase(status)}.` : "Backend needs attention.";
-      $("conditionHealth").className = healthy ? "good" : "hot";
-      $("conditionReply").textContent = replies > 0 ? `${replies} replies need handling.` : "No replies need you right now.";
-      $("conditionReply").className = replies > 0 ? "hot" : "good";
-      $("conditionMoney").textContent = Number(cash.today?.gross_usd || 0) > 0 ? "Payment needs fulfillment." : "No paid test needs fulfillment yet.";
-      $("conditionMoney").className = Number(cash.today?.gross_usd || 0) > 0 ? "hot" : "good";
 
       $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
       $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";
@@ -1850,7 +813,6 @@
       renderEvents("recentSentList", status.recent_sent || []);
       renderEvents("recentReplyList", status.recent_replies || [], true);
       selectDefaultMessage();
-      auditRows(status, cash);
 
       $("lastUpdated").textContent = `Last updated ${time()}`;
     }
@@ -1868,7 +830,6 @@
         const status = {};
         const cash = { today: { gross_usd: 0, payments_count: 0 }, week: {}, month: {} };
         render(health, status, cash);
-        $("stateBody").textContent = "Relay Live could not read the backend. This is a system issue, not a personal one.";
         $("lastUpdated").textContent = `Fetch failed: ${String(error.message || error)}`;
       }
     }
@@ -1880,20 +841,13 @@
       const text = [
         "Relay Live",
         `backend=${health.status}`,
-        `mode=${$("stateTitle").textContent}`,
         `money_today=${cash.today?.gross_usd || 0}`,
         `payments_today=${cash.today?.payments_count || 0}`,
         `replies_today=${status.replies_today || 0}`,
         `sent_today=${status.sent_today || 0}`,
         `total_sends_all_time=${totalSends(status) ?? ""}`,
-        `packet_price_usd=${PACKET_PRICE}`,
-        `weekly_target_usd=${TARGET_WEEKLY_REVENUE}`,
-        `weekly_gap_usd=${Math.max(0, TARGET_WEEKLY_REVENUE - Number(cash.week?.gross_usd || 0))}`,
         `daily_send_cap=${status.daily_send_cap || 0}`,
         `direct_due_count=${status.direct_due_count || 0}`,
-        `generic_paused_count=${status.generic_paused_count || 0}`,
-        `cap_remaining=${status.cap_remaining || 0}`,
-        `next_money_move=${status.next_money_move || ""}`,
       ].join("\n");
       await navigator.clipboard.writeText(text);
       $("lastUpdated").textContent = "Status copied";

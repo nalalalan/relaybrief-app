@@ -265,6 +265,102 @@
       line-height: 1.35;
     }
 
+    .snapshot-panel {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .snapshot-head {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .snapshot-table-wrap {
+      min-height: min(700px, calc(100vh - 210px));
+      overflow: auto;
+    }
+
+    .snapshot-table {
+      width: 100%;
+      min-width: 940px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+
+    .snapshot-table th,
+    .snapshot-table td {
+      padding: 13px 14px;
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid rgba(48, 56, 67, 0.72);
+      white-space: nowrap;
+    }
+
+    .snapshot-table th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: rgba(29, 35, 42, 0.98);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .snapshot-table tbody tr {
+      background: rgba(16, 18, 20, 0.22);
+    }
+
+    .snapshot-table tbody tr:nth-child(even) {
+      background: rgba(16, 18, 20, 0.42);
+    }
+
+    .snapshot-table tbody tr.current-row {
+      background: rgba(105, 213, 139, 0.08);
+    }
+
+    .snapshot-time {
+      color: var(--text);
+      font-weight: 850;
+    }
+
+    .snapshot-date,
+    .snapshot-captured,
+    .muted-dash {
+      color: var(--quiet);
+      font-size: 12px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      min-width: 58px;
+      justify-content: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(105, 213, 139, 0.12);
+      color: var(--good);
+      font-weight: 900;
+    }
+
+    .status-pill.issue {
+      background: rgba(255, 123, 131, 0.12);
+      color: var(--bad);
+    }
+
+    .metric-strong {
+      color: var(--text);
+      font-weight: 900;
+    }
+
     .panels {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -560,7 +656,8 @@
       .fact .value,
       .event-title,
       .event-sub,
-      .event-preview {
+      .event-preview,
+      .snapshot-table {
         word-break: break-word;
       }
     }
@@ -591,38 +688,33 @@
     </nav>
 
     <section class="tab-panel" id="overviewPanel" role="tabpanel" aria-labelledby="overviewTab" data-panel="overview">
-      <section class="facts" aria-label="Current Relay facts">
-        <article class="fact">
-          <p class="label">Backend</p>
-          <div class="value" id="healthValue">--</div>
-          <div class="detail" id="healthDetail">checking</div>
-        </article>
-        <article class="fact">
-          <p class="label">Replies</p>
-          <div class="value" id="repliesValue">--</div>
-          <div class="detail" id="repliesDetail">today</div>
-        </article>
-        <article class="fact">
-          <p class="label">Money</p>
-          <div class="value" id="moneyValue">$0</div>
-          <div class="detail" id="moneyDetail">today</div>
-        </article>
-        <article class="fact">
-          <p class="label">Sends</p>
-          <div class="value" id="sendsValue">--</div>
-          <div class="detail" id="sendsDetail">today</div>
-        </article>
-        <article class="fact">
-          <p class="label">Clean Leads</p>
-          <div class="value" id="directValue">--</div>
-          <div class="detail" id="directDetail">clean leads</div>
-        </article>
-        <article class="fact">
-          <p class="label">All-Time Sends</p>
-          <div class="value" id="totalSendsValue">--</div>
-          <div class="detail" id="totalSendsDetail">all outbound emails</div>
-        </article>
-      </section>
+      <article class="panel snapshot-panel">
+        <div class="snapshot-head">
+          <h3>30-minute snapshots</h3>
+          <span class="small" id="snapshotMeta">waiting for first refresh</span>
+        </div>
+        <div class="snapshot-table-wrap">
+          <table class="snapshot-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Backend</th>
+                <th>Replies</th>
+                <th>Money</th>
+                <th>Sends</th>
+                <th>Clean Leads</th>
+                <th>All-Time Sends</th>
+                <th>Captured</th>
+              </tr>
+            </thead>
+            <tbody id="snapshotRows">
+              <tr>
+                <td colspan="8" class="muted-dash">Loading timeline.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
     </section>
 
     <section class="tab-panel" id="mailPanel" role="tabpanel" aria-labelledby="mailTab" data-panel="mail" hidden>
@@ -678,6 +770,9 @@
     let latest = null;
     const messageEvents = new Map();
     let selectedMessageKey = "";
+    const SNAPSHOT_STORAGE_KEY = "relay-live-30-minute-snapshots-v1";
+    const SNAPSHOT_INTERVAL_MS = 30 * 60 * 1000;
+    const SNAPSHOT_ROW_COUNT = 48;
 
     const $ = (id) => document.getElementById(id);
 
@@ -769,6 +864,93 @@
       ];
       const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
       return value === undefined ? null : Number(value || 0);
+    }
+
+    function bucketStart(value = Date.now()) {
+      return Math.floor(Number(value) / SNAPSHOT_INTERVAL_MS) * SNAPSHOT_INTERVAL_MS;
+    }
+
+    function snapshotTime(value) {
+      return new Date(value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function snapshotDate(value) {
+      return new Date(value).toLocaleDateString([], { month: "short", day: "numeric" });
+    }
+
+    function loadSnapshots() {
+      try {
+        const rows = JSON.parse(localStorage.getItem(SNAPSHOT_STORAGE_KEY) || "[]");
+        return Array.isArray(rows) ? rows.filter((row) => row && row.bucket) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveSnapshots(rows) {
+      try {
+        localStorage.setItem(SNAPSHOT_STORAGE_KEY, JSON.stringify(rows.slice(0, 160)));
+      } catch {
+        // Local storage can be blocked; the live row will still render for this session.
+      }
+    }
+
+    function recordSnapshot(row) {
+      const rows = loadSnapshots().filter((item) => item.bucket !== row.bucket);
+      rows.unshift(row);
+      rows.sort((a, b) => b.bucket - a.bucket);
+      saveSnapshots(rows);
+      return rows;
+    }
+
+    function emptyCell() {
+      return '<span class="muted-dash">waiting</span>';
+    }
+
+    function renderSnapshotTable(currentSnapshot, storedRows) {
+      const rows = storedRows || loadSnapshots();
+      const byBucket = new Map(rows.map((row) => [Number(row.bucket), row]));
+      if (currentSnapshot) byBucket.set(Number(currentSnapshot.bucket), currentSnapshot);
+      const nowBucket = bucketStart();
+      const tableRows = [];
+
+      for (let index = 0; index < SNAPSHOT_ROW_COUNT; index += 1) {
+        const bucket = nowBucket - index * SNAPSHOT_INTERVAL_MS;
+        const row = byBucket.get(bucket);
+        const currentClass = bucket === nowBucket ? " current-row" : "";
+        if (!row) {
+          tableRows.push(`
+            <tr class="${currentClass.trim()}">
+              <td><div class="snapshot-time">${esc(snapshotTime(bucket))}</div><div class="snapshot-date">${esc(snapshotDate(bucket))}</div></td>
+              <td>${emptyCell()}</td>
+              <td>${emptyCell()}</td>
+              <td>${emptyCell()}</td>
+              <td>${emptyCell()}</td>
+              <td>${emptyCell()}</td>
+              <td>${emptyCell()}</td>
+              <td class="snapshot-captured">not checked</td>
+            </tr>
+          `);
+          continue;
+        }
+
+        tableRows.push(`
+          <tr class="${currentClass.trim()}">
+            <td><div class="snapshot-time">${esc(snapshotTime(row.bucket))}</div><div class="snapshot-date">${esc(snapshotDate(row.bucket))}</div></td>
+            <td><span class="status-pill ${row.backend === "OK" ? "" : "issue"}">${esc(row.backend)}</span></td>
+            <td><span class="metric-strong">${esc(row.replies)}</span></td>
+            <td><span class="metric-strong">${esc(money(row.moneyToday))}</span><div class="snapshot-captured">${esc(row.paymentsToday)} payments</div></td>
+            <td><span class="metric-strong">${esc(row.sentToday)}/${esc(row.dailyCap)}</span></td>
+            <td><span class="metric-strong">${esc(row.cleanLeads)}</span></td>
+            <td><span class="metric-strong">${row.allTimeSends === null ? "--" : esc(row.allTimeSends)}</span></td>
+            <td><div class="snapshot-captured">${esc(ago(row.capturedAt))}</div><div class="snapshot-captured">${esc(new Date(row.capturedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))}</div></td>
+          </tr>
+        `);
+      }
+
+      $("snapshotRows").innerHTML = tableRows.join("");
+      const storedCount = rows.length;
+      $("snapshotMeta").textContent = storedCount ? `${storedCount} saved snapshots` : "first snapshot saved";
     }
 
     function updateSelectedEventButtons() {
@@ -865,19 +1047,19 @@
       const cap = Number(status.daily_send_cap || 0);
       const directDue = Number(status.direct_due_count || 0);
       const allTimeSends = totalSends(status);
-
-      $("healthValue").textContent = healthy ? "OK" : "Issue";
-      $("healthDetail").textContent = healthy ? "backend healthy" : "backend check failed";
-      $("repliesValue").textContent = String(replies);
-      $("repliesDetail").textContent = "today";
-      $("moneyValue").textContent = money(cash.today?.gross_usd || 0);
-      $("moneyDetail").textContent = `${cash.today?.payments_count || 0} payments today`;
-      $("sendsValue").textContent = `${sent}/${cap || 0}`;
-      $("sendsDetail").textContent = "today";
-      $("directValue").textContent = String(directDue);
-      $("directDetail").textContent = "clean leads";
-      $("totalSendsValue").textContent = allTimeSends === null ? "--" : String(allTimeSends);
-      $("totalSendsDetail").textContent = allTimeSends === null ? "backend pending" : "all outbound emails";
+      const snapshot = {
+        bucket: bucketStart(),
+        capturedAt: new Date().toISOString(),
+        backend: healthy ? "OK" : "Issue",
+        replies,
+        moneyToday: Number(cash.today?.gross_usd || 0),
+        paymentsToday: Number(cash.today?.payments_count || 0),
+        sentToday: sent,
+        dailyCap: cap || 0,
+        cleanLeads: directDue,
+        allTimeSends,
+      };
+      renderSnapshotTable(snapshot, recordSnapshot(snapshot));
 
       $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
       $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";

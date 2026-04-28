@@ -1315,6 +1315,42 @@
       return value === undefined ? null : Number(value || 0);
     }
 
+    function loopState(status) {
+      return status.money_loop && typeof status.money_loop === "object" ? status.money_loop : {};
+    }
+
+    function loopPhrase(status) {
+      const loop = loopState(status);
+      if (loop.enabled === true && loop.running === true) return "money loop running";
+      if (loop.enabled === true) return "money loop on";
+      if (loop.enabled === false) return "money loop off";
+      return "money loop not reported";
+    }
+
+    function refillPhrase(status) {
+      const loop = loopState(status);
+      const result = loop.last_manual_result || loop.last_result || null;
+      const refill = result && result.refill_result ? result.refill_result : null;
+      if (!refill) return "";
+      const fallback = refill.fallback_result || null;
+      if (refill.status === "degraded_ok" && fallback) {
+        return `Apollo blocked; Apify imported ${fallback.upserted ?? 0}/${fallback.searched ?? 0}.`;
+      }
+      if (refill.status === "error") return `Lead refill error: ${refill.reason || "failed"}.`;
+      if (refill.status === "skipped") return `Lead refill skipped: ${refill.reason || "not needed"}.`;
+      if (refill.status === "ok") return `Lead refill added ${refill.upserted ?? 0}/${refill.searched ?? 0}.`;
+      return "";
+    }
+
+    function sendWindowPhrase(status) {
+      const win = windowState(status);
+      if (win.open) return "send window open";
+      if (win.start) {
+        return `next send window: ${win.start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} ET`;
+      }
+      return "send window closed";
+    }
+
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
@@ -1332,6 +1368,7 @@
       const genericPaused = Number(status.generic_paused_count || 0);
       const allTimeSends = totalSends(status) || 0;
       const replies = Number(status.replies_today || 0);
+      const refill = refillPhrase(status);
       const todayMoney = Number(cash.today?.gross_usd || 0);
       const weekMoney = Number(cash.week?.gross_usd || 0);
       const weekPayments = Number(cash.week?.payments_count || 0);
@@ -1395,10 +1432,10 @@
         $("nextCashBody").textContent = "Today’s batch is already in market. A refresh cannot create replies. Watch for red signals.";
       } else if (directDue > 0) {
         $("nextCashValue").textContent = "Send";
-        $("nextCashBody").textContent = "Clean leads are ready. Let the send cycle run; intervene only if sends stall during an open window.";
+        $("nextCashBody").textContent = `Clean leads are ready. ${status.next_money_move || "Let the send cycle run."}${refill ? " " + refill : ""}`;
       } else {
         $("nextCashValue").textContent = "Leads";
-        $("nextCashBody").textContent = "No clean lead supply means no money path. The next useful input is better qualified founder-led agency leads.";
+        $("nextCashBody").textContent = `No clean lead supply means no money path. The next useful input is better qualified founder-led agency leads.${refill ? " " + refill : ""}`;
       }
 
       if (classification.kind === "needs") {
@@ -1416,7 +1453,7 @@
       }
 
       $("scenarioBody").textContent = `${TARGET_WEEKLY_TESTS} paid tests at ${money(PACKET_PRICE)} each is ${money(PACKET_PRICE * TARGET_WEEKLY_TESTS)}. This clears the $${TARGET_WEEKLY_REVENUE}/week target without needing a large number of buyers.`;
-      $("greenRule").textContent = `Healthy backend, ${allTimeSends || 0} all-time sends, ${directDue} clean leads due, ${genericPaused} generic paused. That is a working pipeline, not nothing.`;
+      $("greenRule").textContent = `Healthy backend, ${loopPhrase(status)}, ${allTimeSends || 0} all-time sends, ${directDue} clean leads due, ${genericPaused} generic paused.${refill ? " " + refill : ""}`;
       $("redRule").textContent = "Reply, payment, backend failure, or send count stuck during an open window.";
       $("checkRule").textContent = weekMoney > 0
         ? `${money(weekMoney)} this week from ${weekPayments} paid test(s). Next useful check: fulfillment and replies.`
@@ -1514,10 +1551,15 @@
     }
 
     function auditRows(status, cash) {
+      const loop = loopState(status);
       const rows = [
         ["Reply mailbox", status.reply_mailbox_address || "--"],
         ["Reply-To", status.reply_to_email || "--"],
         ["Auto-close", status.reply_autoclose_mode || "not reported"],
+        ["Money loop", loopPhrase(status)],
+        ["Last loop tick", loop.last_tick_at ? ago(loop.last_tick_at) : "--"],
+        ["Last manual kick", loop.last_manual_kick_at ? ago(loop.last_manual_kick_at) : "--"],
+        ["Refill result", refillPhrase(status) || "--"],
         ["Provider", status.provider || "--"],
         ["Mailboxes", status.smtp_mailboxes_configured ?? 0],
         ["Per mailbox cap", status.per_mailbox_daily_cap ?? "--"],
@@ -1552,9 +1594,10 @@
       const allTimeSends = totalSends(status);
       const weekPayments = Number(cash.week?.payments_count || 0);
       const win = windowState(status);
+      const loop = loopState(status);
 
       $("healthValue").textContent = healthy ? "OK" : "Issue";
-      $("healthDetail").textContent = healthy ? "backend healthy" : "backend check failed";
+      $("healthDetail").textContent = healthy ? `backend healthy / ${loopPhrase(status)}` : "backend check failed";
       $("repliesValue").textContent = String(replies);
       $("repliesDetail").textContent = replies > 0 ? "handle now" : "no reply signal yet";
       $("moneyValue").textContent = money(cash.today?.gross_usd || 0);
@@ -1569,9 +1612,12 @@
       updateMoneyBoard(status, cash, classification);
 
       $("stepInRule").textContent = replies > 0 ? "A reply exists. Step in." : "Only for replies, payments, or failures.";
-      $("systemJob").textContent = `${directDue} clean leads ready; ${status.generic_paused_count || 0} generic paused; ${allTimeSends ?? 0} all-time sends.`;
+      $("systemJob").textContent = `${directDue} clean leads ready; ${status.generic_paused_count || 0} generic paused; ${allTimeSends ?? 0} all-time sends; ${loopPhrase(status)}.`;
+      if (!win.open && directDue > 0 && classification.kind !== "needs") {
+        $("nextCheck").textContent = sendWindowPhrase(status);
+      }
 
-      $("conditionHealth").textContent = healthy ? "Backend is healthy." : "Backend needs attention.";
+      $("conditionHealth").textContent = healthy ? `Backend is healthy; ${loopPhrase(status)}.` : "Backend needs attention.";
       $("conditionHealth").className = healthy ? "good" : "hot";
       $("conditionReply").textContent = replies > 0 ? `${replies} replies need handling.` : "No replies need you right now.";
       $("conditionReply").className = replies > 0 ? "hot" : "good";

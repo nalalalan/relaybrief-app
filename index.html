@@ -265,11 +265,6 @@
       line-height: 1.35;
     }
 
-    .snapshot-panel {
-      padding: 0;
-      overflow: hidden;
-    }
-
     .section-head {
       min-width: 0;
       display: flex;
@@ -344,97 +339,6 @@
     .trend-bar {
       rx: 3;
       ry: 3;
-    }
-
-    .snapshot-head {
-      min-height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 0 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .snapshot-table-wrap {
-      min-height: min(700px, calc(100vh - 210px));
-      overflow: auto;
-    }
-
-    .snapshot-table {
-      width: 100%;
-      min-width: 940px;
-      border-collapse: separate;
-      border-spacing: 0;
-      font-size: 13px;
-    }
-
-    .snapshot-table th,
-    .snapshot-table td {
-      padding: 13px 14px;
-      text-align: left;
-      vertical-align: middle;
-      border-bottom: 1px solid var(--line);
-      border-right: 1px solid rgba(48, 56, 67, 0.72);
-      white-space: nowrap;
-    }
-
-    .snapshot-table th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      background: rgba(29, 35, 42, 0.98);
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 850;
-      text-transform: uppercase;
-      letter-spacing: 0;
-    }
-
-    .snapshot-table tbody tr {
-      background: rgba(16, 18, 20, 0.22);
-    }
-
-    .snapshot-table tbody tr:nth-child(even) {
-      background: rgba(16, 18, 20, 0.42);
-    }
-
-    .snapshot-table tbody tr.current-row {
-      background: rgba(105, 213, 139, 0.08);
-    }
-
-    .snapshot-time {
-      color: var(--text);
-      font-weight: 850;
-    }
-
-    .snapshot-date,
-    .snapshot-captured,
-    .muted-dash {
-      color: var(--quiet);
-      font-size: 12px;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      min-width: 58px;
-      justify-content: center;
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: rgba(105, 213, 139, 0.12);
-      color: var(--good);
-      font-weight: 900;
-    }
-
-    .status-pill.issue {
-      background: rgba(255, 123, 131, 0.12);
-      color: var(--bad);
-    }
-
-    .metric-strong {
-      color: var(--text);
-      font-weight: 900;
     }
 
     .panels {
@@ -741,8 +645,7 @@
       .fact .value,
       .event-title,
       .event-sub,
-      .event-preview,
-      .snapshot-table {
+      .event-preview {
         word-break: break-word;
       }
     }
@@ -773,9 +676,9 @@
     </nav>
 
     <section class="tab-panel" id="overviewPanel" role="tabpanel" aria-labelledby="overviewTab" data-panel="overview">
-      <section class="trend-section" aria-label="Daily Relay performance">
+      <section class="trend-section" aria-label="Daily cumulative Relay performance">
         <div class="section-head">
-          <h3>Daily performance</h3>
+          <h3>Daily cumulative performance</h3>
           <span class="small" id="historyMeta">waiting for history</span>
         </div>
         <div class="trend-grid">
@@ -787,7 +690,7 @@
               </div>
               <div class="trend-detail" id="moneyTrendDetail">0 payments</div>
             </div>
-            <div class="trend-chart" id="moneyTrendChart" aria-label="Money by day"></div>
+            <div class="trend-chart" id="moneyTrendChart" aria-label="Cumulative money by day"></div>
           </article>
 
           <article class="panel trend-card">
@@ -798,7 +701,7 @@
               </div>
               <div class="trend-detail" id="sendsTrendDetail">0/day avg</div>
             </div>
-            <div class="trend-chart" id="sendsTrendChart" aria-label="Sends by day"></div>
+            <div class="trend-chart" id="sendsTrendChart" aria-label="Cumulative sends by day"></div>
           </article>
 
           <article class="panel trend-card">
@@ -809,38 +712,10 @@
               </div>
               <div class="trend-detail" id="repliesTrendDetail">0% reply rate</div>
             </div>
-            <div class="trend-chart" id="repliesTrendChart" aria-label="Replies by day"></div>
+            <div class="trend-chart" id="repliesTrendChart" aria-label="Cumulative replies by day"></div>
           </article>
         </div>
       </section>
-
-      <article class="panel snapshot-panel">
-        <div class="snapshot-head">
-          <h3>30-minute snapshots</h3>
-          <span class="small" id="snapshotMeta">waiting for first refresh</span>
-        </div>
-        <div class="snapshot-table-wrap">
-          <table class="snapshot-table">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Backend</th>
-                <th>Replies</th>
-                <th>Money</th>
-                <th>Sends</th>
-                <th>Clean Leads</th>
-                <th>All-Time Sends</th>
-                <th>Captured</th>
-              </tr>
-            </thead>
-            <tbody id="snapshotRows">
-              <tr>
-                <td colspan="8" class="muted-dash">Loading timeline.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
     </section>
 
     <section class="tab-panel" id="mailPanel" role="tabpanel" aria-labelledby="mailTab" data-panel="mail" hidden>
@@ -893,12 +768,10 @@
 
   <script>
     const BASE = "https://alan-operator-backend-production.up.railway.app";
+    const PERFORMANCE_START_DATE = "2026-04-21";
     let latest = null;
     const messageEvents = new Map();
     let selectedMessageKey = "";
-    const SNAPSHOT_STORAGE_KEY = "relay-live-30-minute-snapshots-v1";
-    const SNAPSHOT_INTERVAL_MS = 30 * 60 * 1000;
-    const SNAPSHOT_ROW_COUNT = 48;
 
     const $ = (id) => document.getElementById(id);
 
@@ -1021,6 +894,28 @@
       }, { money_usd: 0, payments: 0, sends: 0, replies: 0 });
     }
 
+    function visibleTrendRows(rows) {
+      const visible = rows.filter((row) => String(row.date || "") >= PERFORMANCE_START_DATE);
+      return visible.length ? visible : rows;
+    }
+
+    function cumulativeTrendRows(rows) {
+      const running = { money_usd: 0, payments: 0, sends: 0, replies: 0 };
+      return rows.map((row) => {
+        running.money_usd += Number(row.money_usd || 0);
+        running.payments += Number(row.payments || 0);
+        running.sends += Number(row.sends || 0);
+        running.replies += Number(row.replies || 0);
+        return {
+          ...row,
+          cumulative_money_usd: Number(running.money_usd.toFixed(2)),
+          cumulative_payments: running.payments,
+          cumulative_sends: running.sends,
+          cumulative_replies: running.replies,
+        };
+      });
+    }
+
     function trendColor(kind) {
       if (kind === "money") return "#8fe6a4";
       if (kind === "sends") return "#78aef5";
@@ -1046,7 +941,7 @@
         const barHeight = Math.max(value > 0 ? 3 : 0, (value / maxValue) * innerHeight);
         const x = padX + index * (barWidth + gap);
         const y = padTop + innerHeight - barHeight;
-        const label = `${dateLabel(row.date)}: ${key === "money_usd" ? money(value) : value}`;
+        const label = `${dateLabel(row.date)}: ${kind === "money" ? money(value) : value}`;
         return `<rect class="trend-bar" x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${barWidth.toFixed(2)}" height="${barHeight.toFixed(2)}" fill="${color}"><title>${esc(label)}</title></rect>`;
       }).join("");
       const start = rows[0]?.date ? dateLabel(rows[0].date) : "";
@@ -1056,7 +951,7 @@
         : `<text class="trend-empty" x="${width / 2}" y="${padTop + innerHeight / 2}">no ${kind} yet</text>`;
 
       el.innerHTML = `
-        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(kind)} by day">
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="cumulative ${esc(kind)} by day">
           <line x1="${padX}" y1="${padTop + innerHeight}" x2="${width - padX}" y2="${padTop + innerHeight}" stroke="rgba(170,179,189,.28)" stroke-width="1" />
           ${bars}
           ${empty}
@@ -1076,113 +971,28 @@
         return;
       }
 
-      const totals = history.totals || trendTotals(rows);
-      const start = dateLabel(history.start_date || rows[0].date);
-      const end = dateLabel(history.end_date || rows[rows.length - 1].date);
-      const firstSend = history.first_send_at ? parseBackendTime(history.first_send_at) : null;
-      const since = firstSend ? firstSend.toLocaleDateString([], { month: "short", day: "numeric" }) : start;
+      const visibleRows = visibleTrendRows(rows);
+      const chartRows = cumulativeTrendRows(visibleRows);
+      const totals = trendTotals(visibleRows);
+      const start = dateLabel(visibleRows[0]?.date || history.start_date || rows[0].date);
+      const end = dateLabel(visibleRows[visibleRows.length - 1]?.date || history.end_date || rows[rows.length - 1].date);
+      const excludedDays = rows.length - visibleRows.length;
       const sends = Number(totals.sends || 0);
       const replies = Number(totals.replies || 0);
       const replyRate = sends > 0 ? ((replies / sends) * 100).toFixed(1) : "0.0";
+      const excludedNote = excludedDays > 0 ? " / Apr 20 setup excluded" : "";
 
-      $("historyMeta").textContent = `Since first send ${since} / ${rows.length} days / ${history.timezone || "local"}`;
+      $("historyMeta").textContent = `Cumulative since ${start} / ${visibleRows.length} days${excludedNote} / ${history.timezone || "local"}`;
       $("moneyTrendValue").textContent = money(totals.money_usd || 0);
       $("moneyTrendDetail").textContent = `${totals.payments || 0} payment${Number(totals.payments || 0) === 1 ? "" : "s"} / ${start}-${end}`;
       $("sendsTrendValue").textContent = String(sends);
-      $("sendsTrendDetail").textContent = `${average(sends, rows.length)}/day avg`;
+      $("sendsTrendDetail").textContent = `${average(sends, visibleRows.length)}/day avg`;
       $("repliesTrendValue").textContent = String(replies);
       $("repliesTrendDetail").textContent = `${replyRate}% reply rate`;
 
-      renderTrendChart("moneyTrendChart", rows, "money_usd", "money");
-      renderTrendChart("sendsTrendChart", rows, "sends", "sends");
-      renderTrendChart("repliesTrendChart", rows, "replies", "replies");
-    }
-
-    function bucketStart(value = Date.now()) {
-      return Math.floor(Number(value) / SNAPSHOT_INTERVAL_MS) * SNAPSHOT_INTERVAL_MS;
-    }
-
-    function snapshotTime(value) {
-      return new Date(value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    }
-
-    function snapshotDate(value) {
-      return new Date(value).toLocaleDateString([], { month: "short", day: "numeric" });
-    }
-
-    function loadSnapshots() {
-      try {
-        const rows = JSON.parse(localStorage.getItem(SNAPSHOT_STORAGE_KEY) || "[]");
-        return Array.isArray(rows) ? rows.filter((row) => row && row.bucket) : [];
-      } catch {
-        return [];
-      }
-    }
-
-    function saveSnapshots(rows) {
-      try {
-        localStorage.setItem(SNAPSHOT_STORAGE_KEY, JSON.stringify(rows.slice(0, 160)));
-      } catch {
-        // Local storage can be blocked; the live row will still render for this session.
-      }
-    }
-
-    function recordSnapshot(row) {
-      const rows = loadSnapshots().filter((item) => item.bucket !== row.bucket);
-      rows.unshift(row);
-      rows.sort((a, b) => b.bucket - a.bucket);
-      saveSnapshots(rows);
-      return rows;
-    }
-
-    function emptyCell() {
-      return '<span class="muted-dash">waiting</span>';
-    }
-
-    function renderSnapshotTable(currentSnapshot, storedRows) {
-      const rows = storedRows || loadSnapshots();
-      const byBucket = new Map(rows.map((row) => [Number(row.bucket), row]));
-      if (currentSnapshot) byBucket.set(Number(currentSnapshot.bucket), currentSnapshot);
-      const nowBucket = bucketStart();
-      const tableRows = [];
-
-      for (let index = 0; index < SNAPSHOT_ROW_COUNT; index += 1) {
-        const bucket = nowBucket - index * SNAPSHOT_INTERVAL_MS;
-        const row = byBucket.get(bucket);
-        const currentClass = bucket === nowBucket ? " current-row" : "";
-        if (!row) {
-          tableRows.push(`
-            <tr class="${currentClass.trim()}">
-              <td><div class="snapshot-time">${esc(snapshotTime(bucket))}</div><div class="snapshot-date">${esc(snapshotDate(bucket))}</div></td>
-              <td>${emptyCell()}</td>
-              <td>${emptyCell()}</td>
-              <td>${emptyCell()}</td>
-              <td>${emptyCell()}</td>
-              <td>${emptyCell()}</td>
-              <td>${emptyCell()}</td>
-              <td class="snapshot-captured">not checked</td>
-            </tr>
-          `);
-          continue;
-        }
-
-        tableRows.push(`
-          <tr class="${currentClass.trim()}">
-            <td><div class="snapshot-time">${esc(snapshotTime(row.bucket))}</div><div class="snapshot-date">${esc(snapshotDate(row.bucket))}</div></td>
-            <td><span class="status-pill ${row.backend === "OK" ? "" : "issue"}">${esc(row.backend)}</span></td>
-            <td><span class="metric-strong">${esc(row.replies)}</span></td>
-            <td><span class="metric-strong">${esc(money(row.moneyToday))}</span><div class="snapshot-captured">${esc(row.paymentsToday)} payments</div></td>
-            <td><span class="metric-strong">${esc(row.sentToday)}/${esc(row.dailyCap)}</span></td>
-            <td><span class="metric-strong">${esc(row.cleanLeads)}</span></td>
-            <td><span class="metric-strong">${row.allTimeSends === null ? "--" : esc(row.allTimeSends)}</span></td>
-            <td><div class="snapshot-captured">${esc(ago(row.capturedAt))}</div><div class="snapshot-captured">${esc(new Date(row.capturedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }))}</div></td>
-          </tr>
-        `);
-      }
-
-      $("snapshotRows").innerHTML = tableRows.join("");
-      const storedCount = rows.length;
-      $("snapshotMeta").textContent = storedCount ? `${storedCount} saved snapshots` : "first snapshot saved";
+      renderTrendChart("moneyTrendChart", chartRows, "cumulative_money_usd", "money");
+      renderTrendChart("sendsTrendChart", chartRows, "cumulative_sends", "sends");
+      renderTrendChart("repliesTrendChart", chartRows, "cumulative_replies", "replies");
     }
 
     function updateSelectedEventButtons() {
@@ -1274,25 +1084,9 @@
     function render(health, status, cash, history) {
       latest = { health, status, cash, history };
       renderDailyTrends(history);
-      const healthy = health && health.status === "healthy";
       const replies = Number(status.replies_today || 0);
       const sent = Number(status.sent_today || 0);
       const cap = Number(status.daily_send_cap || 0);
-      const directDue = Number(status.direct_due_count || 0);
-      const allTimeSends = totalSends(status);
-      const snapshot = {
-        bucket: bucketStart(),
-        capturedAt: new Date().toISOString(),
-        backend: healthy ? "OK" : "Issue",
-        replies,
-        moneyToday: Number(cash.today?.gross_usd || 0),
-        paymentsToday: Number(cash.today?.payments_count || 0),
-        sentToday: sent,
-        dailyCap: cap || 0,
-        cleanLeads: directDue,
-        allTimeSends,
-      };
-      renderSnapshotTable(snapshot, recordSnapshot(snapshot));
 
       $("sentMeta").textContent = `sent ${sent}/${cap || 0}`;
       $("replyMeta").textContent = replies > 0 ? "needs review" : "none today";

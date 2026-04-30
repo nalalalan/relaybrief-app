@@ -270,6 +270,82 @@
       overflow: hidden;
     }
 
+    .section-head {
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .trend-section {
+      min-width: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .trend-grid {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .trend-card {
+      min-height: 238px;
+      display: grid;
+      gap: 12px;
+      align-content: space-between;
+    }
+
+    .trend-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .trend-value {
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 950;
+      overflow-wrap: anywhere;
+    }
+
+    .trend-detail {
+      color: var(--quiet);
+      font-size: 12px;
+      line-height: 1.35;
+      text-align: right;
+    }
+
+    .trend-chart {
+      min-height: 128px;
+    }
+
+    .trend-chart svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .trend-axis,
+    .trend-empty {
+      fill: var(--quiet);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .trend-empty {
+      text-anchor: middle;
+    }
+
+    .trend-bar {
+      rx: 3;
+      ry: 3;
+    }
+
     .snapshot-head {
       min-height: 58px;
       display: flex;
@@ -612,10 +688,19 @@
       .facts {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+
+      .trend-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 760px) {
       .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-head {
         align-items: flex-start;
         flex-direction: column;
       }
@@ -688,6 +773,47 @@
     </nav>
 
     <section class="tab-panel" id="overviewPanel" role="tabpanel" aria-labelledby="overviewTab" data-panel="overview">
+      <section class="trend-section" aria-label="Daily Relay performance">
+        <div class="section-head">
+          <h3>Daily performance</h3>
+          <span class="small" id="historyMeta">waiting for history</span>
+        </div>
+        <div class="trend-grid">
+          <article class="panel trend-card">
+            <div class="trend-top">
+              <div>
+                <p class="label">Money</p>
+                <div class="trend-value" id="moneyTrendValue">$0</div>
+              </div>
+              <div class="trend-detail" id="moneyTrendDetail">0 payments</div>
+            </div>
+            <div class="trend-chart" id="moneyTrendChart" aria-label="Money by day"></div>
+          </article>
+
+          <article class="panel trend-card">
+            <div class="trend-top">
+              <div>
+                <p class="label">Sends</p>
+                <div class="trend-value" id="sendsTrendValue">0</div>
+              </div>
+              <div class="trend-detail" id="sendsTrendDetail">0/day avg</div>
+            </div>
+            <div class="trend-chart" id="sendsTrendChart" aria-label="Sends by day"></div>
+          </article>
+
+          <article class="panel trend-card">
+            <div class="trend-top">
+              <div>
+                <p class="label">Replies</p>
+                <div class="trend-value" id="repliesTrendValue">0</div>
+              </div>
+              <div class="trend-detail" id="repliesTrendDetail">0% reply rate</div>
+            </div>
+            <div class="trend-chart" id="repliesTrendChart" aria-label="Replies by day"></div>
+          </article>
+        </div>
+      </section>
+
       <article class="panel snapshot-panel">
         <div class="snapshot-head">
           <h3>30-minute snapshots</h3>
@@ -829,6 +955,14 @@
       }
     }
 
+    async function dailySeries() {
+      try {
+        return await json("/ops/daily-series");
+      } catch {
+        return null;
+      }
+    }
+
     function fullMessageBody(event) {
       return String(
         event.body_text ||
@@ -864,6 +998,104 @@
       ];
       const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
       return value === undefined ? null : Number(value || 0);
+    }
+
+    function dateLabel(isoDate) {
+      const parts = String(isoDate || "").split("-").map(Number);
+      if (parts.length !== 3 || parts.some((part) => !Number.isFinite(part))) return "";
+      return new Date(parts[0], parts[1] - 1, parts[2]).toLocaleDateString([], { month: "short", day: "numeric" });
+    }
+
+    function average(total, count) {
+      if (!count) return "0";
+      return (total / count).toFixed(total / count >= 10 ? 0 : 1);
+    }
+
+    function trendTotals(rows) {
+      return rows.reduce((totals, row) => {
+        totals.money_usd += Number(row.money_usd || 0);
+        totals.payments += Number(row.payments || 0);
+        totals.sends += Number(row.sends || 0);
+        totals.replies += Number(row.replies || 0);
+        return totals;
+      }, { money_usd: 0, payments: 0, sends: 0, replies: 0 });
+    }
+
+    function trendColor(kind) {
+      if (kind === "money") return "#8fe6a4";
+      if (kind === "sends") return "#78aef5";
+      return "#edc76f";
+    }
+
+    function renderTrendChart(id, rows, key, kind) {
+      const el = $(id);
+      const values = rows.map((row) => Number(row[key] || 0));
+      const width = 360;
+      const height = 128;
+      const padX = 12;
+      const padTop = 12;
+      const padBottom = 24;
+      const innerHeight = height - padTop - padBottom;
+      const maxValue = Math.max(1, ...values);
+      const count = Math.max(values.length, 1);
+      const gap = count > 28 ? 2 : 5;
+      const barWidth = Math.max(3, (width - padX * 2 - gap * (count - 1)) / count);
+      const color = trendColor(kind);
+      const bars = rows.map((row, index) => {
+        const value = Number(row[key] || 0);
+        const barHeight = Math.max(value > 0 ? 3 : 0, (value / maxValue) * innerHeight);
+        const x = padX + index * (barWidth + gap);
+        const y = padTop + innerHeight - barHeight;
+        const label = `${dateLabel(row.date)}: ${key === "money_usd" ? money(value) : value}`;
+        return `<rect class="trend-bar" x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${barWidth.toFixed(2)}" height="${barHeight.toFixed(2)}" fill="${color}"><title>${esc(label)}</title></rect>`;
+      }).join("");
+      const start = rows[0]?.date ? dateLabel(rows[0].date) : "";
+      const end = rows[rows.length - 1]?.date ? dateLabel(rows[rows.length - 1].date) : "";
+      const empty = values.some((value) => value > 0)
+        ? ""
+        : `<text class="trend-empty" x="${width / 2}" y="${padTop + innerHeight / 2}">no ${kind} yet</text>`;
+
+      el.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(kind)} by day">
+          <line x1="${padX}" y1="${padTop + innerHeight}" x2="${width - padX}" y2="${padTop + innerHeight}" stroke="rgba(170,179,189,.28)" stroke-width="1" />
+          ${bars}
+          ${empty}
+          <text class="trend-axis" x="${padX}" y="${height - 5}">${esc(start)}</text>
+          <text class="trend-axis" x="${width - padX}" y="${height - 5}" text-anchor="end">${esc(end)}</text>
+        </svg>
+      `;
+    }
+
+    function renderDailyTrends(history) {
+      const rows = Array.isArray(history?.days) ? history.days : [];
+      if (!rows.length) {
+        $("historyMeta").textContent = "history unavailable";
+        ["moneyTrendChart", "sendsTrendChart", "repliesTrendChart"].forEach((id) => {
+          $(id).innerHTML = '<svg viewBox="0 0 360 128" role="img" aria-label="No history"><text class="trend-empty" x="180" y="68">waiting for backend history</text></svg>';
+        });
+        return;
+      }
+
+      const totals = history.totals || trendTotals(rows);
+      const start = dateLabel(history.start_date || rows[0].date);
+      const end = dateLabel(history.end_date || rows[rows.length - 1].date);
+      const firstSend = history.first_send_at ? parseBackendTime(history.first_send_at) : null;
+      const since = firstSend ? firstSend.toLocaleDateString([], { month: "short", day: "numeric" }) : start;
+      const sends = Number(totals.sends || 0);
+      const replies = Number(totals.replies || 0);
+      const replyRate = sends > 0 ? ((replies / sends) * 100).toFixed(1) : "0.0";
+
+      $("historyMeta").textContent = `Since first send ${since} / ${rows.length} days / ${history.timezone || "local"}`;
+      $("moneyTrendValue").textContent = money(totals.money_usd || 0);
+      $("moneyTrendDetail").textContent = `${totals.payments || 0} payment${Number(totals.payments || 0) === 1 ? "" : "s"} / ${start}-${end}`;
+      $("sendsTrendValue").textContent = String(sends);
+      $("sendsTrendDetail").textContent = `${average(sends, rows.length)}/day avg`;
+      $("repliesTrendValue").textContent = String(replies);
+      $("repliesTrendDetail").textContent = `${replyRate}% reply rate`;
+
+      renderTrendChart("moneyTrendChart", rows, "money_usd", "money");
+      renderTrendChart("sendsTrendChart", rows, "sends", "sends");
+      renderTrendChart("repliesTrendChart", rows, "replies", "replies");
     }
 
     function bucketStart(value = Date.now()) {
@@ -1039,8 +1271,9 @@
       }).join("");
     }
 
-    function render(health, status, cash) {
-      latest = { health, status, cash };
+    function render(health, status, cash, history) {
+      latest = { health, status, cash, history };
+      renderDailyTrends(history);
       const healthy = health && health.status === "healthy";
       const replies = Number(status.replies_today || 0);
       const sent = Number(status.sent_today || 0);
@@ -1075,17 +1308,18 @@
 
     async function refresh() {
       try {
-        const [health, status, cash] = await Promise.all([
+        const [health, status, cash, history] = await Promise.all([
           json("/health"),
           json("/custom-outreach/status"),
           moneySummary(),
+          dailySeries(),
         ]);
-        render(health, status, cash);
+        render(health, status, cash, history);
       } catch (error) {
         const health = { status: "error" };
         const status = {};
         const cash = { today: { gross_usd: 0, payments_count: 0 }, week: {}, month: {} };
-        render(health, status, cash);
+        render(health, status, cash, null);
         $("lastUpdated").textContent = `Fetch failed: ${String(error.message || error)}`;
       }
     }

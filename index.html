@@ -293,6 +293,77 @@
       align-content: space-between;
     }
 
+    .triage-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .triage-panel .panel-head {
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
+
+    .triage-kicker {
+      margin: 5px 0 0;
+      color: var(--quiet);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .triage-move {
+      margin: 0;
+      padding: 14px 16px;
+      border: 1px solid rgba(120, 174, 245, 0.28);
+      border-radius: 8px;
+      background: rgba(120, 174, 245, 0.08);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .triage-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .triage-metric {
+      min-width: 0;
+      min-height: 78px;
+      padding: 12px;
+      border: 1px solid rgba(244, 240, 232, 0.08);
+      border-radius: 8px;
+      background: rgba(16, 18, 20, 0.48);
+    }
+
+    .triage-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .triage-metric strong {
+      display: block;
+      margin-top: 7px;
+      color: var(--text);
+      font-size: 19px;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .triage-metric small {
+      display: block;
+      margin-top: 5px;
+      color: var(--quiet);
+      font-size: 11px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
     .trend-top {
       display: flex;
       align-items: flex-start;
@@ -596,6 +667,10 @@
       .trend-grid {
         grid-template-columns: 1fr;
       }
+
+      .triage-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 760px) {
@@ -630,6 +705,10 @@
       }
 
       .facts {
+        grid-template-columns: 1fr;
+      }
+
+      .triage-grid {
         grid-template-columns: 1fr;
       }
 
@@ -716,6 +795,49 @@
           </article>
         </div>
       </section>
+
+      <article class="panel triage-panel" aria-labelledby="triageTitle">
+        <div class="panel-head">
+          <div>
+            <h3 id="triageTitle">Revenue triage</h3>
+            <p class="triage-kicker" id="triageKicker">waiting for status</p>
+          </div>
+          <span class="small" id="triageExperiment">experiment pending</span>
+        </div>
+        <p class="triage-move" id="triageMove">Checking the money loop.</p>
+        <div class="triage-grid" aria-label="Revenue triage metrics">
+          <div class="triage-metric">
+            <span>All-time sends</span>
+            <strong id="triageSends">0</strong>
+            <small id="triageSendsDetail">today 0</small>
+          </div>
+          <div class="triage-metric">
+            <span>All-time replies</span>
+            <strong id="triageReplies">0</strong>
+            <small id="triageRepliesDetail">today 0</small>
+          </div>
+          <div class="triage-metric">
+            <span>Reply rate</span>
+            <strong id="triageReplyRate">0.0%</strong>
+            <small id="triageReplyRateDetail">do not scale until this moves</small>
+          </div>
+          <div class="triage-metric">
+            <span>Direct due</span>
+            <strong id="triageDue">0</strong>
+            <small id="triageDueDetail">0 generic paused</small>
+          </div>
+          <div class="triage-metric">
+            <span>Daily cap left</span>
+            <strong id="triageCap">0</strong>
+            <small id="triageCapDetail">window closed</small>
+          </div>
+          <div class="triage-metric">
+            <span>Weekly target</span>
+            <strong id="triageTarget">$0</strong>
+            <small id="triageTargetDetail">target not loaded</small>
+          </div>
+        </div>
+      </article>
     </section>
 
     <section class="tab-panel" id="mailPanel" role="tabpanel" aria-labelledby="mailTab" data-panel="mail" hidden>
@@ -873,6 +995,39 @@
       return value === undefined ? null : Number(value || 0);
     }
 
+    function totalReplies(status, history) {
+      const candidates = [
+        status.total_replies_all_time,
+        status.total_reply_count,
+        status.all_time_replies,
+        status.replies_all_time,
+        status.reply_count_all_time,
+      ];
+      const value = candidates.find((item) => item !== undefined && item !== null && item !== "");
+      if (value !== undefined) return Number(value || 0);
+      const rows = Array.isArray(history?.days) ? visibleTrendRows(history.days) : [];
+      return rows.reduce((sum, row) => sum + Number(row.replies || 0), 0);
+    }
+
+    function experimentName(experiment) {
+      if (!experiment || typeof experiment !== "object") return "experiment pending";
+      return String(
+        experiment.experiment_label ||
+        experiment.label ||
+        experiment.experiment_variant ||
+        experiment.variant ||
+        "experiment pending"
+      );
+    }
+
+    function sendWindowText(status) {
+      if (status.send_window_is_open) return "window open";
+      const start = String(status.send_window_start_local || "").slice(0, 5);
+      const end = String(status.send_window_end_local || "").slice(0, 5);
+      if (start && end) return `window ${start}-${end}`;
+      return "window closed";
+    }
+
     function dateLabel(isoDate) {
       const parts = String(isoDate || "").split("-").map(Number);
       if (parts.length !== 3 || parts.some((part) => !Number.isFinite(part))) return "";
@@ -995,6 +1150,52 @@
       renderTrendChart("repliesTrendChart", chartRows, "cumulative_replies", "replies");
     }
 
+    function renderRevenueTriage(status, cash, history) {
+      const sends = totalSends(status) ?? 0;
+      const replies = totalReplies(status, history);
+      const sentToday = Number(status.sent_today || 0);
+      const repliesToday = Number(status.replies_today || 0);
+      const replyRate = sends > 0 ? ((replies / sends) * 100).toFixed(1) : "0.0";
+      const directDue = Number(status.direct_due_count ?? status.due_now_count ?? status.queued_count ?? 0);
+      const genericPaused = Number(status.generic_paused_count || 0);
+      const dailyCap = Number(status.daily_send_cap || 0);
+      const capRemaining = Number(status.cap_remaining ?? Math.max(dailyCap - sentToday, 0));
+      const target = status.money_target && typeof status.money_target === "object" ? status.money_target : {};
+      const weeklyTarget = Number(target.weekly_target_usd || 0);
+      const paidTestsNeeded = Number(target.paid_tests_needed_weekly || 0);
+      const activeExperiment = status.active_experiment || {};
+      const noReplySignal = sends >= 100 && replies === 0;
+      const hasReplies = replies > 0 || repliesToday > 0;
+
+      $("triageKicker").textContent = noReplySignal
+        ? "No reply signal means this is not a checkout problem yet."
+        : hasReplies
+          ? "Replies exist. Human follow-up is the nearest money."
+          : "Waiting for enough send and reply signal.";
+      $("triageExperiment").textContent = experimentName(activeExperiment);
+      $("triageMove").textContent = String(
+        status.next_money_move ||
+        (noReplySignal
+          ? "Treat this as a targeting/copy problem before increasing send volume."
+          : "Keep watching replies before scaling sends.")
+      );
+
+      $("triageSends").textContent = String(sends);
+      $("triageSendsDetail").textContent = `today ${sentToday}`;
+      $("triageReplies").textContent = String(replies);
+      $("triageRepliesDetail").textContent = `today ${repliesToday}`;
+      $("triageReplyRate").textContent = `${replyRate}%`;
+      $("triageReplyRateDetail").textContent = noReplySignal ? "active copy test needed" : "reply signal loaded";
+      $("triageDue").textContent = String(directDue);
+      $("triageDueDetail").textContent = `${genericPaused} generic paused`;
+      $("triageCap").textContent = String(capRemaining);
+      $("triageCapDetail").textContent = `${sentToday}/${dailyCap || 0} sent, ${sendWindowText(status)}`;
+      $("triageTarget").textContent = weeklyTarget ? money(weeklyTarget) : money(cash?.week?.gross_usd || 0);
+      $("triageTargetDetail").textContent = paidTestsNeeded
+        ? `${paidTestsNeeded} paid tests needed weekly`
+        : `${cash?.week?.payments_count || 0} payments this week`;
+    }
+
     function updateSelectedEventButtons() {
       document.querySelectorAll("[data-event-key]").forEach((button) => {
         button.setAttribute("aria-selected", String(button.getAttribute("data-event-key") === selectedMessageKey));
@@ -1084,6 +1285,7 @@
     function render(health, status, cash, history) {
       latest = { health, status, cash, history };
       renderDailyTrends(history);
+      renderRevenueTriage(status, cash, history);
       const replies = Number(status.replies_today || 0);
       const sent = Number(status.sent_today || 0);
       const cap = Number(status.daily_send_cap || 0);

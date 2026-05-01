@@ -1,6 +1,6 @@
 {
-  "name": "Relay Live",
-  "short_name": "Relay Live",
+  "name": "Relay",
+  "short_name": "Relay",
   "icons": [
     {
       "src": "/favicon.svg",

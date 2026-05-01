@@ -1323,17 +1323,20 @@
     $("refreshBtn").addEventListener("click", refresh);
     $("copyBtn").addEventListener("click", async () => {
       if (!latest) return;
-      const { health, status, cash } = latest;
+      const { health, status, cash, history } = latest;
       const text = [
         "Relay Live",
         `backend=${health.status}`,
         `money_today=${cash.today?.gross_usd || 0}`,
         `payments_today=${cash.today?.payments_count || 0}`,
         `replies_today=${status.replies_today || 0}`,
+        `total_replies_all_time=${totalReplies(status, history)}`,
         `sent_today=${status.sent_today || 0}`,
         `total_sends_all_time=${totalSends(status) ?? ""}`,
         `daily_send_cap=${status.daily_send_cap || 0}`,
         `direct_due_count=${status.direct_due_count || 0}`,
+        `active_experiment=${experimentName(status.active_experiment)}`,
+        `next_money_move=${status.next_money_move || ""}`,
       ].join("\n");
       await navigator.clipboard.writeText(text);
       $("lastUpdated").textContent = "Status copied";

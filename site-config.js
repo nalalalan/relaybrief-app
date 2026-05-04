@@ -1,5 +1,5 @@
 window.AO_CONFIG = {
-  SITE_BASE_URL: "https://relaybrief.com",
+  SITE_BASE_URL: "http://relaybrief.com",
   API_BASE: "https://alan-operator-backend-production.up.railway.app",
   RELAY_INTENT_EVENT_URL: "https://alan-operator-backend-production.up.railway.app/api/relay/event",
   RELAY_INTENT_LEAD_URL: "https://alan-operator-backend-production.up.railway.app/api/relay/lead",

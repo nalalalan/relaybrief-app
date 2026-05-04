@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Relay | Finished follow-up from messy notes</title>
   <meta name="description" content="Send messy sales-call notes. Relay turns them into a finished recap, follow-up email, CRM notes, and next-step checklist." />
-  <link rel="canonical" href="http://relaybrief.com/" />
+  <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Relay" />
   <meta property="og:title" content="Relay | Finished follow-up from messy notes" />
   <meta property="og:description" content="Send messy sales-call notes. Relay turns them into a finished recap, follow-up email, CRM notes, and next-step checklist." />
-  <meta property="og:url" content="http://relaybrief.com/" />
-  <meta property="og:image" content="http://relaybrief.com/og-image.png" />
-  <meta property="og:image:secure_url" content="http://relaybrief.com/og-image.png" />
+  <meta property="og:url" content="https://relaybrief.com/" />
+  <meta property="og:image" content="https://relaybrief.com/og-image.png" />
+  <meta property="og:image:secure_url" content="https://relaybrief.com/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Relay | Finished follow-up from messy notes" />
   <meta name="twitter:description" content="Send messy sales-call notes. Relay turns them into a finished recap, follow-up email, CRM notes, and next-step checklist." />
-  <meta name="twitter:image" content="http://relaybrief.com/og-image.png" />
+  <meta name="twitter:image" content="https://relaybrief.com/og-image.png" />
   <meta name="twitter:image:alt" content="Relay preview image." />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -38,7 +38,7 @@
       --signal: #d9f46c;
       --danger: #a5382c;
       --ok: #25633c;
-      --shadow: 0 18px 42px rgba(22, 22, 22, 0.08);
+      --shadow: 0 14px 34px rgba(22, 22, 22, 0.07);
       --radius: 8px;
       --max: 1120px;
     }
@@ -91,7 +91,7 @@
     }
 
     .topbar-inner {
-      min-height: 72px;
+      min-height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -109,8 +109,8 @@
     }
 
     .brand-mark {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 8px;
       display: grid;
       place-items: center;
@@ -127,7 +127,7 @@
     }
 
     .btn {
-      min-height: 48px;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -168,49 +168,53 @@
     }
 
     .main {
-      padding: 38px 0 28px;
+      padding: 30px 0 28px;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
-      gap: 28px;
+      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 0.74fr);
+      gap: 34px;
       align-items: start;
     }
 
+    .hero > * {
+      min-width: 0;
+    }
+
     .hero-copy {
-      padding-top: 10px;
+      padding-top: 8px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
-      min-height: 34px;
-      padding: 0 12px;
+      min-height: 30px;
+      padding: 0 10px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: #fff;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       letter-spacing: 0;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     h1 {
-      max-width: 780px;
-      font-size: 64px;
-      line-height: 1;
+      max-width: 690px;
+      font-size: 50px;
+      line-height: 1.02;
       letter-spacing: 0;
       font-weight: 900;
     }
 
     .subhead {
-      max-width: 700px;
-      margin-top: 18px;
+      max-width: 650px;
+      margin-top: 16px;
       color: var(--muted);
-      font-size: 21px;
-      line-height: 1.5;
+      font-size: 17px;
+      line-height: 1.46;
       letter-spacing: 0;
     }
 
@@ -219,25 +223,29 @@
       font-weight: 900;
     }
 
-    .quick-proof {
+    .proof-line {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 22px;
-    }
-
-    .pill {
-      min-height: 34px;
-      display: inline-flex;
-      align-items: center;
-      padding: 0 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
+      gap: 12px;
+      margin-top: 18px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       letter-spacing: 0;
+    }
+
+    .proof-line span {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .proof-line span + span::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: #b8c0b8;
     }
 
     .panel,
@@ -249,11 +257,14 @@
     }
 
     .panel {
+      position: sticky;
+      top: 86px;
+      margin-top: 22px;
       padding: 18px;
     }
 
     .form-title {
-      font-size: 22px;
+      font-size: 21px;
       line-height: 1.2;
       font-weight: 900;
       letter-spacing: 0;
@@ -263,7 +274,7 @@
     .field {
       display: grid;
       gap: 7px;
-      margin-top: 13px;
+      margin-top: 12px;
     }
 
     label {
@@ -287,12 +298,12 @@
     }
 
     input {
-      min-height: 50px;
+      min-height: 48px;
       padding: 0 13px;
     }
 
     textarea {
-      min-height: 188px;
+      min-height: 150px;
       resize: vertical;
       padding: 13px;
       line-height: 1.45;
@@ -308,7 +319,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 13px;
     }
 
     .status {
@@ -343,7 +354,7 @@
     }
 
     .sample-panel {
-      margin-top: 22px;
+      margin-top: 20px;
       overflow: hidden;
     }
 
@@ -354,7 +365,7 @@
 
     .sample-link img {
       width: 100%;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16 / 7.4;
       object-fit: cover;
       object-position: top center;
       border-bottom: 1px solid var(--line);
@@ -373,8 +384,8 @@
     }
 
     .summary-strip {
-      margin-top: 28px;
-      padding: 18px 0 0;
+      margin-top: 24px;
+      padding: 16px 0 0;
       border-top: 1px solid var(--line);
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -382,8 +393,8 @@
     }
 
     .summary-item {
-      min-height: 92px;
-      padding: 14px;
+      min-height: 82px;
+      padding: 13px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.68);
@@ -434,12 +445,17 @@
         grid-template-columns: 1fr;
       }
 
+      .panel {
+        position: static;
+        margin-top: 0;
+      }
+
       h1 {
-        font-size: 48px;
+        font-size: 44px;
       }
 
       .subhead {
-        font-size: 19px;
+        font-size: 18px;
       }
 
       .summary-strip {
@@ -467,8 +483,15 @@
 
       .top-actions .btn {
         min-height: 42px;
-        padding: 0 12px;
-        font-size: 14px;
+        max-width: 118px;
+        padding: 0 10px;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .top-actions {
+        display: none;
       }
 
       .main {
@@ -476,7 +499,43 @@
       }
 
       h1 {
-        font-size: 40px;
+        max-width: 330px;
+        font-size: 31px;
+        line-height: 1.08;
+        overflow-wrap: anywhere;
+      }
+
+      .subhead {
+        max-width: 330px;
+        font-size: 16px;
+        overflow-wrap: anywhere;
+      }
+
+      .proof-line {
+        max-width: 330px;
+        gap: 8px;
+        font-size: 13px;
+      }
+
+      .proof-line span {
+        gap: 8px;
+      }
+
+      .sample-panel,
+      .panel,
+      .summary-strip {
+        width: 330px;
+        max-width: calc(100vw - 24px);
+      }
+
+      .sample-link img {
+        aspect-ratio: 4 / 3;
+        object-fit: contain;
+        background: #eee8df;
+      }
+
+      .sample-caption {
+        padding: 12px 14px;
       }
 
       .form-actions,
@@ -507,7 +566,7 @@
         <span>Relay</span>
       </a>
       <div class="top-actions">
-        <a id="topCheckout" class="btn btn-primary js-checkout" href="#">Start $40 packet</a>
+        <a id="topCheckout" class="btn btn-primary js-checkout" href="#">Pay $40</a>
       </div>
     </div>
   </header>
@@ -516,15 +575,16 @@
     <div class="wrap">
       <section class="hero" aria-label="Relay">
         <div class="hero-copy">
-          <div class="eyebrow">One messy call in. Finished follow-up out.</div>
-          <h1>Send rough notes. Get the follow-up packet.</h1>
+          <div class="eyebrow">One messy call. One clean handoff.</div>
+          <h1>Clean follow-up from rough call notes.</h1>
           <p class="subhead">
-            Relay turns one sales or client call into a <strong>recap, next steps, follow-up draft, open questions, and CRM-ready update</strong>.
+            Paste notes from one sales or client call. Relay returns the <strong>recap, next steps, follow-up draft, open questions, and CRM notes</strong>.
           </p>
-          <div class="quick-proof" aria-label="Relay output">
-            <span class="pill">$40 one-call test</span>
-            <span class="pill">No setup</span>
-            <span class="pill">Built for messy notes</span>
+          <div class="proof-line" aria-label="Relay terms">
+            <span>$40</span>
+            <span>one call</span>
+            <span>no setup</span>
+            <span>messy notes are fine</span>
           </div>
 
           <div class="sample-panel" aria-label="Relay sample">
@@ -539,21 +599,21 @@
         </div>
 
         <form id="notesForm" class="panel" autocomplete="on">
-          <h2 class="form-title">Paste the rough version.</h2>
+          <h2 class="form-title">Send the messy version.</h2>
 
           <div class="field">
-            <label for="email">Email</label>
+            <label for="email">Work email</label>
             <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
           </div>
 
           <div class="field">
-            <label for="notes">Messy notes</label>
-            <textarea id="notes" name="notes" placeholder="Paste bullets, transcript fragments, screenshots text, or rushed call notes." required></textarea>
+            <label for="notes">Rough notes</label>
+            <textarea id="notes" name="notes" placeholder="Bullets, fragments, transcript paste, screenshot text, whatever you have." required></textarea>
           </div>
 
           <div class="form-actions">
             <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes</button>
-            <a id="formCheckout" class="btn btn-primary js-checkout" href="#">Start $40</a>
+            <a id="formCheckout" class="btn btn-primary js-checkout" href="#">Pay $40</a>
           </div>
 
           <div id="status" class="status" role="status" aria-live="polite"></div>
@@ -567,19 +627,19 @@
       <section class="summary-strip" aria-label="What Relay sends back">
         <div class="summary-item">
           <strong>Recap</strong>
-          <span>Clean summary of what happened.</span>
+          <span>Short summary of what happened.</span>
         </div>
         <div class="summary-item">
           <strong>Next steps</strong>
-          <span>Clear owner, action, and timing list.</span>
+          <span>Owner, action, and timing.</span>
         </div>
         <div class="summary-item">
           <strong>Follow-up draft</strong>
-          <span>Ready-to-send email for the client.</span>
+          <span>Email you can send.</span>
         </div>
         <div class="summary-item">
           <strong>CRM update</strong>
-          <span>Copyable notes for the record.</span>
+          <span>Clean notes for the record.</span>
         </div>
       </section>
     </div>

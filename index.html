@@ -1,144 +1,773 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="robots" content="noindex,nofollow,noarchive" />
-  <title>Relay Live</title>
-  <meta name="description" content="Send messy sales-call notes to Relay and get a finished follow-up packet." />
-  <link rel="canonical" href="https://relay.aolabs.io/#send-notes" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relay | Finished follow-up from messy notes</title>
+  <meta name="description" content="Send messy sales-call notes. Relay turns them into a finished recap, follow-up email, CRM notes, and next-step checklist." />
+  <link rel="canonical" href="https://relaylive.aolabs.io/" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="AO Labs" />
-  <meta property="og:title" content="Relay by AO Labs" />
-  <meta property="og:description" content="Send messy sales-call notes. Relay turns them into a recap, follow-up email, CRM notes, and next-step checklist." />
+  <meta property="og:site_name" content="Relay" />
+  <meta property="og:title" content="Relay | Finished follow-up from messy notes" />
+  <meta property="og:description" content="Send messy sales-call notes. Relay turns them into a finished recap, follow-up email, CRM notes, and next-step checklist." />
   <meta property="og:url" content="https://relaylive.aolabs.io/" />
   <meta property="og:image" content="https://relaylive.aolabs.io/og-image.png" />
   <meta property="og:image:secure_url" content="https://relaylive.aolabs.io/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Relay by AO Labs preview image." />
+  <meta property="og:image:alt" content="Relay preview image." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Relay by AO Labs" />
-  <meta name="twitter:description" content="Send messy sales-call notes to Relay and get a finished follow-up packet." />
+  <meta name="twitter:title" content="Relay | Finished follow-up from messy notes" />
+  <meta name="twitter:description" content="Send messy sales-call notes. Relay turns them into a finished recap, follow-up email, CRM notes, and next-step checklist." />
   <meta name="twitter:image" content="https://relaylive.aolabs.io/og-image.png" />
-  <meta name="twitter:image:alt" content="Relay by AO Labs preview image." />
-  <meta name="theme-color" content="#ffd6c5" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="twitter:image:alt" content="Relay preview image." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#f7f8f5" />
+  <script src="site-config.js"></script>
   <style>
     :root {
-      color-scheme: light;
-      --bg: #ffd6c5;
-      --panel: #fffaf6;
-      --text: #261712;
-      --muted: #715d56;
-      --line: #ead3c8;
-      --accent: #c98a53;
-      --accent-dark: #a66c3e;
-      --shadow: 0 18px 44px rgba(20, 20, 20, 0.08);
+      --bg: #f7f8f5;
+      --panel: #ffffff;
+      --ink: #161616;
+      --muted: #5c625f;
+      --line: #dfe4dd;
+      --accent: #285eea;
+      --accent-dark: #1f49b7;
+      --signal: #d9f46c;
+      --danger: #a5382c;
+      --ok: #25633c;
+      --shadow: 0 18px 42px rgba(22, 22, 22, 0.08);
+      --radius: 8px;
+      --max: 1120px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.36), rgba(255,255,255,0) 44%),
-        var(--bg);
-      color: var(--text);
+      background: var(--bg);
+      color: var(--ink);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    main {
-      width: min(620px, 100%);
-      padding: clamp(24px, 5vw, 42px);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-
-    .kicker {
-      display: inline-flex;
-      min-height: 34px;
-      align-items: center;
-      padding: 0 13px;
-      border: 1px solid rgba(191, 134, 81, .24);
-      border-radius: 999px;
-      background: rgba(191, 134, 81, .08);
-      color: var(--accent-dark);
-      font-size: 13px;
-      font-weight: 850;
-    }
-
-    h1 {
-      max-width: 10ch;
-      margin: 18px 0 14px;
-      font-size: clamp(44px, 11vw, 76px);
-      line-height: .93;
-      letter-spacing: 0;
-    }
-
-    p {
-      max-width: 46ch;
-      margin: 0;
-      color: var(--muted);
-      font-size: 18px;
-      font-weight: 620;
       line-height: 1.42;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 26px;
+      overflow-x: hidden;
     }
 
     a {
-      display: inline-flex;
-      min-height: 52px;
-      align-items: center;
-      justify-content: center;
-      padding: 0 20px;
-      border: 1.5px solid var(--line);
-      border-radius: 16px;
-      color: var(--text);
-      font-weight: 900;
+      color: inherit;
       text-decoration: none;
     }
 
-    .primary {
-      border-color: var(--accent);
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247, 248, 245, 0.94);
+      border-bottom: 1px solid rgba(223, 228, 221, 0.94);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: #c8d0c7;
+    }
+
+    .btn-primary {
       background: var(--accent);
-      color: white;
+      color: #fff;
+      border-color: var(--accent);
     }
 
-    .primary:hover {
+    .btn-primary:hover {
       background: var(--accent-dark);
+      border-color: var(--accent-dark);
     }
 
-    @media (max-width: 540px) {
-      body { padding: 14px; }
-      main { border-radius: 24px; }
-      .actions { display: grid; }
-      a { width: 100%; }
+    .btn-signal {
+      background: var(--signal);
+      border-color: #cbe960;
+      color: #18210e;
+    }
+
+    .main {
+      padding: 38px 0 28px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      padding-top: 10px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      max-width: 780px;
+      font-size: 64px;
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .subhead {
+      max-width: 700px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    .subhead strong {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .quick-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .pill {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .panel,
+    .sample-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .form-title {
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+      margin-top: 13px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+      color: var(--ink);
+      font: inherit;
+      font-size: 16px;
+      letter-spacing: 0;
+      outline: none;
+    }
+
+    input {
+      min-height: 50px;
+      padding: 0 13px;
+    }
+
+    textarea {
+      min-height: 188px;
+      resize: vertical;
+      padding: 13px;
+      line-height: 1.45;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(40, 94, 234, 0.12);
+    }
+
+    .form-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .status.error {
+      color: var(--danger);
+    }
+
+    .status.success {
+      color: var(--ok);
+    }
+
+    .after-submit {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .after-submit.visible {
+      display: block;
+    }
+
+    .after-submit .btn {
+      width: 100%;
+    }
+
+    .sample-panel {
+      margin-top: 22px;
+      overflow: hidden;
+    }
+
+    .sample-link {
+      display: block;
+      background: #eef1ec;
+    }
+
+    .sample-link img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: top center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sample-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .summary-strip {
+      margin-top: 28px;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary-item {
+      min-height: 92px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .summary-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .footer {
+      padding: 18px 0 32px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-admin {
+      opacity: 0.28;
+    }
+
+    .footer-admin:hover {
+      opacity: 0.78;
+    }
+
+    .disabled {
+      opacity: 0.62;
+      pointer-events: none;
+    }
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      .subhead {
+        font-size: 19px;
+      }
+
+      .summary-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(calc(100% - 24px), var(--max));
+      }
+
+      .topbar-inner {
+        min-height: 64px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .top-actions .btn {
+        min-height: 42px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .main {
+        padding-top: 26px;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .form-actions,
+      .summary-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      textarea {
+        min-height: 170px;
+      }
+
+      .sample-caption {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <span class="kicker">Relay live</span>
-    <h1>Send messy notes.</h1>
-    <p>Relay Live now points into the main notes-first Relay flow. Paste one rough sales-call note and get the finished follow-up packet after Alan confirms the scope.</p>
-    <div class="actions">
-      <a class="primary" href="https://relay.aolabs.io/#send-notes">Send messy notes</a>
-      <a href="https://relay.aolabs.io/sample.pdf">Open sample</a>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="Relay home">
+        <span class="brand-mark">AO</span>
+        <span>Relay</span>
+      </a>
+      <div class="top-actions">
+        <a id="topCheckout" class="btn btn-primary js-checkout" href="#">Start $40 packet</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="wrap">
+      <section class="hero" aria-label="Relay">
+        <div class="hero-copy">
+          <div class="eyebrow">One messy call in. Finished follow-up out.</div>
+          <h1>Send rough notes. Get the follow-up packet.</h1>
+          <p class="subhead">
+            Relay turns one sales or client call into a <strong>recap, next steps, follow-up draft, open questions, and CRM-ready update</strong>.
+          </p>
+          <div class="quick-proof" aria-label="Relay output">
+            <span class="pill">$40 one-call test</span>
+            <span class="pill">No setup</span>
+            <span class="pill">Built for messy notes</span>
+          </div>
+
+          <div class="sample-panel" aria-label="Relay sample">
+            <a id="sampleLink" class="sample-link" href="sample.pdf" target="_blank" rel="noopener">
+              <img src="sample-preview.png" alt="Preview of a Relay follow-up packet." loading="eager" />
+            </a>
+            <div class="sample-caption">
+              <span>Sample packet preview</span>
+              <a id="sampleTextLink" href="sample.pdf" target="_blank" rel="noopener">Open sample</a>
+            </div>
+          </div>
+        </div>
+
+        <form id="notesForm" class="panel" autocomplete="on">
+          <h2 class="form-title">Paste the rough version.</h2>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
+          </div>
+
+          <div class="field">
+            <label for="notes">Messy notes</label>
+            <textarea id="notes" name="notes" placeholder="Paste bullets, transcript fragments, screenshots text, or rushed call notes." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes</button>
+            <a id="formCheckout" class="btn btn-primary js-checkout" href="#">Start $40</a>
+          </div>
+
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+
+          <div id="afterSubmit" class="after-submit">
+            <a id="afterCheckout" class="btn btn-primary js-checkout" href="#">Start the $40 packet</a>
+          </div>
+        </form>
+      </section>
+
+      <section class="summary-strip" aria-label="What Relay sends back">
+        <div class="summary-item">
+          <strong>Recap</strong>
+          <span>Clean summary of what happened.</span>
+        </div>
+        <div class="summary-item">
+          <strong>Next steps</strong>
+          <span>Clear owner, action, and timing list.</span>
+        </div>
+        <div class="summary-item">
+          <strong>Follow-up draft</strong>
+          <span>Ready-to-send email for the client.</span>
+        </div>
+        <div class="summary-item">
+          <strong>CRM update</strong>
+          <span>Copyable notes for the record.</span>
+        </div>
+      </section>
     </div>
   </main>
+
+  <footer class="wrap footer">
+      <span>Relay</span>
+  </footer>
+
+  <script>
+    (function () {
+      var config = window.AO_CONFIG || {};
+      var eventUrl = config.RELAY_INTENT_EVENT_URL || "https://alan-operator-backend-production.up.railway.app/api/relay/event";
+      var leadUrl = config.RELAY_INTENT_LEAD_URL || "https://alan-operator-backend-production.up.railway.app/api/relay/lead";
+      var checkoutUrl = config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJeaEZb4mf6de64dSi2Nq02";
+      var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
+      var sessionKey = "ao_relay_session_id";
+      var sessionId = localStorage.getItem(sessionKey);
+      var emailEl = document.getElementById("email");
+      var notesEl = document.getElementById("notes");
+      var formEl = document.getElementById("notesForm");
+      var statusEl = document.getElementById("status");
+      var sendNotesBtn = document.getElementById("sendNotesBtn");
+      var afterSubmitEl = document.getElementById("afterSubmit");
+      var checkoutLinks = Array.prototype.slice.call(document.querySelectorAll(".js-checkout"));
+      var sampleLink = document.getElementById("sampleLink");
+      var sampleTextLink = document.getElementById("sampleTextLink");
+
+      if (!sessionId) {
+        sessionId = "relay-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem(sessionKey, sessionId);
+      }
+
+      checkoutLinks.forEach(function (link) {
+        link.href = checkoutUrl;
+      });
+      sampleLink.href = sampleUrl;
+      sampleTextLink.href = sampleUrl;
+
+      function setStatus(message, kind) {
+        statusEl.textContent = message || "";
+        statusEl.className = "status" + (kind ? " " + kind : "");
+      }
+
+      function validEmail(value) {
+        return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((value || "").trim());
+      }
+
+      function currentNotes() {
+        return (notesEl.value || "").trim();
+      }
+
+      function currentEmail() {
+        return (emailEl.value || "").trim().toLowerCase();
+      }
+
+      function track(eventType, metadata) {
+        try {
+          fetch(eventUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            keepalive: true,
+            body: JSON.stringify({
+              session_id: sessionId,
+              event_type: eventType,
+              path: window.location.pathname,
+              page_url: window.location.href,
+              referrer: document.referrer || "",
+              metadata: metadata || {}
+            })
+          }).catch(function () {});
+        } catch (error) {}
+      }
+
+      async function postLead(source, metadata) {
+        var email = currentEmail();
+        if (!validEmail(email)) {
+          throw new Error("email");
+        }
+
+        var response = await fetch(leadUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            session_id: sessionId,
+            email: email,
+            source: source,
+            page_url: window.location.href,
+            referrer: document.referrer || "",
+            metadata: metadata || {}
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("lead");
+        }
+
+        return response.json();
+      }
+
+      async function captureCheckoutIntent() {
+        var email = currentEmail();
+        var notes = currentNotes();
+        track("checkout_click", {
+          has_email: validEmail(email),
+          has_notes: notes.length > 0,
+          note_length: notes.length
+        });
+
+        if (!validEmail(email)) {
+          return;
+        }
+
+        try {
+          await postLead("checkout_intent", {
+            note_length: notes.length,
+            notes_preview: notes.slice(0, 600)
+          });
+        } catch (error) {}
+      }
+
+      function delay(ms) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, ms);
+        });
+      }
+
+      formEl.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        var email = currentEmail();
+        var notes = currentNotes();
+
+        if (!validEmail(email)) {
+          setStatus("Use a valid email so Relay can send the next step.", "error");
+          emailEl.focus();
+          return;
+        }
+
+        if (notes.length < 10) {
+          setStatus("Paste at least a few real notes first.", "error");
+          notesEl.focus();
+          return;
+        }
+
+        sendNotesBtn.classList.add("disabled");
+        setStatus("Saving notes...", "");
+
+        try {
+          await postLead("messy_notes", {
+            notes: notes,
+            note_length: notes.length
+          });
+          track("note_intake_submit", {
+            note_length: notes.length
+          });
+          afterSubmitEl.classList.add("visible");
+          setStatus("Notes saved. Start the packet when ready; Relay will also email you the link.", "success");
+        } catch (error) {
+          setStatus("Could not save notes right now. You can still start the $40 packet.", "error");
+        } finally {
+          sendNotesBtn.classList.remove("disabled");
+        }
+      });
+
+      checkoutLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          Promise.race([captureCheckoutIntent(), delay(650)]).finally(function () {
+            window.location.href = checkoutUrl;
+          });
+        });
+      });
+
+      [sampleLink, sampleTextLink].forEach(function (link) {
+        link.addEventListener("click", function () {
+          track("sample_click", {
+            has_email: validEmail(currentEmail())
+          });
+        });
+      });
+
+      notesEl.addEventListener("focus", function () {
+        track("note_intake_click", {});
+      }, { once: true });
+
+      track("page_view", {});
+    }());
+  </script>
 </body>
 </html>

@@ -669,6 +669,16 @@
       var checkoutLinks = Array.prototype.slice.call(document.querySelectorAll(".js-checkout"));
       var sampleLink = document.getElementById("sampleLink");
       var sampleTextLink = document.getElementById("sampleTextLink");
+      var pageStartedAt = new Date();
+      var pageStartedMs = Date.now();
+      var lastActiveMs = pageStartedMs;
+      var activeMs = 0;
+      var maxScrollPct = 0;
+      var scrollMarks = {};
+      var notesStarted = false;
+      var notesHundred = false;
+      var engagementMarks = {};
+      var query = new URLSearchParams(window.location.search);
 
       if (!sessionId) {
         sessionId = "relay-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
@@ -698,6 +708,58 @@
         return (emailEl.value || "").trim().toLowerCase();
       }
 
+      function updateActiveTime() {
+        var now = Date.now();
+        if (!document.hidden) {
+          activeMs += Math.max(now - lastActiveMs, 0);
+        }
+        lastActiveMs = now;
+      }
+
+      function scrollPercent() {
+        var doc = document.documentElement;
+        var body = document.body;
+        var scrollTop = window.scrollY || doc.scrollTop || body.scrollTop || 0;
+        var scrollHeight = Math.max(
+          body.scrollHeight || 0,
+          doc.scrollHeight || 0,
+          body.offsetHeight || 0,
+          doc.offsetHeight || 0
+        );
+        var viewport = window.innerHeight || doc.clientHeight || 1;
+        var available = Math.max(scrollHeight - viewport, 1);
+        return Math.max(0, Math.min(100, Math.round((scrollTop / available) * 100)));
+      }
+
+      function baseMetadata(extra) {
+        updateActiveTime();
+        var metadata = {
+          surface: "relay_product",
+          page_started_at: pageStartedAt.toISOString(),
+          elapsed_ms: Date.now() - pageStartedMs,
+          active_ms: Math.round(activeMs),
+          max_scroll_pct: maxScrollPct,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+          local_hour: String(new Date().getHours()).padStart(2, "0"),
+          viewport_w: window.innerWidth || 0,
+          viewport_h: window.innerHeight || 0,
+          screen_w: window.screen ? window.screen.width : 0,
+          screen_h: window.screen ? window.screen.height : 0,
+          language: navigator.language || "",
+          utm_source: query.get("utm_source") || "",
+          utm_medium: query.get("utm_medium") || "",
+          utm_campaign: query.get("utm_campaign") || "",
+          utm_content: query.get("utm_content") || "",
+          utm_term: query.get("utm_term") || "",
+          rbp: query.get("rbp") || "",
+          hash: window.location.hash || ""
+        };
+        Object.keys(extra || {}).forEach(function (key) {
+          metadata[key] = extra[key];
+        });
+        return metadata;
+      }
+
       function track(eventType, metadata) {
         try {
           fetch(eventUrl, {
@@ -710,7 +772,7 @@
               path: window.location.pathname,
               page_url: window.location.href,
               referrer: document.referrer || "",
-              metadata: metadata || {}
+              metadata: baseMetadata(metadata || {})
             })
           }).catch(function () {});
         } catch (error) {}
@@ -731,7 +793,7 @@
             source: source,
             page_url: window.location.href,
             referrer: document.referrer || "",
-            metadata: metadata || {}
+            metadata: baseMetadata(metadata || {})
           })
         });
 
@@ -819,15 +881,79 @@
       [sampleLink, sampleTextLink].forEach(function (link) {
         link.addEventListener("click", function () {
           track("sample_click", {
-            has_email: validEmail(currentEmail())
+            has_email: validEmail(currentEmail()),
+            destination: link.id || "sample"
           });
         });
       });
+
+      emailEl.addEventListener("focus", function () {
+        track("email_focus", {});
+      }, { once: true });
 
       notesEl.addEventListener("focus", function () {
         track("note_intake_click", {});
       }, { once: true });
 
+      notesEl.addEventListener("input", function () {
+        var length = currentNotes().length;
+        if (!notesStarted && length > 0) {
+          notesStarted = true;
+          track("notes_started", { note_length: length });
+        }
+        if (!notesHundred && length >= 100) {
+          notesHundred = true;
+          track("notes_100_chars", { note_length: length });
+        }
+      });
+
+      function checkScrollDepth() {
+        maxScrollPct = Math.max(maxScrollPct, scrollPercent());
+        [25, 50, 75, 90].forEach(function (mark) {
+          if (maxScrollPct >= mark && !scrollMarks[mark]) {
+            scrollMarks[mark] = true;
+            track("scroll_depth", { scroll_pct: mark });
+          }
+        });
+      }
+
+      function trackEngagement(label) {
+        track("page_engagement", {
+          mark: label || "heartbeat",
+          active_seconds: Math.round(activeMs / 1000),
+          elapsed_seconds: Math.round((Date.now() - pageStartedMs) / 1000)
+        });
+      }
+
+      window.addEventListener("scroll", function () {
+        window.clearTimeout(checkScrollDepth._timer);
+        checkScrollDepth._timer = window.setTimeout(checkScrollDepth, 160);
+      }, { passive: true });
+
+      document.addEventListener("visibilitychange", function () {
+        updateActiveTime();
+        track("page_visibility", { state: document.visibilityState || "" });
+        if (document.hidden) {
+          trackEngagement("hidden");
+        }
+      });
+
+      [10000, 30000, 60000, 120000].forEach(function (ms) {
+        window.setTimeout(function () {
+          if (!engagementMarks[ms]) {
+            engagementMarks[ms] = true;
+            trackEngagement(String(ms / 1000) + "s");
+          }
+        }, ms);
+      });
+
+      window.addEventListener("pagehide", function () {
+        updateActiveTime();
+        checkScrollDepth();
+        trackEngagement("pagehide");
+      });
+
+      checkScrollDepth();
       track("page_view", {});
     }());
   </script>

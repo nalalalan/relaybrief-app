@@ -8,6 +8,6 @@ window.AO_CONFIG = {
   PACKET_5_PACK_URL: "https://buy.stripe.com/28EaEZgoGf6d7HG9C22Nq03",
   WEEKLY_SPRINT_URL: "https://buy.stripe.com/8x200l0pIcY54vu8xY2Nq05",
   MONTHLY_AUTOPILOT_URL: "https://buy.stripe.com/aFaeVf0pI3nv6DC15w2Nq06",
-  SAMPLE_PDF_URL: "https://raw.githubusercontent.com/nalalalan/relay-live/main/sample.pdf",
+  SAMPLE_PDF_URL: "https://relay.aolabs.io/sample.pdf",
   CLIENT_GATE_PAGE: "client-intake.html"
 };

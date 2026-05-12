@@ -566,7 +566,7 @@
         <span>Relay</span>
       </a>
       <div class="top-actions">
-        <a id="topCheckout" class="btn btn-primary js-checkout" href="#">Pay $40</a>
+        <a id="topCheckout" class="btn btn-primary js-checkout" href="#">Buy $40 packet</a>
       </div>
     </div>
   </header>
@@ -612,14 +612,14 @@
           </div>
 
           <div class="form-actions">
-            <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes</button>
-            <a id="formCheckout" class="btn btn-primary js-checkout" href="#">Pay $40</a>
+            <a id="formCheckout" class="btn btn-primary js-checkout" href="#">Buy $40 packet</a>
+            <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes first</button>
           </div>
 
           <div id="status" class="status" role="status" aria-live="polite"></div>
 
           <div id="afterSubmit" class="after-submit">
-            <a id="afterCheckout" class="btn btn-primary js-checkout" href="#">Start the $40 packet</a>
+            <a id="afterCheckout" class="btn btn-primary js-checkout" href="#">Buy $40 packet</a>
           </div>
         </form>
       </section>
@@ -861,9 +861,9 @@
             note_length: notes.length
           });
           afterSubmitEl.classList.add("visible");
-          setStatus("Notes saved. Start the packet when ready; Relay will also email you the link.", "success");
+          setStatus("Notes saved. Buy the packet when ready; Relay will also email you the link.", "success");
         } catch (error) {
-          setStatus("Could not save notes right now. You can still start the $40 packet.", "error");
+          setStatus("Could not save notes right now. You can still buy the $40 packet.", "error");
         } finally {
           sendNotesBtn.classList.remove("disabled");
         }

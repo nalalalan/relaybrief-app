@@ -658,7 +658,7 @@
       var leadUrl = config.RELAY_INTENT_LEAD_URL || "https://alan-operator-backend-production.up.railway.app/api/relay/lead";
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
       var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJeaEZb4mf6de64dSi2Nq02";
-      var priceLabel = firstMoneyUrl ? (config.FIRST_MONEY_PRICE_LABEL || "$10") : (config.PACKET_PRICE_LABEL || "$40");
+      var priceLabel = firstMoneyUrl ? (config.FIRST_MONEY_PRICE_LABEL || "$1") : (config.PACKET_PRICE_LABEL || "$40");
       var checkoutLabel = firstMoneyUrl ? ("Buy " + priceLabel + " test") : ("Buy " + priceLabel + " packet");
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";

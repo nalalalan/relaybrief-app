@@ -871,7 +871,7 @@
           afterSubmitEl.classList.add("visible");
           setStatus("Notes saved. Buy the packet when ready; Relay will also email you the link.", "success");
         } catch (error) {
-          setStatus("Could not save notes right now. You can still buy the $40 packet.", "error");
+          setStatus("Could not save notes right now. You can still buy the " + priceLabel + " test.", "error");
         } finally {
           sendNotesBtn.classList.remove("disabled");
         }

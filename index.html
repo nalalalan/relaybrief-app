@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Relay | Finished follow-up from messy notes</title>
-  <meta name="description" content="Turn rough call notes into a polished recap, follow-up email, CRM notes, and next-step checklist.">
+  <meta name="description" content="$1 one-call cleanup from rough sales or client-call notes.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AO Labs">
   <meta property="og:title" content="Relay">
-  <meta property="og:description" content="Turn rough call notes into a polished recap, follow-up email, CRM notes, and next-step checklist.">
+  <meta property="og:description" content="$1 one-call cleanup from rough sales or client-call notes.">
   <meta property="og:url" content="https://relaybrief.com/">
   <meta property="og:image" content="https://relaybrief.com/og-image-20260506-contained.png">
   <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-20260506-contained.png">
@@ -19,7 +19,7 @@
   <meta property="og:image:alt" content="Relay product preview card.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Relay">
-  <meta name="twitter:description" content="Turn rough call notes into a polished recap, follow-up email, CRM notes, and next-step checklist.">
+  <meta name="twitter:description" content="$1 one-call cleanup from rough sales or client-call notes.">
   <meta name="twitter:image" content="https://relaybrief.com/og-image-20260506-contained.png">
   <meta name="twitter:image:alt" content="Relay product preview card.">
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
@@ -248,6 +248,11 @@
       background: #b8c0b8;
     }
 
+    .hero-pay {
+      display: none;
+      margin-top: 14px;
+    }
+
     .panel,
     .sample-panel {
       background: var(--panel);
@@ -257,10 +262,83 @@
     }
 
     .panel {
+      padding: 18px;
+    }
+
+    .pay-panel {
       position: sticky;
       top: 86px;
       margin-top: 22px;
-      padding: 18px;
+    }
+
+    .panel-kicker {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .pay-copy {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 720;
+      line-height: 1.42;
+    }
+
+    .pay-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pay-actions .btn {
+      width: 100%;
+    }
+
+    .plain-link {
+      display: inline-flex;
+      justify-content: center;
+      min-height: 38px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .pay-facts {
+      display: grid;
+      gap: 9px;
+      margin: 17px 0 0;
+      padding: 15px 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .pay-fact {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .pay-fact dt {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .pay-fact dd {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 760;
+      line-height: 1.3;
     }
 
     .form-title {
@@ -351,6 +429,18 @@
 
     .after-submit .btn {
       width: 100%;
+    }
+
+    .notes-section {
+      scroll-margin-top: 92px;
+      margin-top: 24px;
+    }
+
+    .notes-panel {
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: none;
     }
 
     .sample-panel {
@@ -450,6 +540,11 @@
         margin-top: 0;
       }
 
+      .pay-panel {
+        position: static;
+        margin-top: 0;
+      }
+
       h1 {
         font-size: 44px;
       }
@@ -491,7 +586,13 @@
       }
 
       .top-actions {
-        display: none;
+        flex: 0 0 auto;
+      }
+
+      .hero-pay {
+        display: inline-flex;
+        width: 330px;
+        max-width: calc(100vw - 24px);
       }
 
       .main {
@@ -566,7 +667,7 @@
         <span>Relay</span>
       </a>
       <div class="top-actions">
-        <a id="topCheckout" class="btn btn-primary js-checkout" href="#">Buy $1 test</a>
+        <a id="topCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="top">Pay $1</a>
       </div>
     </div>
   </header>
@@ -581,11 +682,12 @@
             Paste notes from one sales or client call. Relay returns the <strong>recap, next steps, follow-up draft, open questions, and CRM notes</strong>.
           </p>
           <div class="proof-line" aria-label="Relay terms">
-            <span>$40</span>
+            <span>$1</span>
             <span>one call</span>
-            <span>no setup</span>
+            <span>pay first</span>
             <span>messy notes are fine</span>
           </div>
+          <a id="mobileHeroCheckout" class="btn btn-primary js-checkout hero-pay" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="mobile-hero">Pay $1</a>
 
           <div class="sample-panel" aria-label="Relay sample">
             <a id="sampleLink" class="sample-link" href="sample.pdf" target="_blank" rel="noopener">
@@ -598,7 +700,29 @@
           </div>
         </div>
 
-        <form id="notesForm" class="panel" autocomplete="on">
+        <aside class="panel pay-panel" aria-label="Relay checkout">
+          <span class="panel-kicker">$1 first-money test</span>
+          <h2 class="form-title">Buy one-call cleanup.</h2>
+          <p class="pay-copy">Pay first. Send notes after checkout. If the packet is not usable, I refund it.</p>
+          <div class="pay-actions">
+            <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Pay $1</a>
+            <a class="plain-link" href="#send-notes">Send notes first</a>
+          </div>
+          <dl class="pay-facts">
+            <div class="pay-fact">
+              <dt>Returns</dt>
+              <dd>recap, next steps, follow-up draft, open questions, CRM notes</dd>
+            </div>
+            <div class="pay-fact">
+              <dt>Input</dt>
+              <dd>rough notes from one sales or client call</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section id="send-notes" class="notes-section" aria-label="Send notes first">
+        <form id="notesForm" class="panel notes-panel" autocomplete="on">
           <h2 class="form-title">Send the messy version.</h2>
 
           <div class="field">
@@ -612,14 +736,14 @@
           </div>
 
           <div class="form-actions">
-            <a id="formCheckout" class="btn btn-primary js-checkout" href="#">Buy $1 test</a>
+            <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Pay $1</a>
             <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes first</button>
           </div>
 
           <div id="status" class="status" role="status" aria-live="polite"></div>
 
           <div id="afterSubmit" class="after-submit">
-            <a id="afterCheckout" class="btn btn-primary js-checkout" href="#">Buy $1 test</a>
+            <a id="afterCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after-notes">Pay $1</a>
           </div>
         </form>
       </section>
@@ -659,7 +783,7 @@
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
       var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJeaEZb4mf6de64dSi2Nq02";
       var priceLabel = firstMoneyUrl ? (config.FIRST_MONEY_PRICE_LABEL || "$1") : (config.PACKET_PRICE_LABEL || "$40");
-      var checkoutLabel = firstMoneyUrl ? ("Buy " + priceLabel + " test") : ("Buy " + priceLabel + " packet");
+      var checkoutLabel = firstMoneyUrl ? ("Pay " + priceLabel) : ("Buy " + priceLabel + " packet");
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);
@@ -812,13 +936,14 @@
         return response.json();
       }
 
-      async function captureCheckoutIntent() {
+      async function captureCheckoutIntent(position) {
         var email = currentEmail();
         var notes = currentNotes();
         track("checkout_click", {
           has_email: validEmail(email),
           has_notes: notes.length > 0,
-          note_length: notes.length
+          note_length: notes.length,
+          position: position || ""
         });
 
         if (!validEmail(email)) {
@@ -880,7 +1005,7 @@
       checkoutLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
           event.preventDefault();
-          Promise.race([captureCheckoutIntent(), delay(650)]).finally(function () {
+          Promise.race([captureCheckoutIntent(link.getAttribute("data-checkout-position") || link.id || "checkout"), delay(650)]).finally(function () {
             window.location.href = checkoutUrl;
           });
         });

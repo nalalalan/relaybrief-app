@@ -289,6 +289,38 @@
       line-height: 1.42;
     }
 
+    .pay-steps {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 14px 0 0;
+      padding: 0;
+    }
+
+    .pay-steps li {
+      min-height: 58px;
+      display: grid;
+      align-content: center;
+      gap: 3px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfa;
+    }
+
+    .pay-steps b {
+      font-size: 15px;
+      line-height: 1.1;
+    }
+
+    .pay-steps span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
     .pay-actions {
       display: grid;
       gap: 10px;
@@ -309,6 +341,12 @@
       font-weight: 800;
       text-decoration: underline;
       text-underline-offset: 3px;
+    }
+
+    .secondary-link {
+      min-height: 28px;
+      justify-content: flex-start;
+      font-size: 13px;
     }
 
     .pay-facts {
@@ -622,6 +660,10 @@
         gap: 8px;
       }
 
+      .pay-steps {
+        grid-template-columns: 1fr;
+      }
+
       .sample-panel,
       .panel,
       .summary-strip {
@@ -700,13 +742,18 @@
           </div>
         </div>
 
-        <aside class="panel pay-panel" aria-label="Relay checkout">
+        <aside class="panel pay-panel" aria-label="Relay checkout" data-primary-money-path="checkout-first">
           <span class="panel-kicker">$1 first-money test</span>
-          <h2 class="form-title">Buy one-call cleanup.</h2>
-          <p class="pay-copy">Pay first. Send notes after checkout. If the packet is not usable, I refund it.</p>
+          <h2 class="form-title">Pay $1. Send one call.</h2>
+          <p class="pay-copy">Checkout first. Then send rough notes from one call. If the packet is not usable, I refund it.</p>
+          <ol class="pay-steps" aria-label="Relay paid test path" data-primary-money-path="checkout-first">
+            <li><b>Pay $1</b><span>one-call test</span></li>
+            <li><b>Paste notes</b><span>rough is fine</span></li>
+            <li><b>Get packet</b><span>same-day handoff</span></li>
+          </ol>
           <div class="pay-actions">
             <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Pay $1</a>
-            <a class="plain-link" href="#send-notes">Send notes first</a>
+            <a class="plain-link secondary-link" href="#send-notes">Need to send notes first?</a>
           </div>
           <dl class="pay-facts">
             <div class="pay-fact">
@@ -721,7 +768,7 @@
         </aside>
       </section>
 
-      <section id="send-notes" class="notes-section" aria-label="Send notes first">
+      <section id="send-notes" class="notes-section" aria-label="Send notes">
         <form id="notesForm" class="panel notes-panel" autocomplete="on">
           <h2 class="form-title">Send the messy version.</h2>
 
@@ -737,7 +784,7 @@
 
           <div class="form-actions">
             <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Pay $1</a>
-            <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes first</button>
+            <button id="sendNotesBtn" class="btn btn-signal" type="submit">Send notes</button>
           </div>
 
           <div id="status" class="status" role="status" aria-live="polite"></div>

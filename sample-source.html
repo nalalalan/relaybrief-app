@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relay sample packet</title>
+  <style>
+    :root {
+      --ink: #151513;
+      --muted: #625f58;
+      --line: #d9d3c8;
+      --paper: #fbfaf6;
+      --soft: #f1eee7;
+      --accent: #275f46;
+      --blue: #315f94;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f6f5f0;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+    }
+    .preview-card {
+      width: 1600px;
+      height: 750px;
+      padding: 48px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 30px;
+    }
+    .preview-kicker,
+    .label {
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .preview-title {
+      margin: 18px 0 34px;
+      font-size: 64px;
+      line-height: 1.02;
+      letter-spacing: 0;
+      max-width: 620px;
+    }
+    .preview-box,
+    .pdf-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .preview-box {
+      padding: 28px;
+      min-height: 424px;
+    }
+    .preview-box.input { background: #f3f0e9; }
+    .preview-box.output { border-color: #b9c9bd; }
+    .preview-box h2 {
+      margin: 10px 0 18px;
+      font-size: 34px;
+      line-height: 1.05;
+    }
+    .messy-note {
+      color: #38352f;
+      font-family: "Courier New", monospace;
+      font-size: 22px;
+      line-height: 1.32;
+      font-weight: 700;
+      white-space: pre-wrap;
+    }
+    .output-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .9fr;
+      gap: 16px;
+    }
+    .mini {
+      min-height: 110px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf6;
+    }
+    .mini strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+    .mini span {
+      display: block;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.3;
+      font-weight: 760;
+    }
+    .wide { grid-column: 1 / -1; }
+    .pdf-doc { display: none; }
+    @page { size: letter; margin: 0.55in; }
+    @media print {
+      body { background: #fff; }
+      .preview-card { display: none; }
+      .pdf-doc { display: block; }
+      .page {
+        min-height: 9.85in;
+        page-break-after: always;
+        color: var(--ink);
+      }
+      .page:last-child { page-break-after: auto; }
+      .pdf-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--line);
+      }
+      .pdf-brand {
+        font-size: 24px;
+        font-weight: 920;
+      }
+      .pdf-note {
+        color: var(--muted);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .07em;
+      }
+      .pdf-title {
+        margin: 24px 0 8px;
+        font-size: 36px;
+        line-height: 1.05;
+      }
+      .pdf-subtitle {
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .pdf-box {
+        padding: 14px;
+        min-height: 170px;
+      }
+      .pdf-box.soft { background: var(--soft); }
+      .pdf-box h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      .rough {
+        margin: 0;
+        color: #38352f;
+        font-family: "Courier New", monospace;
+        font-size: 10.4px;
+        line-height: 1.35;
+        white-space: pre-wrap;
+      }
+      .email {
+        margin: 0;
+        color: #24231f;
+        font-size: 11px;
+        line-height: 1.42;
+        font-weight: 650;
+      }
+      .section {
+        margin-top: 14px;
+      }
+      .section h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10.8px;
+      }
+      th, td {
+        border-top: 1px solid var(--line);
+        padding: 7px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+        font-size: 9.6px;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+      }
+      ul {
+        margin: 0;
+        padding-left: 15px;
+        color: #272520;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+      li { margin-bottom: 4px; }
+      .crm {
+        margin: 0;
+        color: #272520;
+        font-size: 11px;
+        line-height: 1.45;
+        font-weight: 650;
+      }
+      .footer-line {
+        margin-top: 16px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="preview-card" aria-label="Relay sample preview">
+    <div>
+      <div class="preview-kicker">Sample packet</div>
+      <h1 class="preview-title">Messy note in. Clean follow-up out.</h1>
+      <div class="preview-box input">
+        <div class="label">What came in</div>
+        <h2>Rough call note</h2>
+        <div class="messy-note">maya / riverstone dental
+wants implant consults, not random emergency leads
+old agency sends leads but front desk follows up late
+missed calls are messy
+asked about audit + paid search cleanup
+send recap, ask for 60d ad/CRM export, propose 14-day sprint</div>
+      </div>
+    </div>
+    <div class="preview-box output">
+      <div class="label">What comes back</div>
+      <h2>Ready-to-send packet</h2>
+      <div class="output-grid">
+        <div class="mini wide">
+          <strong>Follow-up email</strong>
+          <span>Clear recap of the call, the real problem, and the recommended next move.</span>
+        </div>
+        <div class="mini">
+          <strong>Next steps</strong>
+          <span>Owner, action, and timing.</span>
+        </div>
+        <div class="mini">
+          <strong>Open questions</strong>
+          <span>What still needs to be answered before proposal.</span>
+        </div>
+        <div class="mini wide">
+          <strong>CRM note</strong>
+          <span>Copyable account update for the record.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="pdf-doc">
+    <section class="page">
+      <header class="pdf-header">
+        <div class="pdf-brand">Relay</div>
+        <div class="pdf-note">Fictional sample. No client data.</div>
+      </header>
+      <h1 class="pdf-title">Post-call follow-up packet</h1>
+      <p class="pdf-subtitle">Input: one rough sales or client-call note. Output: recap, follow-up email, next steps, open questions, and CRM note.</p>
+
+      <div class="two-col">
+        <div class="pdf-box soft">
+          <h2>Rough note received</h2>
+          <pre class="rough">maya / riverstone dental
+wants implant consults, not random emergency leads
+old agency sends leads but front desk follows up late
+missed calls are messy
+asked about audit + paid search cleanup
+send recap, ask for 60d ad/CRM export
+propose 14-day sprint
+confirm who owns same-day follow-up</pre>
+        </div>
+        <div class="pdf-box">
+          <h2>Client-ready follow-up email</h2>
+          <p class="email">Maya, thanks again for today's call. The main issue is not just lead volume; it is lead quality plus same-day follow-up. The strongest first move is a short audit of paid search, missed-call handling, and CRM follow-through before changing spend.</p>
+          <p class="email">Recommended next step: Riverstone sends the last 60 days of ad and CRM export data, Northline returns a 14-day cleanup plan, and both teams confirm who owns same-day follow-up before a proposal is drafted.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Next steps</h2>
+        <table>
+          <thead>
+            <tr><th>Owner</th><th>Action</th><th>Timing</th><th>Why it matters</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Riverstone</td><td>Export last 60 days of ads, calls, and CRM outcomes.</td><td>Tomorrow 2 PM</td><td>Separates low-quality traffic from weak follow-up.</td></tr>
+            <tr><td>Northline</td><td>Review missed calls, form leads, close rate, and booked consults.</td><td>Next business day</td><td>Finds the smallest paid-search test worth running.</td></tr>
+            <tr><td>Both teams</td><td>Name one owner for same-day inbound follow-up.</td><td>Before proposal</td><td>Prevents good leads from going cold.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="page">
+      <header class="pdf-header">
+        <div class="pdf-brand">Relay</div>
+        <div class="pdf-note">Fictional sample. No client data.</div>
+      </header>
+
+      <div class="section">
+        <h2>Open questions</h2>
+        <ul>
+          <li>How many implant consults came from paid search in the last 60 days?</li>
+          <li>How fast does the front desk call back each new lead?</li>
+          <li>Which lead source has the highest booked-consult rate?</li>
+          <li>Should the first test focus only on implants, or on a broader high-value treatment line?</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>CRM note</h2>
+        <p class="crm">Discovery call with Riverstone Dental. Buyer wants higher-quality implant consults and less leakage from slow follow-up. Current pain: delayed responses, unclear ownership of missed calls, and weak visibility into which paid leads become booked consults. Next action is a 60-day ad/call/CRM export and a 14-day audit-led cleanup plan before proposal.</p>
+      </div>
+
+      <div class="section">
+        <h2>What changed from the rough note</h2>
+        <table>
+          <thead>
+            <tr><th>Rough input</th><th>Clean output</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>"wants implant consults"</td><td>Offer focus and first test boundary.</td></tr>
+            <tr><td>"front desk follows up late"</td><td>Specific owner/timing action.</td></tr>
+            <tr><td>"ask for 60d export"</td><td>Evidence request with purpose.</td></tr>
+            <tr><td>"propose 14-day sprint"</td><td>Proposal trigger after data arrives.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="footer-line">Relay turns rough call notes into a packet that can be sent, assigned, and copied into a client record.</div>
+    </section>
+  </main>
+</body>
+</html>

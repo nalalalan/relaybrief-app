@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>relay</title>
-  <meta name="description" content="$1 one-call cleanup from rough sales or client-call notes.">
+  <title>Relay | $1 follow-up packet</title>
+  <meta name="description" content="$1 follow-up packet from one rough sales or client-call note.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="AO Labs">
-  <meta property="og:title" content="relay">
-  <meta property="og:description" content="$1 one-call cleanup from rough sales or client-call notes.">
+  <meta property="og:site_name" content="Relay">
+  <meta property="og:title" content="Relay">
+  <meta property="og:description" content="$1 follow-up packet from one rough sales or client-call note.">
   <meta property="og:url" content="https://relaybrief.com/">
   <meta property="og:image" content="https://relaybrief.com/og-image-20260506-contained.png">
   <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-20260506-contained.png">
@@ -18,8 +18,8 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="relay product preview card.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="relay">
-  <meta name="twitter:description" content="$1 one-call cleanup from rough sales or client-call notes.">
+  <meta name="twitter:title" content="Relay">
+  <meta name="twitter:description" content="$1 follow-up packet from one rough sales or client-call note.">
   <meta name="twitter:image" content="https://relaybrief.com/og-image-20260506-contained.png">
   <meta name="twitter:image:alt" content="relay product preview card.">
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
@@ -28,29 +28,25 @@
   <script src="site-config.js"></script>
   <style>
     :root {
-      --bg: #f7f8f5;
+      color-scheme: light;
+      --bg: #f7f7f3;
       --panel: #ffffff;
-      --ink: #161616;
-      --muted: #5c625f;
-      --line: #dfe4dd;
-      --accent: #285eea;
-      --accent-dark: #1f49b7;
-      --signal: #d9f46c;
-      --danger: #a5382c;
-      --ok: #25633c;
-      --shadow: 0 14px 34px rgba(22, 22, 22, 0.07);
+      --ink: #151515;
+      --muted: #5f615d;
+      --line: #d9ddd5;
+      --line-dark: #bdc5bb;
+      --soft: #eef1eb;
+      --accent: #2357d8;
+      --accent-dark: #1c43a6;
+      --signal: #eef8b7;
+      --danger: #9b342a;
+      --ok: #245d3a;
       --radius: 8px;
-      --max: 1120px;
+      --max: 1080px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--bg);
@@ -59,22 +55,9 @@
       line-height: 1.42;
       overflow-x: hidden;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    h1,
-    h2,
-    p {
-      margin: 0;
-    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    h1, h2, p { margin: 0; }
 
     .wrap {
       width: min(calc(100% - 32px), var(--max));
@@ -85,11 +68,10 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(247, 248, 245, 0.94);
-      border-bottom: 1px solid rgba(223, 228, 221, 0.94);
+      background: rgba(247, 247, 243, .94);
+      border-bottom: 1px solid var(--line);
       backdrop-filter: blur(10px);
     }
-
     .topbar-inner {
       min-height: 64px;
       display: flex;
@@ -97,180 +79,116 @@
       justify-content: space-between;
       gap: 16px;
     }
-
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 20px;
+      gap: 10px;
+      font-size: 19px;
       font-weight: 900;
-      letter-spacing: 0;
       line-height: 1;
     }
-
     .brand-mark {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
-      display: grid;
-      place-items: center;
-      background: var(--ink);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 900;
+      border: 1px solid var(--line);
+      background: #fff;
     }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
 
     .btn {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       padding: 0 18px;
-      border: 1px solid var(--line);
+      border: 1px solid var(--line-dark);
       border-radius: var(--radius);
       background: var(--panel);
       color: var(--ink);
       font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0;
+      font-weight: 850;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+      transition: background .14s ease, border-color .14s ease, transform .14s ease;
     }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      border-color: #c8d0c7;
-    }
-
+    .btn:hover { transform: translateY(-1px); border-color: #a9b2a7; }
     .btn-primary {
       background: var(--accent);
-      color: #fff;
       border-color: var(--accent);
+      color: #fff;
     }
-
-    .btn-primary:hover {
-      background: var(--accent-dark);
-      border-color: var(--accent-dark);
-    }
-
+    .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
     .btn-signal {
       background: var(--signal);
-      border-color: #cbe960;
-      color: #18210e;
+      border-color: #d5e47f;
+      color: #1b220f;
     }
 
-    .main {
-      padding: 30px 0 28px;
-    }
-
+    .main { padding: 30px 0 28px; }
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 0.74fr);
-      gap: 34px;
+      grid-template-columns: minmax(0, 1fr) minmax(330px, 380px);
+      gap: 28px;
       align-items: start;
     }
-
-    .hero > * {
-      min-width: 0;
-    }
-
-    .hero-copy {
-      padding-top: 8px;
-    }
-
+    .hero > * { min-width: 0; }
+    .hero-copy { padding-top: 6px; }
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0;
-      margin-bottom: 16px;
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 12px;
     }
-
     h1 {
-      max-width: 690px;
-      font-size: 50px;
+      max-width: 620px;
+      font-size: clamp(32px, 3.7vw, 42px);
       line-height: 1.02;
+      font-weight: 920;
       letter-spacing: 0;
-      font-weight: 900;
     }
-
     .subhead {
-      max-width: 650px;
-      margin-top: 16px;
+      max-width: 620px;
+      margin-top: 14px;
       color: var(--muted);
       font-size: 17px;
       line-height: 1.46;
-      letter-spacing: 0;
     }
-
-    .subhead strong {
-      color: var(--ink);
-      font-weight: 900;
-    }
-
+    .subhead strong { color: var(--ink); font-weight: 900; }
     .proof-line {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
       margin-top: 18px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0;
+      max-width: 620px;
     }
-
     .proof-line span {
-      display: inline-flex;
+      min-height: 42px;
+      display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+      text-align: center;
     }
-
-    .proof-line span + span::before {
-      content: "";
-      width: 4px;
-      height: 4px;
-      border-radius: 999px;
-      background: #b8c0b8;
-    }
-
-    .hero-pay {
-      display: none;
-      margin-top: 14px;
-    }
+    .hero-pay { display: none; margin-top: 14px; }
 
     .panel,
     .sample-panel {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
     }
-
-    .panel {
-      padding: 18px;
-    }
-
+    .panel { padding: 18px; }
     .pay-panel {
       position: sticky;
-      top: 86px;
-      margin-top: 22px;
+      top: 82px;
+      border-color: #c7cec3;
     }
-
     .panel-kicker {
       display: block;
       color: var(--muted);
@@ -280,97 +198,83 @@
       text-transform: uppercase;
       margin-bottom: 10px;
     }
-
+    .form-title {
+      font-size: 22px;
+      line-height: 1.18;
+      font-weight: 920;
+      margin-bottom: 10px;
+    }
     .pay-copy {
-      margin-top: 10px;
       color: var(--muted);
       font-size: 15px;
       font-weight: 720;
       line-height: 1.42;
     }
-
     .pay-steps {
       list-style: none;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      margin: 14px 0 0;
+      gap: 0;
+      margin: 16px 0 0;
       padding: 0;
-    }
-
-    .pay-steps li {
-      min-height: 58px;
-      display: grid;
-      align-content: center;
-      gap: 3px;
-      padding: 10px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .pay-steps li {
+      min-height: 52px;
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
       background: #fbfcfa;
     }
-
-    .pay-steps b {
-      font-size: 15px;
-      line-height: 1.1;
-    }
-
+    .pay-steps li:last-child { border-bottom: 0; }
+    .pay-steps b { font-size: 15px; line-height: 1.1; }
     .pay-steps span {
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      line-height: 1.15;
+      font-size: 13px;
+      font-weight: 760;
+      line-height: 1.2;
     }
-
     .pay-actions {
       display: grid;
       gap: 10px;
-      margin-top: 18px;
+      margin-top: 16px;
     }
-
-    .pay-actions .btn {
-      width: 100%;
-    }
-
+    .pay-actions .btn { width: 100%; }
     .plain-link {
       display: inline-flex;
-      justify-content: center;
-      min-height: 38px;
+      min-height: 32px;
       align-items: center;
+      justify-content: center;
       color: var(--muted);
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: 850;
       text-decoration: underline;
       text-underline-offset: 3px;
     }
-
-    .secondary-link {
-      min-height: 28px;
-      justify-content: flex-start;
-      font-size: 13px;
-    }
-
+    .secondary-link { justify-content: flex-start; }
     .pay-facts {
       display: grid;
       gap: 9px;
-      margin: 17px 0 0;
-      padding: 15px 0 0;
+      margin: 16px 0 0;
+      padding: 14px 0 0;
       border-top: 1px solid var(--line);
     }
-
     .pay-fact {
       display: grid;
-      grid-template-columns: 92px minmax(0, 1fr);
+      grid-template-columns: 80px minmax(0, 1fr);
       gap: 10px;
       align-items: baseline;
     }
-
     .pay-fact dt {
       color: var(--muted);
       font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
     }
-
     .pay-fact dd {
       margin: 0;
       color: var(--ink);
@@ -379,27 +283,51 @@
       line-height: 1.3;
     }
 
-    .form-title {
-      font-size: 21px;
-      line-height: 1.2;
-      font-weight: 900;
-      letter-spacing: 0;
-      margin-bottom: 12px;
+    .sample-panel {
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    .sample-link {
+      display: block;
+      background: #eef1ec;
+    }
+    .sample-link img {
+      width: 100%;
+      aspect-ratio: 16 / 7.5;
+      object-fit: cover;
+      object-position: top center;
+      border-bottom: 1px solid var(--line);
+    }
+    .sample-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 15px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 760;
     }
 
+    .notes-section {
+      scroll-margin-top: 90px;
+      margin-top: 24px;
+    }
+    .notes-panel {
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
     .field {
       display: grid;
       gap: 7px;
       margin-top: 12px;
     }
-
     label {
       color: var(--muted);
       font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0;
+      font-weight: 820;
     }
-
     input,
     textarea {
       width: 100%;
@@ -409,35 +337,26 @@
       color: var(--ink);
       font: inherit;
       font-size: 16px;
-      letter-spacing: 0;
       outline: none;
     }
-
-    input {
-      min-height: 48px;
-      padding: 0 13px;
-    }
-
+    input { min-height: 48px; padding: 0 13px; }
     textarea {
-      min-height: 150px;
+      min-height: 146px;
       resize: vertical;
       padding: 13px;
       line-height: 1.45;
     }
-
     input:focus,
     textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(40, 94, 234, 0.12);
+      box-shadow: 0 0 0 3px rgba(35, 87, 216, .12);
     }
-
     .form-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 13px;
     }
-
     .status {
       min-height: 22px;
       margin-top: 12px;
@@ -445,276 +364,102 @@
       font-size: 14px;
       line-height: 1.45;
     }
-
-    .status.error {
-      color: var(--danger);
-    }
-
-    .status.success {
-      color: var(--ok);
-    }
-
+    .status.error { color: var(--danger); }
+    .status.success { color: var(--ok); }
     .after-submit {
       display: none;
       margin-top: 12px;
       padding-top: 12px;
       border-top: 1px solid var(--line);
     }
-
-    .after-submit.visible {
-      display: block;
-    }
-
-    .after-submit .btn {
-      width: 100%;
-    }
-
-    .notes-section {
-      scroll-margin-top: 92px;
-      margin-top: 24px;
-    }
-
-    .notes-panel {
-      max-width: 760px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: none;
-    }
-
-    .sample-panel {
-      margin-top: 20px;
-      overflow: hidden;
-    }
-
-    .sample-link {
-      display: block;
-      background: #eef1ec;
-    }
-
-    .sample-link img {
-      width: 100%;
-      aspect-ratio: 16 / 7.4;
-      object-fit: cover;
-      object-position: top center;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .sample-caption {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0;
-    }
+    .after-submit.visible { display: block; }
+    .after-submit .btn { width: 100%; }
 
     .summary-strip {
       margin-top: 24px;
-      padding: 16px 0 0;
+      padding-top: 14px;
       border-top: 1px solid var(--line);
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
-
     .summary-item {
-      min-height: 82px;
-      padding: 13px;
+      min-height: 74px;
+      padding: 12px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, .72);
     }
-
     .summary-item strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       font-size: 15px;
       line-height: 1.25;
-      letter-spacing: 0;
     }
-
     .summary-item span {
       display: block;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.35;
-      letter-spacing: 0;
     }
-
     .footer {
       padding: 18px 0 32px;
       color: var(--muted);
       font-size: 13px;
-      letter-spacing: 0;
       display: flex;
       justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
     }
-
-    .footer-admin {
-      opacity: 0.28;
-    }
-
-    .footer-admin:hover {
-      opacity: 0.78;
-    }
-
-    .disabled {
-      opacity: 0.62;
-      pointer-events: none;
-    }
+    .disabled { opacity: .62; pointer-events: none; }
 
     @media (max-width: 880px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .panel {
-        position: static;
-        margin-top: 0;
-      }
-
-      .pay-panel {
-        position: static;
-        margin-top: 0;
-      }
-
-      h1 {
-        font-size: 44px;
-      }
-
-      .subhead {
-        font-size: 18px;
-      }
-
-      .summary-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      .hero { grid-template-columns: 1fr; }
+      .pay-panel { position: static; }
+      .summary-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 560px) {
-      .wrap {
-        width: min(calc(100% - 24px), var(--max));
-      }
-
-      .topbar-inner {
-        min-height: 64px;
-      }
-
-      .brand {
-        font-size: 18px;
-      }
-
-      .brand-mark {
-        width: 34px;
-        height: 34px;
-      }
-
+      .wrap { width: min(calc(100% - 24px), var(--max)); }
+      .topbar-inner { min-height: 62px; }
+      .brand { font-size: 17px; }
+      .brand-mark { width: 32px; height: 32px; }
       .top-actions .btn {
-        min-height: 42px;
-        max-width: 118px;
-        padding: 0 10px;
-        font-size: 13px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .top-actions {
-        flex: 0 0 auto;
-      }
-
-      .hero-pay {
-        display: inline-flex;
-        width: 330px;
-        max-width: calc(100vw - 24px);
-      }
-
-      .main {
-        padding-top: 26px;
-      }
-
-      h1 {
-        max-width: 330px;
-        font-size: 31px;
-        line-height: 1.08;
-        overflow-wrap: anywhere;
-      }
-
-      .subhead {
-        max-width: 330px;
-        font-size: 16px;
-        overflow-wrap: anywhere;
-      }
-
-      .proof-line {
-        max-width: 330px;
-        gap: 8px;
+        min-height: 40px;
+        padding: 0 12px;
         font-size: 13px;
       }
-
-      .proof-line span {
-        gap: 8px;
-      }
-
-      .pay-steps {
-        grid-template-columns: 1fr;
-      }
-
-      .sample-panel,
-      .panel,
-      .summary-strip {
-        width: 330px;
-        max-width: calc(100vw - 24px);
-      }
-
+      .main { padding-top: 24px; }
+      h1 { font-size: 28px; line-height: 1.1; }
+      .subhead { font-size: 15px; }
+      .proof-line { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero-pay { display: inline-flex; width: 100%; }
       .sample-link img {
         aspect-ratio: 4 / 3;
         object-fit: contain;
         background: #eee8df;
       }
-
-      .sample-caption {
-        padding: 12px 14px;
-      }
-
       .form-actions,
-      .summary-strip {
-        grid-template-columns: 1fr;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      textarea {
-        min-height: 170px;
-      }
-
+      .summary-strip { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      textarea { min-height: 170px; }
       .sample-caption {
         align-items: flex-start;
         flex-direction: column;
       }
     }
   </style>
-  <link rel="stylesheet" href="https://aolabs.io/suite-header.css?v=20260516-suite-bloom">
 </head>
 <body>
-  <header class="suite-topbar" aria-label="relay navigation">
-    <div class="suite-brand-cluster">
-      <a class="suite-ao-home" href="https://aolabs.io/" aria-label="aolabs.io">
-        <img src="https://aolabs.io/marks/ao-ink.svg?v=20260516-suite-bloom" alt="">
+  <header class="topbar" aria-label="Relay navigation">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="Relay home">
+        <img class="brand-mark" src="favicon.svg?v=20260508-icon-pass2" alt="">
+        <span>Relay</span>
       </a>
-      <a class="suite-app-brand" href="/" aria-label="relay home">
-        <img class="suite-app-mark" src="https://aolabs.io/icons/relay.svg?v=20260508-icon-pass2" alt="">
-        <span class="suite-app-name">relay.aolabs.io</span>
-      </a>
-    </div>
-    <div class="suite-topbar-actions" aria-label="relay actions">
-      <a id="topCheckout" class="js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="top">pay $1</a>
+      <div class="top-actions" aria-label="Relay actions">
+        <a id="topCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="top">Pay $1</a>
+      </div>
     </div>
   </header>
 
@@ -722,16 +467,16 @@
     <div class="wrap">
       <section class="hero" aria-label="Relay">
         <div class="hero-copy">
-          <div class="eyebrow">One messy call. One clean handoff.</div>
-          <h1>Clean follow-up from rough call notes.</h1>
+          <div class="eyebrow">$1 test. One call note.</div>
+          <h1>One rough call note. One clean follow-up packet.</h1>
           <p class="subhead">
-            Paste notes from one sales or client call. Relay returns the <strong>recap, next steps, follow-up draft, open questions, and CRM notes</strong>.
+            Relay turns one sales or client-call note into a <strong>recap, next steps, follow-up draft, open questions, and CRM notes</strong>.
           </p>
           <div class="proof-line" aria-label="Relay terms">
             <span>$1</span>
             <span>one call</span>
-            <span>pay first</span>
-            <span>messy notes are fine</span>
+            <span>checkout first</span>
+            <span>refund if unusable</span>
           </div>
           <a id="mobileHeroCheckout" class="btn btn-primary js-checkout hero-pay" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="mobile-hero">Pay $1</a>
 
@@ -747,17 +492,17 @@
         </div>
 
         <aside class="panel pay-panel" aria-label="Relay checkout" data-primary-money-path="checkout-first">
-          <span class="panel-kicker">$1 first-money test</span>
+          <span class="panel-kicker">Checkout</span>
           <h2 class="form-title">Pay $1. Send one call.</h2>
-          <p class="pay-copy">Checkout first. Then send rough notes from one call. If the packet is not usable, I refund it.</p>
+          <p class="pay-copy">Checkout first. Then paste the rough notes. If the packet is not usable, I refund it.</p>
           <ol class="pay-steps" aria-label="Relay paid test path" data-primary-money-path="checkout-first">
             <li><b>Pay $1</b><span>one-call test</span></li>
             <li><b>Paste notes</b><span>rough is fine</span></li>
-            <li><b>Get packet</b><span>same-day handoff</span></li>
+            <li><b>Get packet</b><span>clean handoff</span></li>
           </ol>
           <div class="pay-actions">
             <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Pay $1</a>
-            <a class="plain-link secondary-link" href="#send-notes">Have notes ready?</a>
+            <a class="plain-link secondary-link" href="#send-notes">Paste notes first</a>
           </div>
           <dl class="pay-facts">
             <div class="pay-fact">
@@ -774,7 +519,7 @@
 
       <section id="send-notes" class="notes-section" aria-label="Send notes">
         <form id="notesForm" class="panel notes-panel" autocomplete="on">
-          <h2 class="form-title">Send the messy version.</h2>
+          <h2 class="form-title">Paste notes first.</h2>
 
           <div class="field">
             <label for="email">Work email</label>
@@ -783,7 +528,7 @@
 
           <div class="field">
             <label for="notes">Rough notes</label>
-            <textarea id="notes" name="notes" placeholder="Bullets, fragments, transcript paste, screenshot text, whatever you have." required></textarea>
+            <textarea id="notes" name="notes" placeholder="Bullets, fragments, transcript paste, screenshot text, whatever you have from one call." required></textarea>
           </div>
 
           <div class="form-actions">
@@ -821,7 +566,7 @@
   </main>
 
   <footer class="wrap footer">
-    <span>Relay by AO Labs / Alan Pham</span>
+    <span>Relay</span>
     <span>Questions: <a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></span>
     <span>Notes are used to make the packet. If the handoff is not usable, I refund it.</span>
   </footer>

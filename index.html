@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Relay | call follow-up packet</title>
+  <title>Relay | one-call follow-up packet</title>
   <meta name="description" content="A one-call follow-up packet from rough sales or client-call notes.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
@@ -25,24 +25,24 @@
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260508-icon-pass2" />
   <meta name="theme-color" content="#f7f8f5" />
-  <script src="site-config.js"></script>
+  <script src="site-config.js?v=20260517-trust"></script>
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7f7f3;
+      --bg: #fbfaf7;
       --panel: #ffffff;
-      --ink: #151515;
-      --muted: #5f615d;
-      --line: #d9ddd5;
-      --line-dark: #bdc5bb;
-      --soft: #eef1eb;
-      --accent: #2357d8;
-      --accent-dark: #1c43a6;
-      --signal: #eef8b7;
+      --ink: #1f1f1d;
+      --muted: #66645f;
+      --line: #dedbd2;
+      --line-dark: #bdb8aa;
+      --soft: #f1efe8;
+      --accent: #232323;
+      --accent-dark: #000000;
+      --signal: #f4f2e9;
       --danger: #9b342a;
       --ok: #245d3a;
       --radius: 8px;
-      --max: 1080px;
+      --max: 980px;
     }
 
     * { box-sizing: border-box; }
@@ -51,8 +51,8 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.42;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.48;
       overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
@@ -65,12 +65,8 @@
     }
 
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
       background: rgba(247, 247, 243, .94);
       border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(10px);
     }
     .topbar-inner {
       min-height: 64px;
@@ -395,10 +391,10 @@
 
     .topbar {
       position: static;
-      background: #fbfbf8;
+      background: #fbfaf7;
       backdrop-filter: none;
     }
-    .main { padding: 28px 0 34px; }
+    .main { padding: 22px 0 34px; }
     .service-shell {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
@@ -566,6 +562,201 @@
     .notes-fields { min-width: 0; }
     .summary-strip { display: none; }
 
+    .trust-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 318px;
+      gap: 22px;
+      align-items: start;
+      min-width: 0;
+    }
+    .trust-sheet,
+    .trust-order {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      min-width: 0;
+    }
+    .trust-sheet { overflow: hidden; }
+    .trust-intro {
+      padding: 24px;
+      border-bottom: 1px solid var(--line);
+      min-width: 0;
+    }
+    .trust-title {
+      max-width: 620px;
+      font-size: clamp(27px, 3.5vw, 38px);
+      line-height: 1.08;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+    .trust-sub {
+      max-width: 610px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 560;
+    }
+    .trust-plain {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid var(--line);
+      background: #f8f7f2;
+    }
+    .trust-plain div {
+      padding: 14px 16px;
+      border-right: 1px solid var(--line);
+    }
+    .trust-plain div:last-child { border-right: 0; }
+    .trust-plain b {
+      display: block;
+      font-size: 14px;
+      font-weight: 720;
+      margin-bottom: 2px;
+    }
+    .trust-plain span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 540;
+    }
+    .trust-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+      min-width: 0;
+    }
+    .trust-block {
+      padding: 20px 22px;
+      border-right: 1px solid var(--line);
+      min-width: 0;
+    }
+    .trust-block:last-child { border-right: 0; }
+    .trust-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .trust-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .trust-table th,
+    .trust-table td {
+      padding: 11px 0;
+      border-top: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .trust-table th {
+      width: 96px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .trust-table td { font-weight: 610; }
+    .sample-panel.trust-sample {
+      margin: 0;
+      border-radius: 6px;
+    }
+    .trust-sample .sample-link {
+      background: #f5f3ed;
+    }
+    .trust-sample .sample-link img {
+      aspect-ratio: 16 / 7.5;
+      object-fit: contain;
+      object-position: top center;
+    }
+    .trust-order {
+      padding: 18px;
+      position: sticky;
+      top: 18px;
+    }
+    .order-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .order-title h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 760;
+    }
+    .order-title span {
+      font-size: 18px;
+      font-weight: 760;
+    }
+    .order-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 540;
+    }
+    .order-list {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+    .order-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .order-list b {
+      color: var(--ink);
+      font-weight: 680;
+    }
+    .trust-order .btn-primary {
+      width: 100%;
+      margin-top: 16px;
+      background: #242424;
+      border-color: #242424;
+      border-radius: 6px;
+      font-weight: 720;
+    }
+    .top-actions .btn-primary {
+      background: transparent;
+      border-color: var(--line-dark);
+      color: var(--ink);
+      font-weight: 690;
+    }
+    .notes-panel.trust-notes {
+      max-width: none;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 18px;
+      border-radius: 6px;
+    }
+    .trust-notes .form-title {
+      font-size: 19px;
+      font-weight: 760;
+    }
+    .trust-notes .form-actions .btn-primary {
+      background: #242424;
+      border-color: #242424;
+      font-weight: 720;
+    }
+    .trust-notes .form-actions .btn-signal {
+      background: var(--panel);
+      border-color: var(--line-dark);
+      font-weight: 720;
+    }
+    .footer {
+      border-top: 1px solid var(--line);
+      margin-top: 8px;
+    }
+
     @media (max-width: 880px) {
       .hero { grid-template-columns: 1fr; }
       .pay-panel { position: static; }
@@ -580,13 +771,41 @@
       .trust-item:nth-child(2) { border-bottom: 1px solid var(--line); }
       .service-block { border-right: 0; border-bottom: 1px solid var(--line); }
       .service-block:last-child { border-bottom: 0; }
+      .trust-shell,
+      .trust-body,
+      .notes-panel.trust-notes { grid-template-columns: 1fr; }
+      .trust-order { position: static; }
+      .trust-plain { grid-template-columns: 1fr; }
+      .trust-plain div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .trust-plain div:last-child { border-bottom: 0; }
+      .trust-block {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .trust-block:last-child { border-bottom: 0; }
     }
 
     @media (max-width: 560px) {
-      .wrap { width: min(calc(100% - 24px), var(--max)); }
+      .wrap {
+        width: calc(100% - 20px);
+        max-width: calc(100vw - 20px);
+      }
+      .main,
+      .trust-shell,
+      .trust-sheet,
+      .trust-order,
+      .notes-panel.trust-notes,
+      .sample-panel {
+        max-width: 100%;
+        min-width: 0;
+      }
       .topbar-inner { min-height: 62px; }
       .brand { font-size: 17px; }
       .brand-mark { width: 32px; height: 32px; }
+      .top-actions { display: none; }
       .top-actions .btn {
         min-height: 40px;
         padding: 0 12px;
@@ -623,6 +842,63 @@
         grid-template-columns: 1fr;
         gap: 5px;
       }
+      .trust-shell,
+      .trust-body {
+        display: block;
+      }
+      .trust-shell { gap: 14px; }
+      .trust-order,
+      .notes-panel.trust-notes {
+        margin-top: 14px;
+      }
+      .trust-intro,
+      .trust-block,
+      .trust-order,
+      .notes-panel.trust-notes { padding: 16px; }
+      .trust-title {
+        max-width: 100%;
+        font-size: 25px;
+        line-height: 1.12;
+        overflow-wrap: break-word;
+      }
+      .trust-sub {
+        max-width: 100%;
+        font-size: 14px;
+        overflow-wrap: break-word;
+      }
+      .trust-plain div {
+        padding: 11px 14px;
+      }
+      .trust-table,
+      .trust-table tbody,
+      .trust-table tr,
+      .trust-table th,
+      .trust-table td {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: break-word;
+      }
+      .trust-table th {
+        padding-bottom: 2px;
+        border-top: 1px solid var(--line);
+      }
+      .trust-table td {
+        padding-top: 0;
+        border-top: 0;
+      }
+      .trust-sample .sample-link img {
+        aspect-ratio: 4 / 3;
+      }
+      .sample-caption {
+        gap: 8px;
+        overflow-wrap: break-word;
+      }
+      .order-title h2,
+      .order-title span {
+        font-size: 17px;
+      }
     }
   </style>
 </head>
@@ -634,95 +910,96 @@
         <span>Relay</span>
       </a>
       <div class="top-actions" aria-label="Relay actions">
-        <a id="topCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="top">Pay $1</a>
+        <a id="topCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="top">Start order</a>
       </div>
     </div>
   </header>
 
   <main class="main">
     <div class="wrap">
-      <section class="service-shell" aria-label="Relay order page">
-        <div class="service-sheet">
-          <div class="service-head">
-            <h1 class="service-title">Call follow-up packet.</h1>
-            <p class="service-sub">Send rough notes from one sales or client call. Relay returns the recap, next steps, follow-up draft, open questions, and CRM notes.</p>
+      <section class="trust-shell" aria-label="Relay order page">
+        <div class="trust-sheet">
+          <div class="trust-intro">
+            <h1 class="trust-title">Follow-up packet for one call.</h1>
+            <p class="trust-sub">Send rough notes from one sales or client call. Relay turns them into a short recap, next steps, a follow-up draft, open questions, and CRM notes.</p>
           </div>
 
-          <div class="trust-row" aria-label="Service terms">
-            <div class="trust-item">
+          <div class="trust-plain" aria-label="Service terms">
+            <div>
               <b>$1</b>
-              <span>one-call test</span>
+              <span>one-call checkout</span>
             </div>
-            <div class="trust-item">
-              <b>Stripe</b>
-              <span>checkout first</span>
+            <div>
+              <b>No subscription</b>
+              <span>one packet only</span>
             </div>
-            <div class="trust-item">
-              <b>Same day</b>
-              <span>when the note is usable</span>
-            </div>
-            <div class="trust-item">
-              <b>Refund</b>
-              <span>if the packet is unusable</span>
+            <div>
+              <b>Refund boundary</b>
+              <span>if the handoff is unusable</span>
             </div>
           </div>
 
-          <div class="service-grid">
-            <div class="service-block">
-              <div class="section-label">Scope</div>
-              <dl class="record-list">
-                <div class="record-row">
-                  <dt>Input</dt>
-                  <dd>One rough sales or client-call note.</dd>
-                </div>
-                <div class="record-row">
-                  <dt>Output</dt>
-                  <dd>Client-ready recap, next steps, follow-up draft, open questions, and CRM notes.</dd>
-                </div>
-                <div class="record-row">
-                  <dt>Limit</dt>
-                  <dd>One call per packet. No subscription.</dd>
-                </div>
-                <div class="record-row">
-                  <dt>Operator</dt>
-                  <dd>Alan reviews the note and sends the packet.</dd>
-                </div>
-              </dl>
+          <div class="trust-body">
+            <div class="trust-block">
+              <div class="trust-label">Order details</div>
+              <table class="trust-table">
+                <tbody>
+                  <tr>
+                    <th>Input</th>
+                    <td>One rough sales or client-call note.</td>
+                  </tr>
+                  <tr>
+                    <th>Output</th>
+                    <td>Recap, next steps, follow-up draft, open questions, CRM notes.</td>
+                  </tr>
+                  <tr>
+                    <th>Review</th>
+                    <td>Human review before delivery.</td>
+                  </tr>
+                  <tr>
+                    <th>Contact</th>
+                    <td><a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div class="service-block">
-              <div class="section-label">Sample</div>
-              <div class="sample-panel service-sample" aria-label="Relay sample">
-                <a id="sampleLink" class="sample-link" href="sample.pdf" target="_blank" rel="noopener">
-                  <img src="sample-preview.png" alt="Relay sample showing a rough call note turned into a follow-up packet." loading="eager" />
+            <div class="trust-block">
+              <div class="trust-label">Sample</div>
+              <div class="sample-panel trust-sample" aria-label="Relay sample">
+                <a id="sampleLink" class="sample-link" href="sample.pdf?v=20260517-trust" target="_blank" rel="noopener">
+                  <img src="sample-preview.png?v=20260517-trust" alt="Relay sample showing a rough call note turned into a follow-up packet." loading="eager" />
                 </a>
                 <div class="sample-caption">
                   <span>Example packet</span>
-                  <a id="sampleTextLink" href="sample.pdf" target="_blank" rel="noopener">Open sample</a>
+                  <a id="sampleTextLink" href="sample.pdf?v=20260517-trust" target="_blank" rel="noopener">Open sample</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <aside class="checkout-card" aria-label="Relay checkout" data-primary-money-path="checkout-first">
-          <h2>Start one packet.</h2>
-          <p class="checkout-note">Pay first, then send the rough note. If the handoff is not usable, it gets refunded.</p>
-          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Pay $1</a>
-          <ol class="checkout-steps" aria-label="Relay paid test path" data-primary-money-path="checkout-first">
-            <li><b>1</b><span>Pay $1 through Stripe.</span></li>
-            <li><b>2</b><span>Paste the rough note.</span></li>
-            <li><b>3</b><span>Receive the finished packet.</span></li>
-          </ol>
+        <aside class="trust-order" aria-label="Relay checkout" data-primary-money-path="checkout-first">
+          <div class="order-title">
+            <h2>One packet</h2>
+            <span>$1</span>
+          </div>
+          <p class="order-note">Checkout is handled by Stripe. After checkout, send the rough note from one call.</p>
+          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Start order</a>
+          <ul class="order-list" data-primary-money-path="checkout-first">
+            <li><span>Payment</span><b>Stripe</b></li>
+            <li><span>Scope</span><b>one call</b></li>
+            <li><span>Refund</span><b>if unusable</b></li>
+          </ul>
           <a class="plain-link secondary-link" href="#send-notes">Paste notes first</a>
         </aside>
       </section>
 
       <section id="send-notes" class="notes-section" aria-label="Send notes">
-        <form id="notesForm" class="panel notes-panel" autocomplete="on">
+        <form id="notesForm" class="panel notes-panel trust-notes" autocomplete="on">
           <div class="notes-copy">
-            <h2 class="form-title">Send the rough note.</h2>
-            <p>Bullets, fragments, or a transcript paste are fine. The note should be from one real call.</p>
+            <h2 class="form-title">Notes</h2>
+            <p>Paste notes first if you want to send the context before checkout.</p>
           </div>
 
           <div class="notes-fields">
@@ -737,14 +1014,14 @@
             </div>
 
             <div class="form-actions">
-              <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Pay $1</a>
+              <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Start order</a>
               <button id="sendNotesBtn" class="btn btn-signal" type="submit">Save notes</button>
             </div>
 
             <div id="status" class="status" role="status" aria-live="polite"></div>
 
             <div id="afterSubmit" class="after-submit">
-              <a id="afterCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after-notes">Pay $1</a>
+              <a id="afterCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after-notes">Start order</a>
             </div>
           </div>
         </form>
@@ -785,7 +1062,7 @@
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
       var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJeaEZb4mf6de64dSi2Nq02";
       var priceLabel = firstMoneyUrl ? (config.FIRST_MONEY_PRICE_LABEL || "$1") : (config.PACKET_PRICE_LABEL || "$40");
-      var checkoutLabel = firstMoneyUrl ? ("Pay " + priceLabel) : ("Buy " + priceLabel + " packet");
+      var checkoutLabel = firstMoneyUrl ? "Start order" : ("Buy " + priceLabel + " packet");
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);
@@ -992,9 +1269,9 @@
             note_length: notes.length
           });
           afterSubmitEl.classList.add("visible");
-          setStatus("Notes saved. Buy the packet when ready; Relay will also email you the link.", "success");
+          setStatus("Notes saved. Start checkout when ready; Relay will also email you the link.", "success");
         } catch (error) {
-          setStatus("Could not save notes right now. You can still buy the " + priceLabel + " test.", "error");
+          setStatus("Could not save notes right now. You can still start checkout or email Alan.", "error");
         } finally {
           sendNotesBtn.classList.remove("disabled");
         }

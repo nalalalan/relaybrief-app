@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RelayBrief | one-call follow-up packet</title>
-  <meta name="description" content="RelayBrief is a one-call follow-up packet from rough sales or client-call notes. Stripe checkout. No download or install.">
+  <title>RelayBrief | call-note cleanup</title>
+  <meta name="description" content="RelayBrief is a $1 call-note cleanup service operated by Alan Pham. Stripe handles checkout. No software download, account, login, or password.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="RelayBrief">
   <meta property="og:title" content="RelayBrief">
-  <meta property="og:description" content="One-call follow-up packet from rough sales or client-call notes. Stripe checkout. No download or install.">
+  <meta property="og:description" content="$1 call-note cleanup service operated by Alan Pham. Stripe checkout. No software download, account, login, or password.">
   <meta property="og:url" content="https://relaybrief.com/">
-  <meta property="og:image" content="https://relaybrief.com/og-image-20260506-contained.png">
-  <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-20260506-contained.png">
+  <meta property="og:image" content="https://relaybrief.com/og-image-trust-20260517.png">
+  <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="RelayBrief one-call follow-up packet.">
+  <meta property="og:image:alt" content="RelayBrief. Call-note cleanup. Stripe checkout. No software download.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RelayBrief">
-  <meta name="twitter:description" content="One-call follow-up packet from rough sales or client-call notes. Stripe checkout. No download or install.">
-  <meta name="twitter:image" content="https://relaybrief.com/og-image-20260506-contained.png">
-  <meta name="twitter:image:alt" content="RelayBrief one-call follow-up packet.">
+  <meta name="twitter:description" content="$1 call-note cleanup service operated by Alan Pham. Stripe checkout. No software download, account, login, or password.">
+  <meta name="twitter:image" content="https://relaybrief.com/og-image-trust-20260517.png">
+  <meta name="twitter:image:alt" content="RelayBrief. Call-note cleanup. Stripe checkout. No software download.">
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260508-icon-pass2" />
   <meta name="theme-color" content="#f7f8f5" />
@@ -46,7 +46,11 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
     body {
       margin: 0;
       background: var(--bg);
@@ -771,6 +775,9 @@
     .plain-topbar {
       justify-content: space-between;
     }
+    .plain-topbar > * {
+      min-width: 0;
+    }
     .text-brand {
       gap: 0;
       font-size: 18px;
@@ -780,7 +787,7 @@
       font-size: 13px;
     }
     .trust-page {
-      max-width: 690px;
+      max-width: 660px;
       margin: 0 auto;
     }
     .trust-label {
@@ -801,18 +808,18 @@
       margin-top: 10px;
       color: var(--muted);
       font-size: 15px;
-      font-weight: 560;
+      font-weight: 540;
       line-height: 1.45;
     }
     .trust-list {
-      margin: 24px 0 0;
+      margin: 18px 0 0;
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
     .trust-list div {
       display: grid;
-      grid-template-columns: 106px minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: 124px minmax(0, 1fr);
+      gap: 14px;
       padding: 13px 0;
       border-top: 1px solid var(--line);
     }
@@ -835,7 +842,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-top: 20px;
+      margin-top: 18px;
       flex-wrap: wrap;
     }
     .trust-actions .btn-primary {
@@ -854,10 +861,11 @@
       font-weight: 650;
       text-decoration: underline;
       text-underline-offset: 3px;
+      overflow-wrap: anywhere;
     }
     .order-detail {
-      margin-top: 20px;
-      border-top: 1px solid var(--line);
+      margin-top: 0;
+      border-top: 0;
       border-bottom: 1px solid var(--line);
     }
     .order-detail summary {
@@ -904,7 +912,7 @@
     }
     .quiet-footer {
       max-width: 620px;
-      margin: 38px auto 0;
+      margin: 34px auto 0;
       padding-top: 16px;
       border-top: 1px solid var(--line);
       color: var(--muted);
@@ -948,8 +956,16 @@
 
     @media (max-width: 560px) {
       .wrap {
-        width: calc(100% - 20px);
-        max-width: calc(100vw - 20px);
+        width: 100%;
+        max-width: 100%;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      html,
+      body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
       }
       .main,
       .trust-shell,
@@ -962,6 +978,9 @@
       }
       .topbar-inner { min-height: 62px; }
       .brand { font-size: 17px; }
+      .top-email {
+        display: none;
+      }
       .brand-mark { width: 32px; height: 32px; }
       .top-actions { display: none; }
       .top-actions .btn {
@@ -981,6 +1000,40 @@
       .form-actions,
       .summary-strip { grid-template-columns: 1fr; }
       .btn { width: 100%; }
+      .trust-list div {
+        display: block;
+        padding: 12px 0;
+      }
+      .trust-list dt { margin-bottom: 4px; }
+      .trust-list dd {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+      .trust-dek {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+      .trust-title {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+      .trust-actions {
+        display: grid;
+        align-items: stretch;
+      }
+      .trust-actions .btn-primary {
+        width: 100%;
+        max-width: 100%;
+        min-height: 42px;
+        white-space: normal;
+        text-align: center;
+      }
+      .trust-actions {
+        display: grid;
+      }
       textarea { min-height: 170px; }
       .sample-caption {
         align-items: flex-start;
@@ -1097,21 +1150,50 @@
     <div class="wrap">
       <section class="trust-page" aria-label="RelayBrief checkout information" data-primary-money-path="checkout-first">
         <p class="trust-label">relaybrief.com</p>
-        <h1 class="trust-title">One-call follow-up packet.</h1>
-        <p class="trust-dek">$1 test. Stripe checkout. No download, no install, no account, no password.</p>
+        <h1 class="trust-title">Call-note cleanup.</h1>
+        <p class="trust-dek">$1. Stripe checkout.<br>No download. No login. No password.</p>
+
+        <div class="trust-actions">
+          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Open Stripe checkout</a>
+          <a class="text-link" href="mailto:pham.alann@gmail.com">Email Alan first</a>
+        </div>
 
         <dl class="trust-list">
           <div>
-            <dt>Service</dt>
-            <dd>Turn rough sales or client-call notes into a recap, follow-up draft, next steps, open questions, and CRM note.</dd>
+            <dt>Operator</dt>
+            <dd>Alan Pham.</dd>
           </div>
           <div>
-            <dt>Safety</dt>
-            <dd>No file download required. Nothing to install. No login.</dd>
+            <dt>Service</dt>
+            <dd>Clean packet from one rough call note.</dd>
+          </div>
+          <div>
+            <dt>Includes</dt>
+            <dd>Recap. Draft. Next steps. Questions. CRM note.</dd>
+          </div>
+          <div>
+            <dt>Price</dt>
+            <dd>$1 for one call.</dd>
           </div>
           <div>
             <dt>Payment</dt>
-            <dd>Stripe checkout. Email first if unsure.</dd>
+            <dd>Stripe checkout on stripe.com.</dd>
+          </div>
+          <div>
+            <dt>Delivery</dt>
+            <dd>Email after checkout.</dd>
+          </div>
+          <div>
+            <dt>Safety</dt>
+            <dd>No download. No login. No password.</dd>
+          </div>
+          <div>
+            <dt>Refund</dt>
+            <dd>Refunded if unusable.</dd>
+          </div>
+          <div>
+            <dt>Example</dt>
+            <dd><a id="sampleTextLink" class="text-link" href="sample.pdf">Open example PDF</a></dd>
           </div>
           <div>
             <dt>Contact</dt>
@@ -1119,46 +1201,15 @@
           </div>
         </dl>
 
-        <div class="trust-actions">
-          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Continue to Stripe</a>
-          <a class="text-link" href="mailto:pham.alann@gmail.com">Email first</a>
-        </div>
-
         <details id="sampleDetail" class="order-detail">
-          <summary>Sample</summary>
+          <summary>What the packet includes</summary>
           <div class="order-detail-body inline-facts">
             <p><strong>Input:</strong> messy notes from one call.</p>
             <p><strong>Output:</strong> recap, follow-up draft, next steps, open questions, CRM note.</p>
+            <p><strong>Example:</strong> <a id="sampleLink" class="text-link" href="sample.pdf">PDF opens in browser</a>. It uses invented data.</p>
           </div>
         </details>
 
-        <details id="send-notes" class="order-detail">
-          <summary>Send notes first</summary>
-          <div class="order-detail-body">
-            <form id="notesForm" class="compact-notes" autocomplete="on">
-              <div class="field">
-                <label for="email">Work email</label>
-                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
-              </div>
-
-              <div class="field">
-                <label for="notes">Rough notes</label>
-                <textarea id="notes" name="notes" placeholder="Paste the rough call note here." required></textarea>
-              </div>
-
-              <div class="form-actions">
-                <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Continue to Stripe</a>
-                <button id="sendNotesBtn" class="btn btn-signal" type="submit">Save notes</button>
-              </div>
-
-              <div id="status" class="status" role="status" aria-live="polite"></div>
-
-              <div id="afterSubmit" class="after-submit">
-                <a id="afterCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after-notes">Continue to Stripe</a>
-              </div>
-            </form>
-          </div>
-        </details>
       </section>
     </div>
   </main>
@@ -1167,6 +1218,8 @@
     <span>RelayBrief</span>
     <span>relaybrief.com</span>
     <span><a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></span>
+    <span><a href="terms.html">terms</a></span>
+    <span><a href="privacy.html">privacy</a></span>
   </footer>
 
   <script>
@@ -1175,9 +1228,9 @@
       var eventUrl = config.RELAY_INTENT_EVENT_URL || "https://alan-operator-backend-production.up.railway.app/api/relay/event";
       var leadUrl = config.RELAY_INTENT_LEAD_URL || "https://alan-operator-backend-production.up.railway.app/api/relay/lead";
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
-      var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJeaEZb4mf6de64dSi2Nq02";
-      var priceLabel = firstMoneyUrl ? (config.FIRST_MONEY_PRICE_LABEL || "$1") : (config.PACKET_PRICE_LABEL || "$40");
-      var checkoutLabel = firstMoneyUrl ? "Continue to Stripe" : ("Buy " + priceLabel + " packet");
+      var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08";
+      var priceLabel = config.FIRST_MONEY_PRICE_LABEL || "$1";
+      var checkoutLabel = "Open Stripe checkout (" + priceLabel + ")";
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);
@@ -1219,6 +1272,9 @@
       }
 
       function setStatus(message, kind) {
+        if (!statusEl) {
+          return;
+        }
         statusEl.textContent = message || "";
         statusEl.className = "status" + (kind ? " " + kind : "");
       }
@@ -1228,10 +1284,16 @@
       }
 
       function currentNotes() {
+        if (!notesEl) {
+          return "";
+        }
         return (notesEl.value || "").trim();
       }
 
       function currentEmail() {
+        if (!emailEl) {
+          return "";
+        }
         return (emailEl.value || "").trim().toLowerCase();
       }
 
@@ -1359,43 +1421,47 @@
         });
       }
 
-      formEl.addEventListener("submit", async function (event) {
-        event.preventDefault();
+      if (formEl && emailEl && notesEl && sendNotesBtn) {
+        formEl.addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-        var email = currentEmail();
-        var notes = currentNotes();
+          var email = currentEmail();
+          var notes = currentNotes();
 
-        if (!validEmail(email)) {
-          setStatus("Use a valid email so RelayBrief can send the next step.", "error");
-          emailEl.focus();
-          return;
-        }
+          if (!validEmail(email)) {
+            setStatus("Use a valid email for the reply.", "error");
+            emailEl.focus();
+            return;
+          }
 
-        if (notes.length < 10) {
-          setStatus("Paste at least a few real notes first.", "error");
-          notesEl.focus();
-          return;
-        }
+          if (notes.length < 10) {
+            setStatus("Paste at least a few real notes first.", "error");
+            notesEl.focus();
+            return;
+          }
 
-        sendNotesBtn.classList.add("disabled");
-        setStatus("Saving notes...", "");
+          sendNotesBtn.classList.add("disabled");
+          setStatus("Saving notes...", "");
 
-        try {
-          await postLead("messy_notes", {
-            notes: notes,
-            note_length: notes.length
-          });
-          track("note_intake_submit", {
-            note_length: notes.length
-          });
-          afterSubmitEl.classList.add("visible");
-          setStatus("Notes saved. Continue to Stripe when ready; RelayBrief will also email you the link.", "success");
-        } catch (error) {
-          setStatus("Could not save notes right now. You can still start checkout or email Alan.", "error");
-        } finally {
-          sendNotesBtn.classList.remove("disabled");
-        }
-      });
+          try {
+            await postLead("messy_notes", {
+              notes: notes,
+              note_length: notes.length
+            });
+            track("note_intake_submit", {
+              note_length: notes.length
+            });
+            if (afterSubmitEl) {
+              afterSubmitEl.classList.add("visible");
+            }
+            setStatus("Notes saved. Open Stripe checkout when ready.", "success");
+          } catch (error) {
+            setStatus("Could not save notes right now. You can still use Stripe checkout or email Alan.", "error");
+          } finally {
+            sendNotesBtn.classList.remove("disabled");
+          }
+        });
+      }
 
       checkoutLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
@@ -1427,25 +1493,29 @@
         });
       }
 
-      emailEl.addEventListener("focus", function () {
-        track("email_focus", {});
-      }, { once: true });
+      if (emailEl) {
+        emailEl.addEventListener("focus", function () {
+          track("email_focus", {});
+        }, { once: true });
+      }
 
-      notesEl.addEventListener("focus", function () {
-        track("note_intake_click", {});
-      }, { once: true });
+      if (notesEl) {
+        notesEl.addEventListener("focus", function () {
+          track("note_intake_click", {});
+        }, { once: true });
 
-      notesEl.addEventListener("input", function () {
-        var length = currentNotes().length;
-        if (!notesStarted && length > 0) {
-          notesStarted = true;
-          track("notes_started", { note_length: length });
-        }
-        if (!notesHundred && length >= 100) {
-          notesHundred = true;
-          track("notes_100_chars", { note_length: length });
-        }
-      });
+        notesEl.addEventListener("input", function () {
+          var length = currentNotes().length;
+          if (!notesStarted && length > 0) {
+            notesStarted = true;
+            track("notes_started", { note_length: length });
+          }
+          if (!notesHundred && length >= 100) {
+            notesHundred = true;
+            track("notes_100_chars", { note_length: length });
+          }
+        });
+      }
 
       function checkScrollDepth() {
         maxScrollPct = Math.max(maxScrollPct, scrollPercent());

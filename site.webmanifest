@@ -1,6 +1,6 @@
 {
-  "name": "Relay",
-  "short_name": "Relay",
+  "name": "RelayBrief",
+  "short_name": "RelayBrief",
   "icons": [
     {
       "src": "/favicon.svg",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#d8ccc0",
-  "background_color": "#fbf8f2",
+  "theme_color": "#f7f8f5",
+  "background_color": "#fbfaf7",
   "display": "standalone"
 }

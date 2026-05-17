@@ -757,6 +757,142 @@
       margin-top: 8px;
     }
 
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .order-page {
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .order-title {
+      font-size: 22px;
+      line-height: 1.16;
+      font-weight: 760;
+      letter-spacing: 0;
+    }
+    .order-dek {
+      margin-top: 8px;
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 560;
+      line-height: 1.45;
+    }
+    .order-table {
+      width: 100%;
+      margin-top: 24px;
+      border-collapse: collapse;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .order-table th,
+    .order-table td {
+      padding: 13px 0;
+      border-top: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.36;
+    }
+    .order-table tr:first-child th,
+    .order-table tr:first-child td {
+      border-top: 0;
+    }
+    .order-table th {
+      width: 112px;
+      padding-right: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 680;
+    }
+    .order-table td {
+      color: var(--ink);
+      font-weight: 560;
+    }
+    .order-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .order-actions .btn-primary {
+      min-height: 38px;
+      width: auto;
+      padding: 0 15px;
+      border-radius: 6px;
+      background: #242424;
+      border-color: #242424;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .text-link {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .order-detail {
+      margin-top: 20px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .order-detail summary {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 680;
+      list-style: none;
+    }
+    .order-detail summary::-webkit-details-marker { display: none; }
+    .order-detail summary::after {
+      content: "+";
+      color: var(--muted);
+      font-size: 17px;
+      font-weight: 520;
+    }
+    .order-detail[open] summary::after { content: "-"; }
+    .order-detail-body {
+      padding: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .compact-notes {
+      display: grid;
+      gap: 0;
+      margin: 0;
+    }
+    .compact-notes .form-actions {
+      grid-template-columns: 1fr 1fr;
+    }
+    .quiet-footer {
+      max-width: 620px;
+      margin: 38px auto 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
     @media (max-width: 880px) {
       .hero { grid-template-columns: 1fr; }
       .pay-panel { position: static; }
@@ -899,6 +1035,29 @@
       .order-title span {
         font-size: 17px;
       }
+      .order-title { font-size: 21px; }
+      .order-table th,
+      .order-table td {
+        display: block;
+        width: 100%;
+        padding-right: 0;
+      }
+      .order-table th {
+        padding-bottom: 2px;
+        border-top: 1px solid var(--line);
+      }
+      .order-table td {
+        padding-top: 0;
+        border-top: 0;
+      }
+      .order-table tr:first-child th { border-top: 0; }
+      .order-actions { align-items: flex-start; }
+      .order-actions .btn-primary { width: auto; }
+      .compact-notes .form-actions { grid-template-columns: 1fr; }
+      .quiet-footer {
+        display: grid;
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -909,149 +1068,77 @@
         <img class="brand-mark" src="favicon.svg?v=20260508-icon-pass2" alt="">
         <span>Relay</span>
       </a>
-      <div class="top-actions" aria-label="Relay actions">
-        <a id="topCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="top">Start order</a>
-      </div>
     </div>
   </header>
 
   <main class="main">
     <div class="wrap">
-      <section class="trust-shell" aria-label="Relay order page">
-        <div class="trust-sheet">
-          <div class="trust-intro">
-            <h1 class="trust-title">Follow-up packet for one call.</h1>
-            <p class="trust-sub">Send rough notes from one sales or client call. Relay turns them into a short recap, next steps, a follow-up draft, open questions, and CRM notes.</p>
-          </div>
+      <section class="order-page" aria-label="Relay service order" data-primary-money-path="checkout-first">
+        <h1 class="order-title">One-call follow-up packet.</h1>
+        <p class="order-dek">For rough sales or client-call notes.</p>
 
-          <div class="trust-plain" aria-label="Service terms">
-            <div>
-              <b>$1</b>
-              <span>one-call checkout</span>
-            </div>
-            <div>
-              <b>No subscription</b>
-              <span>one packet only</span>
-            </div>
-            <div>
-              <b>Refund boundary</b>
-              <span>if the handoff is unusable</span>
-            </div>
-          </div>
+        <table class="order-table">
+          <tbody>
+            <tr>
+              <th>Price</th>
+              <td>$1</td>
+            </tr>
+            <tr>
+              <th>Scope</th>
+              <td>One sales or client call.</td>
+            </tr>
+            <tr>
+              <th>Includes</th>
+              <td>Recap, follow-up draft, next steps, open questions, CRM note.</td>
+            </tr>
+            <tr>
+              <th>Payment</th>
+              <td>Stripe checkout.</td>
+            </tr>
+          </tbody>
+        </table>
 
-          <div class="trust-body">
-            <div class="trust-block">
-              <div class="trust-label">Order details</div>
-              <table class="trust-table">
-                <tbody>
-                  <tr>
-                    <th>Input</th>
-                    <td>One rough sales or client-call note.</td>
-                  </tr>
-                  <tr>
-                    <th>Output</th>
-                    <td>Recap, next steps, follow-up draft, open questions, CRM notes.</td>
-                  </tr>
-                  <tr>
-                    <th>Review</th>
-                    <td>Human review before delivery.</td>
-                  </tr>
-                  <tr>
-                    <th>Contact</th>
-                    <td><a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <div class="order-actions">
+          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Start checkout</a>
+          <a id="sampleLink" class="text-link" href="sample.pdf?v=20260517-trust" target="_blank" rel="noopener">Sample PDF</a>
+        </div>
 
-            <div class="trust-block">
-              <div class="trust-label">Sample</div>
-              <div class="sample-panel trust-sample" aria-label="Relay sample">
-                <a id="sampleLink" class="sample-link" href="sample.pdf?v=20260517-trust" target="_blank" rel="noopener">
-                  <img src="sample-preview.png?v=20260517-trust" alt="Relay sample showing a rough call note turned into a follow-up packet." loading="eager" />
-                </a>
-                <div class="sample-caption">
-                  <span>Example packet</span>
-                  <a id="sampleTextLink" href="sample.pdf?v=20260517-trust" target="_blank" rel="noopener">Open sample</a>
-                </div>
+        <details id="send-notes" class="order-detail">
+          <summary>Send notes first</summary>
+          <div class="order-detail-body">
+            <form id="notesForm" class="compact-notes" autocomplete="on">
+              <div class="field">
+                <label for="email">Work email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
               </div>
-            </div>
+
+              <div class="field">
+                <label for="notes">Rough notes</label>
+                <textarea id="notes" name="notes" placeholder="Paste the rough call note here." required></textarea>
+              </div>
+
+              <div class="form-actions">
+                <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Start checkout</a>
+                <button id="sendNotesBtn" class="btn btn-signal" type="submit">Save notes</button>
+              </div>
+
+              <div id="status" class="status" role="status" aria-live="polite"></div>
+
+              <div id="afterSubmit" class="after-submit">
+                <a id="afterCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after-notes">Start checkout</a>
+              </div>
+            </form>
           </div>
-        </div>
+        </details>
 
-        <aside class="trust-order" aria-label="Relay checkout" data-primary-money-path="checkout-first">
-          <div class="order-title">
-            <h2>One packet</h2>
-            <span>$1</span>
-          </div>
-          <p class="order-note">Checkout is handled by Stripe. After checkout, send the rough note from one call.</p>
-          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Start order</a>
-          <ul class="order-list" data-primary-money-path="checkout-first">
-            <li><span>Payment</span><b>Stripe</b></li>
-            <li><span>Scope</span><b>one call</b></li>
-            <li><span>Refund</span><b>if unusable</b></li>
-          </ul>
-          <a class="plain-link secondary-link" href="#send-notes">Paste notes first</a>
-        </aside>
-      </section>
-
-      <section id="send-notes" class="notes-section" aria-label="Send notes">
-        <form id="notesForm" class="panel notes-panel trust-notes" autocomplete="on">
-          <div class="notes-copy">
-            <h2 class="form-title">Notes</h2>
-            <p>Paste notes first if you want to send the context before checkout.</p>
-          </div>
-
-          <div class="notes-fields">
-            <div class="field">
-              <label for="email">Work email</label>
-              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required />
-            </div>
-
-            <div class="field">
-              <label for="notes">Rough notes</label>
-              <textarea id="notes" name="notes" placeholder="Paste the rough call note here." required></textarea>
-            </div>
-
-            <div class="form-actions">
-              <a id="formCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="form">Start order</a>
-              <button id="sendNotesBtn" class="btn btn-signal" type="submit">Save notes</button>
-            </div>
-
-            <div id="status" class="status" role="status" aria-live="polite"></div>
-
-            <div id="afterSubmit" class="after-submit">
-              <a id="afterCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after-notes">Start order</a>
-            </div>
-          </div>
-        </form>
-      </section>
-
-      <section class="summary-strip" aria-label="What Relay sends back">
-        <div class="summary-item">
-          <strong>Recap</strong>
-          <span>Short summary of what happened.</span>
-        </div>
-        <div class="summary-item">
-          <strong>Next steps</strong>
-          <span>Owner, action, and timing.</span>
-        </div>
-        <div class="summary-item">
-          <strong>Follow-up draft</strong>
-          <span>Email you can send.</span>
-        </div>
-        <div class="summary-item">
-          <strong>CRM update</strong>
-          <span>Clean notes for the record.</span>
-        </div>
+        <a id="sampleTextLink" class="visually-hidden" href="sample.pdf?v=20260517-trust" target="_blank" rel="noopener">Open sample</a>
       </section>
     </div>
   </main>
 
-  <footer class="wrap footer">
+  <footer class="wrap quiet-footer">
     <span>Relay</span>
-    <span>Questions: <a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></span>
-    <span>Notes are used to make the packet. If the handoff is not usable, I refund it.</span>
+    <span><a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></span>
   </footer>
 
   <script>
@@ -1062,7 +1149,7 @@
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
       var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJeaEZb4mf6de64dSi2Nq02";
       var priceLabel = firstMoneyUrl ? (config.FIRST_MONEY_PRICE_LABEL || "$1") : (config.PACKET_PRICE_LABEL || "$40");
-      var checkoutLabel = firstMoneyUrl ? "Start order" : ("Buy " + priceLabel + " packet");
+      var checkoutLabel = firstMoneyUrl ? "Start checkout" : ("Buy " + priceLabel + " packet");
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);

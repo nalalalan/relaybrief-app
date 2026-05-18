@@ -4,24 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RelayBrief | manual follow-up cleanup</title>
-  <meta name="description" content="RelayBrief is a small manual follow-up cleanup service by Alan Pham. Email one rough call note first. Pay $1 by Stripe only after the job is accepted.">
+  <meta name="description" content="RelayBrief is a small manual follow-up cleanup service by Alan Pham. Email one rough call note first. Alan replies with a short plain-text preview. Pay $1 only if you want the finished packet.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="RelayBrief">
   <meta property="og:title" content="RelayBrief">
-  <meta property="og:description" content="Email one rough call note first. Pay $1 by Stripe only after the job is accepted. No card details on this site.">
+  <meta property="og:description" content="Email one rough call note first. Plain-text preview first. Pay $1 only if you want the finished packet. No card details on this site.">
   <meta property="og:url" content="https://relaybrief.com/">
   <meta property="og:image" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="RelayBrief. Manual follow-up cleanup. Email first. Pay by Stripe after acceptance.">
+  <meta property="og:image:alt" content="RelayBrief. Manual follow-up cleanup. Email first. Preview first. Pay only if useful.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RelayBrief">
-  <meta name="twitter:description" content="Email one rough call note first. Pay $1 by Stripe only after the job is accepted. No card details on this site.">
+  <meta name="twitter:description" content="Email one rough call note first. Plain-text preview first. Pay $1 only if you want the finished packet. No card details on this site.">
   <meta name="twitter:image" content="https://relaybrief.com/og-image-trust-20260517.png">
-  <meta name="twitter:image:alt" content="RelayBrief. Manual follow-up cleanup. Email first. Pay by Stripe after acceptance.">
+  <meta name="twitter:image:alt" content="RelayBrief. Manual follow-up cleanup. Email first. Preview first. Pay only if useful.">
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260508-icon-pass2" />
   <meta name="theme-color" content="#f7f8f5" />
@@ -1155,14 +1155,14 @@
 
   <main class="main">
     <div class="wrap">
-      <section class="trust-page" aria-label="RelayBrief service information" data-primary-money-path="email-first-payment-after-fit">
+      <section class="trust-page" aria-label="RelayBrief service information" data-primary-money-path="free-preview-payment-after-fit">
         <p class="trust-label">relaybrief.com</p>
         <h1 class="trust-title">Manual follow-up cleanup.</h1>
-        <p class="trust-dek">Email one rough call note first.<br>Pay $1 by Stripe only after Alan accepts the job.</p>
+        <p class="trust-dek">Email one rough call note first.<br>Alan replies with a short plain-text preview.<br>Pay $1 only if you want the finished packet.</p>
 
         <div class="trust-actions">
-          <a id="send-notes" class="btn btn-primary js-email-intent" href="mailto:pham.alann@gmail.com?subject=RelayBrief%20%241%20call%20note&body=Hi%20Alan%2C%0A%0AI%20have%20one%20rough%20call%20note%20for%20RelayBrief.%0A%0A%5Bpaste%20rough%20notes%20or%20context%20here%5D">Email one note</a>
-          <a id="heroCheckout" class="text-link js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after_fit">Stripe $1 after acceptance</a>
+          <a id="send-notes" class="btn btn-primary js-email-intent" href="mailto:pham.alann@gmail.com?subject=RelayBrief%20preview%20request&body=Hi%20Alan%2C%0A%0AI%20have%20one%20rough%20call%20note%20for%20RelayBrief.%20Please%20reply%20with%20a%20short%20preview.%0A%0A%5Bpaste%20rough%20notes%20or%20context%20here%3B%20remove%20confidential%20details%20if%20needed%5D">Email rough note</a>
+          <a id="heroCheckout" class="text-link js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after_preview">Stripe $1 after preview</a>
         </div>
 
         <dl class="trust-list">
@@ -1180,23 +1180,23 @@
           </div>
           <div>
             <dt>Price</dt>
-            <dd>$1 after Alan accepts the job.</dd>
+            <dd>Preview free. Finished packet $1 if you want it.</dd>
           </div>
           <div>
             <dt>Payment</dt>
-            <dd>Stripe link by email. No card details on this site.</dd>
+            <dd>Stripe link by email after preview. No card details on this site.</dd>
           </div>
           <div>
             <dt>Delivery</dt>
-            <dd>Finished packet comes by email.</dd>
+            <dd>Plain text by email. PDF only if requested.</dd>
           </div>
           <div>
             <dt>Safety</dt>
-            <dd>No download. No login. No password. No card form.</dd>
+            <dd>No download. No login. No password. No card form. Remove confidential details.</dd>
           </div>
           <div>
             <dt>Refund</dt>
-            <dd>Refunded if unusable.</dd>
+            <dd>If you pay and the final packet is unusable, it is refunded.</dd>
           </div>
           <div>
             <dt>Example</dt>
@@ -1237,7 +1237,7 @@
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
       var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08";
       var priceLabel = config.FIRST_MONEY_PRICE_LABEL || "$1";
-      var checkoutLabel = "Stripe " + priceLabel + " after acceptance";
+      var checkoutLabel = "Stripe " + priceLabel + " after preview";
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);
@@ -1462,7 +1462,7 @@
             if (afterSubmitEl) {
               afterSubmitEl.classList.add("visible");
             }
-            setStatus("Notes saved. Alan will reply with a Stripe link if accepted.", "success");
+            setStatus("Notes saved. Alan will reply with a plain-text preview.", "success");
           } catch (error) {
             setStatus("Could not save notes right now. Email Alan directly.", "error");
           } finally {
@@ -1484,7 +1484,7 @@
         link.addEventListener("click", function () {
           track("email_intent_click", {
             position: link.id || "email",
-            money_path: "email_first_payment_after_fit"
+            money_path: "free_preview_payment_after_fit"
           });
         });
       });

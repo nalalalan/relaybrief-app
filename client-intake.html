@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>RelayBrief intake</title>
-  <meta name="description" content="RelayBrief paid client intake.">
+  <title>Alan Pham intake</title>
+  <meta name="description" content="Private intake for a follow-up email job already accepted by Alan.">
   <link rel="canonical" href="https://relaybrief.com/client-intake.html">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="site-config.js"></script>
@@ -50,26 +50,25 @@
 <body>
   <header>
     <div class="top">
-      <a class="brand" href="/">RelayBrief</a>
+      <a class="brand" href="/">Alan Pham</a>
       <a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a>
     </div>
   </header>
   <main>
-    <h1>Paid intake.</h1>
-    <p>Access code from payment email.<br>No login. No password.</p>
+    <h1>Private intake.</h1>
+    <p>Access code from Alan.<br>No login. No password.</p>
 
     <form id="gateForm">
       <label for="accessCode">Access code</label>
       <input id="accessCode" type="text" autocomplete="off" placeholder="Access code">
       <div class="actions">
         <button id="redeemBtn" type="submit">Open intake</button>
-        <a id="buyLink" class="button secondary" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" target="_blank" rel="noopener">Open Stripe checkout</a>
       </div>
       <div id="status" class="status" role="status" aria-live="polite"></div>
     </form>
 
     <dl>
-      <div><dt>Payment</dt><dd>Stripe checkout. Card numbers stay in Stripe.</dd></div>
+      <div><dt>Payment</dt><dd>Only after Alan sends a usable draft. Card numbers stay in Stripe.</dd></div>
       <div><dt>Safety</dt><dd>No download. No login. No password.</dd></div>
       <div><dt>Problem</dt><dd>Email <a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a>.</dd></div>
     </dl>
@@ -78,15 +77,10 @@
     (function () {
       var config = window.AO_CONFIG || {};
       var apiBase = (config.API_BASE || "https://alan-operator-backend-production.up.railway.app").replace(/\/$/, "");
-      var checkoutUrl = (config.FIRST_MONEY_CHECKOUT_URL || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08").trim();
-      var priceLabel = (config.FIRST_MONEY_PRICE_LABEL || config.PACKET_PRICE_LABEL || "$1").trim();
       var form = document.getElementById("gateForm");
       var input = document.getElementById("accessCode");
       var status = document.getElementById("status");
       var button = document.getElementById("redeemBtn");
-      var buyLink = document.getElementById("buyLink");
-      buyLink.href = checkoutUrl;
-      buyLink.textContent = "Open Stripe checkout (" + priceLabel + ")";
 
       function setStatus(message, kind) {
         status.textContent = message || "";
@@ -97,7 +91,7 @@
         event.preventDefault();
         var accessCode = (input.value || "").trim();
         if (!accessCode) {
-          setStatus("Enter the access code from the payment email.", "error");
+          setStatus("Enter the access code from Alan.", "error");
           return;
         }
         button.disabled = true;

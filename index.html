@@ -3,814 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RelayBrief | stuck lead follow-up by email</title>
-  <meta name="description" content="Email Alan one stuck lead, last reply, rough draft, or a few bullets. Get one follow-up email back. If it is useful, pay $1 by Stripe afterward.">
+  <title>Alan Pham | stuck lead follow-up email</title>
+  <meta name="description" content="Email Alan one stuck lead, last reply, rough draft, or a few bullets. Get one plain follow-up email back. If you use it, send $1 afterward.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="RelayBrief">
-  <meta property="og:title" content="RelayBrief">
-  <meta property="og:description" content="Email one stuck lead or rough draft. Get one follow-up email back. Pay $1 after only if it is useful.">
+  <meta property="og:site_name" content="Alan Pham">
+  <meta property="og:title" content="Stuck lead follow-up email">
+  <meta property="og:description" content="One lead went quiet. Alan writes one follow-up email. Pay $1 afterward only if you use it.">
   <meta property="og:url" content="https://relaybrief.com/">
-  <meta property="og:image" content="https://relaybrief.com/og-image-service-20260518-stuck-lead.png">
-  <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-service-20260518-stuck-lead.png">
+  <meta property="og:image" content="https://relaybrief.com/og-image-service-20260518-personal-service.png">
+  <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-service-20260518-personal-service.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="RelayBrief. Send one stuck lead. Get one follow-up email.">
+  <meta property="og:image:alt" content="Send one stuck lead. Get one follow-up email.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="RelayBrief">
-  <meta name="twitter:description" content="Email one stuck lead or rough draft. Get one follow-up email back. Pay $1 after only if it is useful.">
-  <meta name="twitter:image" content="https://relaybrief.com/og-image-service-20260518-stuck-lead.png">
-  <meta name="twitter:image:alt" content="RelayBrief. Send one stuck lead. Get one follow-up email.">
-  <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260508-icon-pass2" />
-  <meta name="theme-color" content="#f7f8f5" />
-  <script src="site-config.js?v=20260518-stuck-lead"></script>
+  <meta name="twitter:title" content="Stuck lead follow-up email">
+  <meta name="twitter:description" content="One lead went quiet. Alan writes one follow-up email. Pay $1 afterward only if you use it.">
+  <meta name="twitter:image" content="https://relaybrief.com/og-image-service-20260518-personal-service.png">
+  <meta name="twitter:image:alt" content="Send one stuck lead. Get one follow-up email.">
+  <link rel="icon" href="/favicon.svg?v=20260518-personal-service" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260518-personal-service" />
+  <meta name="theme-color" content="#fbfaf7" />
+  <script src="site-config.js?v=20260518-personal-service"></script>
   <style>
     :root {
       color-scheme: light;
       --bg: #fbfaf7;
+      --ink: #1d1b18;
+      --muted: #67625b;
+      --line: #ded9cf;
       --panel: #ffffff;
-      --ink: #1f1f1d;
-      --muted: #66645f;
-      --line: #dedbd2;
-      --line-dark: #bdb8aa;
-      --soft: #f1efe8;
-      --accent: #232323;
-      --accent-dark: #000000;
-      --signal: #f4f2e9;
-      --danger: #9b342a;
-      --ok: #245d3a;
-      --radius: 8px;
-      --max: 980px;
+      --soft: #f4f2ec;
+      --accent: #242321;
+      --max: 720px;
     }
-
     * { box-sizing: border-box; }
-    html {
-      scroll-behavior: smooth;
-      max-width: 100%;
-      overflow-x: hidden;
-    }
+    html, body { margin: 0; max-width: 100%; overflow-x: hidden; }
     body {
-      margin: 0;
       background: var(--bg);
       color: var(--ink);
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.48;
-      overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    h1, h2, p { margin: 0; }
-
     .wrap {
-      width: min(calc(100% - 32px), var(--max));
+      width: min(calc(100% - 34px), var(--max));
       margin: 0 auto;
     }
-
-    .topbar {
-      background: rgba(247, 247, 243, .94);
+    header {
       border-bottom: 1px solid var(--line);
+      background: var(--bg);
     }
-    .topbar-inner {
+    .top {
       min-height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-    }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 19px;
-      font-weight: 900;
-      line-height: 1;
-    }
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-    .top-actions { display: flex; align-items: center; gap: 10px; }
-
-    .btn {
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 18px;
-      border: 1px solid var(--line-dark);
-      border-radius: var(--radius);
-      background: var(--panel);
-      color: var(--ink);
-      font-size: 15px;
-      font-weight: 850;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background .14s ease, border-color .14s ease, transform .14s ease;
-    }
-    .btn:hover { transform: translateY(-1px); border-color: #a9b2a7; }
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
-    .btn-signal {
-      background: var(--signal);
-      border-color: #d5e47f;
-      color: #1b220f;
-    }
-
-    .main { padding: 30px 0 28px; }
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(330px, 380px);
-      gap: 28px;
-      align-items: start;
-    }
-    .hero > * { min-width: 0; }
-    .hero-copy { padding-top: 6px; }
-    .eyebrow {
+      gap: 18px;
       color: var(--muted);
-      font-size: 13px;
-      font-weight: 850;
-      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+    .name {
+      color: var(--ink);
+      font-weight: 760;
+    }
+    main { padding: 46px 0 34px; }
+    .service {
+      display: grid;
+      gap: 22px;
     }
     h1 {
       max-width: 620px;
-      font-size: clamp(32px, 3.7vw, 42px);
-      line-height: 1.02;
-      font-weight: 920;
-      letter-spacing: 0;
-    }
-    .subhead {
-      max-width: 620px;
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.46;
-    }
-    .subhead strong { color: var(--ink); font-weight: 900; }
-    .hero-pay { display: none; margin-top: 14px; }
-
-    .panel,
-    .sample-panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-    }
-    .panel { padding: 18px; }
-    .pay-panel {
-      position: sticky;
-      top: 82px;
-      border-color: #c7cec3;
-    }
-    .panel-kicker {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .form-title {
-      font-size: 22px;
-      line-height: 1.18;
-      font-weight: 920;
-      margin-bottom: 10px;
-    }
-    .pay-copy {
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 720;
-      line-height: 1.42;
-    }
-    .pay-steps {
-      list-style: none;
-      display: grid;
-      gap: 0;
-      margin: 16px 0 0;
-      padding: 0;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .pay-steps li {
-      min-height: 52px;
-      display: grid;
-      grid-template-columns: 86px minmax(0, 1fr);
-      gap: 12px;
-      align-items: center;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--line);
-      background: #fbfcfa;
-    }
-    .pay-steps li:last-child { border-bottom: 0; }
-    .pay-steps b { font-size: 15px; line-height: 1.1; }
-    .pay-steps span {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 760;
-      line-height: 1.2;
-    }
-    .pay-actions {
-      display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .pay-actions .btn { width: 100%; }
-    .plain-link {
-      display: inline-flex;
-      min-height: 32px;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 850;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-    .secondary-link { justify-content: flex-start; }
-    .pay-facts {
-      display: grid;
-      gap: 9px;
-      margin: 16px 0 0;
-      padding: 14px 0 0;
-      border-top: 1px solid var(--line);
-    }
-    .pay-fact {
-      display: grid;
-      grid-template-columns: 80px minmax(0, 1fr);
-      gap: 10px;
-      align-items: baseline;
-    }
-    .pay-fact dt {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-    .pay-fact dd {
       margin: 0;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 760;
-      line-height: 1.3;
-    }
-
-    .sample-panel {
-      margin-top: 20px;
-      overflow: hidden;
-    }
-    .sample-link {
-      display: block;
-      background: #eef1ec;
-    }
-    .sample-link img {
-      width: 100%;
-      aspect-ratio: 16 / 7.5;
-      object-fit: cover;
-      object-position: top center;
-      border-bottom: 1px solid var(--line);
-    }
-    .sample-caption {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 13px 15px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 760;
-    }
-
-    .notes-section {
-      scroll-margin-top: 90px;
-      margin-top: 24px;
-    }
-    .notes-panel {
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .field {
-      display: grid;
-      gap: 7px;
-      margin-top: 12px;
-    }
-    label {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 820;
-    }
-    input,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fbfcfa;
-      color: var(--ink);
-      font: inherit;
-      font-size: 16px;
-      outline: none;
-    }
-    input { min-height: 48px; padding: 0 13px; }
-    textarea {
-      min-height: 146px;
-      resize: vertical;
-      padding: 13px;
-      line-height: 1.45;
-    }
-    input:focus,
-    textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(35, 87, 216, .12);
-    }
-    .form-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 13px;
-    }
-    .status {
-      min-height: 22px;
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-    }
-    .status.error { color: var(--danger); }
-    .status.success { color: var(--ok); }
-    .after-submit {
-      display: none;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--line);
-    }
-    .after-submit.visible { display: block; }
-    .after-submit .btn { width: 100%; }
-
-    .summary-strip {
-      margin-top: 24px;
-      padding-top: 14px;
-      border-top: 1px solid var(--line);
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .summary-item {
-      min-height: 74px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, .72);
-    }
-    .summary-item strong {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 15px;
-      line-height: 1.25;
-    }
-    .summary-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-    .footer {
-      padding: 18px 0 32px;
-      color: var(--muted);
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .disabled { opacity: .62; pointer-events: none; }
-
-    .topbar {
-      position: static;
-      background: #fbfaf7;
-      backdrop-filter: none;
-    }
-    .main { padding: 22px 0 34px; }
-    .service-shell {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
-      gap: 22px;
-      align-items: start;
-    }
-    .service-sheet {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .service-head {
-      display: grid;
-      gap: 10px;
-      padding: 26px;
-      border-bottom: 1px solid var(--line);
-    }
-    .service-title {
-      max-width: 680px;
-      font-size: clamp(30px, 4vw, 46px);
-      line-height: 1.04;
-      font-weight: 920;
-    }
-    .service-sub {
-      max-width: 650px;
-      color: var(--muted);
-      font-size: 17px;
-      font-weight: 650;
-    }
-    .trust-row {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      border-bottom: 1px solid var(--line);
-      background: #f7f8f5;
-    }
-    .trust-item {
-      min-height: 82px;
-      padding: 16px;
-      border-right: 1px solid var(--line);
-    }
-    .trust-item:last-child { border-right: 0; }
-    .trust-item b {
-      display: block;
-      font-size: 18px;
-      line-height: 1.15;
-      margin-bottom: 4px;
-    }
-    .trust-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 760;
-      line-height: 1.3;
-    }
-    .service-grid {
-      display: grid;
-      grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-      gap: 0;
-    }
-    .service-block {
-      padding: 22px 24px;
-      border-right: 1px solid var(--line);
-    }
-    .service-block:last-child { border-right: 0; }
-    .section-label {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .record-list {
-      display: grid;
-      gap: 0;
-      margin: 0;
-      padding: 0;
-      border-top: 1px solid var(--line);
-    }
-    .record-row {
-      display: grid;
-      grid-template-columns: 112px minmax(0, 1fr);
-      gap: 16px;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .record-row dt {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-    .record-row dd {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 760;
-      line-height: 1.34;
-    }
-    .sample-panel.service-sample {
-      margin-top: 0;
-    }
-    .service-sample .sample-link img {
-      aspect-ratio: 16 / 7.5;
-      object-fit: contain;
-      object-position: top center;
-    }
-    .notes-section { margin-top: 22px; scroll-margin-top: 24px; }
-    .notes-panel {
-      max-width: none;
-      display: grid;
-      grid-template-columns: minmax(220px, .7fr) minmax(0, 1fr);
-      gap: 18px;
-      align-items: start;
-    }
-    .notes-copy p {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
-    .notes-fields { min-width: 0; }
-    .summary-strip { display: none; }
-
-    .trust-shell {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 318px;
-      gap: 22px;
-      align-items: start;
-      min-width: 0;
-    }
-    .trust-sheet,
-    .trust-order {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      min-width: 0;
-    }
-    .trust-sheet { overflow: hidden; }
-    .trust-intro {
-      padding: 24px;
-      border-bottom: 1px solid var(--line);
-      min-width: 0;
-    }
-    .trust-title {
-      max-width: 620px;
-      font-size: clamp(27px, 3.5vw, 38px);
+      font-size: clamp(30px, 5vw, 42px);
       line-height: 1.08;
-      font-weight: 780;
       letter-spacing: 0;
-    }
-    .trust-sub {
-      max-width: 610px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 16px;
-      font-weight: 560;
-    }
-    .trust-plain {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      border-bottom: 1px solid var(--line);
-      background: #f8f7f2;
-    }
-    .trust-plain div {
-      padding: 14px 16px;
-      border-right: 1px solid var(--line);
-    }
-    .trust-plain div:last-child { border-right: 0; }
-    .trust-plain b {
-      display: block;
-      font-size: 14px;
-      font-weight: 720;
-      margin-bottom: 2px;
-    }
-    .trust-plain span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 540;
-    }
-    .trust-body {
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
-      min-width: 0;
-    }
-    .trust-block {
-      padding: 20px 22px;
-      border-right: 1px solid var(--line);
-      min-width: 0;
-    }
-    .trust-block:last-child { border-right: 0; }
-    .trust-label {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 760;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .trust-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .trust-table th,
-    .trust-table td {
-      padding: 11px 0;
-      border-top: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-      font-size: 14px;
-      line-height: 1.35;
+      font-weight: 780;
       overflow-wrap: anywhere;
     }
-    .trust-table th {
-      width: 96px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    .trust-table td { font-weight: 610; }
-    .sample-panel.trust-sample {
+    .lead {
+      max-width: 630px;
       margin: 0;
-      border-radius: 6px;
-    }
-    .trust-sample .sample-link {
-      background: #f5f3ed;
-    }
-    .trust-sample .sample-link img {
-      aspect-ratio: 16 / 7.5;
-      object-fit: contain;
-      object-position: top center;
-    }
-    .trust-order {
-      padding: 18px;
-      position: sticky;
-      top: 18px;
-    }
-    .order-title {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
-    }
-    .order-title h2 {
-      margin: 0;
+      color: var(--muted);
       font-size: 18px;
-      font-weight: 760;
-    }
-    .order-title span {
-      font-size: 18px;
-      font-weight: 760;
-    }
-    .order-note {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 540;
-    }
-    .order-list {
-      margin: 14px 0 0;
-      padding: 0;
-      list-style: none;
-      border-top: 1px solid var(--line);
-    }
-    .order-list li {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .order-list b {
-      color: var(--ink);
-      font-weight: 680;
-    }
-    .trust-order .btn-primary {
-      width: 100%;
-      margin-top: 16px;
-      background: #242424;
-      border-color: #242424;
-      border-radius: 6px;
-      font-weight: 720;
-    }
-    .top-actions .btn-primary {
-      background: transparent;
-      border-color: var(--line-dark);
-      color: var(--ink);
-      font-weight: 690;
-    }
-    .notes-panel.trust-notes {
-      max-width: none;
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 18px;
-      border-radius: 6px;
-    }
-    .trust-notes .form-title {
-      font-size: 19px;
-      font-weight: 760;
-    }
-    .trust-notes .form-actions .btn-primary {
-      background: #242424;
-      border-color: #242424;
-      font-weight: 720;
-    }
-    .trust-notes .form-actions .btn-signal {
-      background: var(--panel);
-      border-color: var(--line-dark);
-      font-weight: 720;
-    }
-    .footer {
-      border-top: 1px solid var(--line);
-      margin-top: 8px;
-    }
-
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-    .plain-topbar {
-      justify-content: space-between;
-    }
-    .plain-topbar > * {
-      min-width: 0;
-    }
-    .text-brand {
-      gap: 0;
-      font-size: 18px;
-      font-weight: 760;
-    }
-    .top-email {
-      font-size: 13px;
-    }
-    .trust-page {
-      max-width: 360px;
-      margin: 0 auto;
-    }
-    .trust-label {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 650;
-      margin-bottom: 12px;
-    }
-    .trust-title {
-      max-width: 620px;
-      font-size: clamp(24px, 3vw, 31px);
-      line-height: 1.12;
-      font-weight: 760;
-      letter-spacing: 0;
-    }
-    .trust-dek {
-      max-width: 620px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 540;
       line-height: 1.45;
+      font-weight: 540;
+      overflow-wrap: anywhere;
     }
-    .trust-list {
-      margin: 18px 0 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .trust-list div {
-      display: grid;
-      grid-template-columns: 124px minmax(0, 1fr);
-      gap: 14px;
-      padding: 13px 0;
-      border-top: 1px solid var(--line);
-    }
-    .trust-list div:first-child {
-      border-top: 0;
-    }
-    .trust-list dt {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 680;
-    }
-    .trust-list dd {
-      margin: 0;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 560;
-      line-height: 1.38;
-    }
-    .trust-actions {
+    .lead strong { color: var(--ink); font-weight: 760; }
+    .actions {
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-top: 18px;
       flex-wrap: wrap;
     }
-    .trust-actions .btn-primary {
-      min-height: 38px;
-      width: auto;
-      padding: 0 15px;
+    .btn {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border: 1px solid var(--accent);
       border-radius: 6px;
-      background: #242424;
-      border-color: #242424;
+      background: var(--accent);
+      color: #fff;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 720;
+      white-space: nowrap;
+      max-width: 100%;
     }
     .text-link {
       color: var(--muted);
@@ -818,410 +120,173 @@
       font-weight: 650;
       text-decoration: underline;
       text-underline-offset: 3px;
+    }
+    .facts {
+      margin: 4px 0 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .facts div {
+      display: grid;
+      grid-template-columns: 136px minmax(0, 1fr);
+      gap: 16px;
+      padding: 13px 0;
+      border-top: 1px solid var(--line);
+    }
+    .facts div:first-child { border-top: 0; }
+    .facts dt {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .facts dd {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 560;
       overflow-wrap: anywhere;
     }
-    .mini-example {
-      margin-top: 20px;
+    .example {
       border: 1px solid var(--line);
       border-radius: 6px;
       overflow: hidden;
       background: var(--panel);
     }
-    .mini-example-block {
-      padding: 14px 16px;
+    .example-row {
+      padding: 16px;
       border-top: 1px solid var(--line);
     }
-    .mini-example-block:first-child {
+    .example-row:first-child {
       border-top: 0;
-      background: #f8f7f2;
+      background: var(--soft);
     }
-    .mini-example b {
+    .example b {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
       color: var(--muted);
       font-size: 12px;
-      font-weight: 760;
+      font-weight: 780;
+      letter-spacing: .04em;
+      text-transform: uppercase;
     }
-    .mini-example p {
+    .example p {
       margin: 0;
-      color: var(--ink);
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 560;
-      line-height: 1.42;
+      line-height: 1.44;
+      overflow-wrap: anywhere;
     }
-    .mini-example strong {
-      font-weight: 760;
-    }
-    .order-detail {
-      margin-top: 0;
-      border-top: 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .order-detail summary {
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      cursor: pointer;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 680;
-      list-style: none;
-    }
-    .order-detail summary::-webkit-details-marker { display: none; }
-    .order-detail summary::after {
-      content: "+";
-      color: var(--muted);
-      font-size: 17px;
-      font-weight: 520;
-    }
-    .order-detail[open] summary::after { content: "-"; }
-    .order-detail-body {
-      padding: 0 0 18px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-    }
-    .inline-facts {
-      display: grid;
-      gap: 8px;
+    .example strong { font-weight: 760; }
+    .quiet {
       margin: 0;
-    }
-    .inline-facts p {
-      margin: 0;
-    }
-    .compact-notes {
-      display: grid;
-      gap: 0;
-      margin: 0;
-    }
-    .compact-notes .form-actions {
-      grid-template-columns: 1fr 1fr;
-    }
-    .quiet-footer {
-      max-width: 620px;
-      margin: 34px auto 0;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 13px;
+      font-weight: 540;
+    }
+    footer {
+      padding: 18px 0 28px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+    .foot {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
     }
-
-    @media (max-width: 880px) {
-      .hero { grid-template-columns: 1fr; }
-      .pay-panel { position: static; }
-      .summary-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .service-shell,
-      .service-grid,
-      .notes-panel { grid-template-columns: 1fr; }
-      .trust-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .trust-item:nth-child(2) { border-right: 0; }
-      .trust-item:nth-child(1),
-      .trust-item:nth-child(2) { border-bottom: 1px solid var(--line); }
-      .service-block { border-right: 0; border-bottom: 1px solid var(--line); }
-      .service-block:last-child { border-bottom: 0; }
-      .trust-shell,
-      .trust-body,
-      .notes-panel.trust-notes { grid-template-columns: 1fr; }
-      .trust-order { position: static; }
-      .trust-plain { grid-template-columns: 1fr; }
-      .trust-plain div {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .trust-plain div:last-child { border-bottom: 0; }
-      .trust-block {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .trust-block:last-child { border-bottom: 0; }
-    }
-
-    @media (max-width: 560px) {
+    @media (max-width: 1200px) {
       .wrap {
-        width: 100%;
-        max-width: 100%;
-        padding-left: 14px;
-        padding-right: 14px;
+        width: min(100%, 390px);
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 15px;
+        padding-right: 15px;
       }
-      html,
-      body {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-      }
-      .main,
-      .trust-shell,
-      .trust-sheet,
-      .trust-order,
-      .notes-panel.trust-notes,
-      .sample-panel {
-        max-width: 100%;
-        min-width: 0;
-      }
-      .topbar-inner { min-height: 62px; }
-      .brand { font-size: 17px; }
-      .top-email {
-        display: none;
-      }
-      .brand-mark { width: 32px; height: 32px; }
-      .top-actions { display: none; }
-      .top-actions .btn {
-        min-height: 40px;
-        padding: 0 12px;
-        font-size: 13px;
-      }
-      .main { padding-top: 24px; }
-      h1 { font-size: 28px; line-height: 1.1; }
-      .subhead { font-size: 15px; }
-      .hero-pay { display: inline-flex; width: 100%; }
-      .sample-link img {
-        aspect-ratio: 16 / 7.5;
-        object-fit: cover;
-        background: #f6f5f0;
-      }
-      .form-actions,
-      .summary-strip { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: 100%; padding: 0 15px; }
+      .top { min-height: 58px; }
+      .top .text-link { display: none; }
+      main { padding-top: 32px; }
+      .service,
+      h1,
+      .lead,
+      .facts,
+      .example,
+      .actions,
+      .quiet { max-width: calc(100vw - 30px); min-width: 0; }
+      h1 { font-size: 28px; }
+      .lead { font-size: 16px; }
+      .actions { display: grid; grid-template-columns: minmax(0, 1fr); }
       .btn { width: 100%; }
-      .trust-list div {
-        display: block;
-        max-width: calc(100vw - 28px);
-        padding: 12px 0;
-      }
-      .trust-list dt { margin-bottom: 4px; }
-      .trust-list dd {
-        display: block;
-        width: 100%;
-        max-width: calc(100vw - 28px);
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: normal;
-      }
-      .trust-dek {
-        width: 100%;
-        max-width: 100%;
-        overflow-wrap: break-word;
-      }
-      .trust-title {
-        width: 100%;
-        max-width: 100%;
-        overflow-wrap: break-word;
-      }
-      .trust-page {
-        max-width: 300px;
-      }
-      .trust-actions {
-        display: grid;
-        align-items: stretch;
-      }
-      .trust-actions .btn-primary {
-        width: 100%;
-        max-width: 100%;
-        min-height: 42px;
-        white-space: normal;
-        text-align: center;
-      }
-      .trust-actions {
-        display: grid;
-      }
-      textarea { min-height: 170px; }
-      .sample-caption {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      .service-head { padding: 20px; }
-      .service-title { font-size: 30px; }
-      .service-sub { font-size: 15px; }
-      .trust-row { grid-template-columns: 1fr; }
-      .trust-item,
-      .trust-item:nth-child(2) {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .trust-item:last-child { border-bottom: 0; }
-      .record-row {
-        grid-template-columns: 1fr;
-        gap: 5px;
-      }
-      .trust-shell,
-      .trust-body {
-        display: block;
-      }
-      .trust-shell { gap: 14px; }
-      .trust-order,
-      .notes-panel.trust-notes {
-        margin-top: 14px;
-      }
-      .trust-intro,
-      .trust-block,
-      .trust-order,
-      .notes-panel.trust-notes { padding: 16px; }
-      .trust-title {
-        max-width: 100%;
-        font-size: 25px;
-        line-height: 1.12;
-        overflow-wrap: break-word;
-      }
-      .trust-sub {
-        max-width: 100%;
-        font-size: 14px;
-        overflow-wrap: break-word;
-      }
-      .trust-plain div {
-        padding: 11px 14px;
-      }
-      .trust-table,
-      .trust-table tbody,
-      .trust-table tr,
-      .trust-table th,
-      .trust-table td {
-        display: block;
-        width: 100%;
-        max-width: 100%;
-        white-space: normal;
-        overflow-wrap: break-word;
-      }
-      .trust-table th {
-        padding-bottom: 2px;
-        border-top: 1px solid var(--line);
-      }
-      .trust-table td {
-        padding-top: 0;
-        border-top: 0;
-      }
-      .trust-sample .sample-link img {
-        aspect-ratio: 4 / 3;
-      }
-      .sample-caption {
-        gap: 8px;
-        overflow-wrap: break-word;
-      }
-      .order-title h2,
-      .order-title span {
-        font-size: 17px;
-      }
-      .order-title { font-size: 21px; }
-      .order-table th,
-      .order-table td {
-        display: block;
-        width: 100%;
-        padding-right: 0;
-      }
-      .order-table th {
-        padding-bottom: 2px;
-        border-top: 1px solid var(--line);
-      }
-      .order-table td {
-        padding-top: 0;
-        border-top: 0;
-      }
-      .order-table tr:first-child th { border-top: 0; }
-      .order-actions { align-items: flex-start; }
-      .order-actions .btn-primary { width: auto; }
-      .compact-notes .form-actions { grid-template-columns: 1fr; }
-      .quiet-footer {
-        display: grid;
-        gap: 8px;
-      }
+      .facts div { display: block; }
+      .facts dt { margin-bottom: 4px; }
     }
   </style>
 </head>
 <body>
-  <header class="topbar" aria-label="RelayBrief navigation">
-    <div class="wrap topbar-inner plain-topbar">
-      <a class="brand text-brand" href="/" aria-label="RelayBrief home">
-        <span>RelayBrief</span>
-      </a>
-      <a class="text-link top-email" href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a>
+  <header>
+    <div class="wrap top">
+      <a class="name" href="/">Alan Pham</a>
+      <a class="text-link" href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a>
     </div>
   </header>
 
-  <main class="main">
-    <div class="wrap">
-      <section class="trust-page" aria-label="RelayBrief service information" data-primary-money-path="free-email-preview-payment-after-fit">
-        <p class="trust-label">manual email help by Alan Pham</p>
-        <h1 class="trust-title">Send one stuck lead. I'll write the next email.</h1>
-        <p class="trust-dek">Forward the last reply or paste a few bullets. Remove names or private details. I send back one plain follow-up email. If it is useful, pay $1 by Stripe afterward. If not, ignore it.</p>
+  <main>
+    <section class="wrap service" data-primary-money-path="free-email-preview-payment-after-fit">
+      <h1>One lead went quiet.<br>I'll write the follow-up.</h1>
+      <p class="lead">Forward the last reply or a few bullets.<br>Remove private details.<br>I send back <strong>one plain email</strong>.<br>Pay <strong>$1</strong> afterward only if you use it.</p>
 
-        <div class="trust-actions">
-          <a id="send-notes" class="btn btn-primary js-email-intent" href="mailto:pham.alann@gmail.com?subject=RelayBrief%20stuck%20lead%20follow-up&body=Hi%20Alan%2C%0A%0AI%20have%20one%20stuck%20lead%20or%20deal.%20Please%20reply%20with%20one%20follow-up%20email%20I%20can%20send.%0A%0A%5Bpaste%20the%20last%20reply%2C%20a%20rough%20draft%2C%20or%20a%20few%20bullets%20here%3B%20remove%20names%20or%20private%20details%20if%20needed%5D">Email Alan</a>
-          <a class="text-link" href="sample.pdf" id="heroSampleLink">Open example</a>
+      <div class="actions">
+        <a id="send-notes" class="btn js-email-intent" href="mailto:pham.alann@gmail.com?subject=Stuck%20lead%20follow-up&body=Hi%20Alan%2C%0A%0AI%20have%20one%20lead%20that%20went%20quiet.%20Please%20write%20one%20follow-up%20email%20I%20can%20send.%0A%0AWhat%20happened%3A%0A%0ALast%20reply%20or%20rough%20draft%3A%0A%0AWhat%20I%20want%20next%3A%0A">Email Alan</a>
+        <a id="heroSampleLink" class="text-link" href="sample.pdf">Open example</a>
+      </div>
+
+      <dl class="facts">
+        <div>
+          <dt>Use when</dt>
+          <dd>A prospect, client, or lead went quiet.</dd>
         </div>
-
-        <div class="mini-example" aria-label="RelayBrief example">
-          <div class="mini-example-block">
-            <b>Stuck lead</b>
-            <p>asked for pricing for a small campaign. no reply after quote. i do not want to sound pushy.</p>
-          </div>
-          <div class="mini-example-block">
-            <b>Follow-up to send</b>
-            <p><strong>Subject: should I close this out?</strong><br>Quick check. Should I keep this open for next week, or close it out for now? If the quote was too early, I can leave you alone and follow up later.</p>
-          </div>
+        <div>
+          <dt>Send</dt>
+          <dd>Last reply, rough draft, or bullets.</dd>
         </div>
+        <div>
+          <dt>Receive</dt>
+          <dd>Subject line plus one email.</dd>
+        </div>
+        <div>
+          <dt>Payment</dt>
+          <dd>No checkout before preview. No card form on this site.</dd>
+        </div>
+        <div>
+          <dt>Cost</dt>
+          <dd>Pay $1 only if you use it.</dd>
+        </div>
+      </dl>
 
-        <dl class="trust-list">
-          <div>
-             <dt>Use when</dt>
-             <dd>A prospect, client, or lead has gone quiet and you do not know what to send next.</dd>
-          </div>
-          <div>
-             <dt>You send</dt>
-             <dd>The last reply, a rough draft, or a few bullets. Remove private details first.</dd>
-          </div>
-          <div>
-             <dt>You get</dt>
-             <dd>One plain email you can send.</dd>
-          </div>
-          <div>
-             <dt>Cost</dt>
-             <dd>Draft first. Pay $1 after only if useful.</dd>
-          </div>
-          <div>
-             <dt>Payment</dt>
-              <dd>Stripe link only comes with the email. No checkout before preview.</dd>
-          </div>
-          <div>
-             <dt>Delivery</dt>
-              <dd>Plain text by email. Nothing to install or download.</dd>
-          </div>
-          <div>
-             <dt>Safety</dt>
-              <dd>No app. No upload. No login. No password. No card form. Do not send confidential details.</dd>
-          </div>
-          <div>
-             <dt>Obligation</dt>
-             <dd>If the email is not useful, do not pay.</dd>
-          </div>
-          <div>
-            <dt>Contact</dt>
-            <dd><a class="text-link" href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></dd>
-          </div>
-        </dl>
+      <div class="example" aria-label="Example stuck lead follow-up">
+        <div class="example-row">
+          <b>What came in</b>
+          <p>asked for pricing. no reply after quote. need yes, no, or next step.</p>
+        </div>
+        <div class="example-row">
+          <b>What comes back</b>
+          <p><strong>Subject: should I close this out?</strong><br>Quick check. Should I keep this open for next week, or close it out for now?</p>
+        </div>
+      </div>
 
-        <details id="sampleDetail" class="order-detail">
-          <summary>Full example</summary>
-          <div class="order-detail-body inline-facts">
-            <p><strong>Input:</strong> one stuck lead, last reply, or rough follow-up draft.</p>
-            <p><strong>Output:</strong> one follow-up email and subject line.</p>
-            <p><strong>Example:</strong> <a id="sampleLink" class="text-link" href="sample.pdf">PDF opens in browser</a>. It uses invented data.</p>
-          </div>
-        </details>
-
-      </section>
-    </div>
+      <p class="quiet">No app. No upload. No account. No password. No executable download. Do not send confidential details.</p>
+    </section>
   </main>
 
-  <footer class="wrap quiet-footer">
-    <span>RelayBrief</span>
-    <span>relaybrief.com</span>
-    <span><a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a></span>
-    <span><a href="terms.html">terms</a></span>
-    <span><a href="privacy.html">privacy</a></span>
+  <footer>
+    <div class="wrap foot">
+      <span>relaybrief.com</span>
+      <a href="sample.pdf" id="sampleLink">example PDF</a>
+      <a href="terms.html">terms</a>
+      <a href="privacy.html">privacy</a>
+    </div>
   </footer>
 
   <script>
@@ -1232,26 +297,10 @@
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);
-      var emailEl = document.getElementById("email");
-      var notesEl = document.getElementById("notes");
-      var formEl = document.getElementById("notesForm");
-      var statusEl = document.getElementById("status");
-      var sendNotesBtn = document.getElementById("sendNotesBtn");
-      var afterSubmitEl = document.getElementById("afterSubmit");
-      var emailIntentLinks = Array.prototype.slice.call(document.querySelectorAll(".js-email-intent"));
-      var sampleLink = document.getElementById("sampleLink");
-      var sampleTextLink = document.getElementById("sampleTextLink");
-      var heroSampleLink = document.getElementById("heroSampleLink");
-      var sampleDetail = document.getElementById("sampleDetail");
-      var pageStartedAt = new Date();
-      var pageStartedMs = Date.now();
-      var lastActiveMs = pageStartedMs;
-      var activeMs = 0;
+      var startedAt = new Date();
+      var startedMs = Date.now();
       var maxScrollPct = 0;
       var scrollMarks = {};
-      var notesStarted = false;
-      var notesHundred = false;
-      var engagementMarks = {};
       var query = new URLSearchParams(window.location.search);
 
       if (!sessionId) {
@@ -1259,95 +308,27 @@
         localStorage.setItem(sessionKey, sessionId);
       }
 
-      if (sampleLink) {
-        sampleLink.href = sampleUrl;
-      }
-      if (sampleTextLink) {
-        sampleTextLink.href = sampleUrl;
-      }
-      if (heroSampleLink) {
-        heroSampleLink.href = sampleUrl;
-      }
-
-      function setStatus(message, kind) {
-        if (!statusEl) {
-          return;
-        }
-        statusEl.textContent = message || "";
-        statusEl.className = "status" + (kind ? " " + kind : "");
-      }
-
-      function validEmail(value) {
-        return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((value || "").trim());
-      }
-
-      function currentNotes() {
-        if (!notesEl) {
-          return "";
-        }
-        return (notesEl.value || "").trim();
-      }
-
-      function currentEmail() {
-        if (!emailEl) {
-          return "";
-        }
-        return (emailEl.value || "").trim().toLowerCase();
-      }
-
-      function updateActiveTime() {
-        var now = Date.now();
-        if (!document.hidden) {
-          activeMs += Math.max(now - lastActiveMs, 0);
-        }
-        lastActiveMs = now;
-      }
-
-      function scrollPercent() {
-        var doc = document.documentElement;
-        var body = document.body;
-        var scrollTop = window.scrollY || doc.scrollTop || body.scrollTop || 0;
-        var scrollHeight = Math.max(
-          body.scrollHeight || 0,
-          doc.scrollHeight || 0,
-          body.offsetHeight || 0,
-          doc.offsetHeight || 0
-        );
-        var viewport = window.innerHeight || doc.clientHeight || 1;
-        var available = Math.max(scrollHeight - viewport, 1);
-        return Math.max(0, Math.min(100, Math.round((scrollTop / available) * 100)));
-      }
-
-      function baseMetadata(extra) {
-        updateActiveTime();
-        var metadata = {
+      function metadata(extra) {
+        var data = {
           surface: "relay_product",
-          page_started_at: pageStartedAt.toISOString(),
-          elapsed_ms: Date.now() - pageStartedMs,
-          active_ms: Math.round(activeMs),
+          page_started_at: startedAt.toISOString(),
+          elapsed_ms: Date.now() - startedMs,
           max_scroll_pct: maxScrollPct,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
           local_hour: String(new Date().getHours()).padStart(2, "0"),
           viewport_w: window.innerWidth || 0,
           viewport_h: window.innerHeight || 0,
-          screen_w: window.screen ? window.screen.width : 0,
-          screen_h: window.screen ? window.screen.height : 0,
-          language: navigator.language || "",
           utm_source: query.get("utm_source") || "",
           utm_medium: query.get("utm_medium") || "",
           utm_campaign: query.get("utm_campaign") || "",
           utm_content: query.get("utm_content") || "",
-          utm_term: query.get("utm_term") || "",
-          rbp: query.get("rbp") || "",
-          hash: window.location.hash || ""
+          rbp: query.get("rbp") || ""
         };
-        Object.keys(extra || {}).forEach(function (key) {
-          metadata[key] = extra[key];
-        });
-        return metadata;
+        Object.keys(extra || {}).forEach(function (key) { data[key] = extra[key]; });
+        return data;
       }
 
-      function track(eventType, metadata) {
+      function track(eventType, extra) {
         try {
           fetch(eventUrl, {
             method: "POST",
@@ -1359,183 +340,51 @@
               path: window.location.pathname,
               page_url: window.location.href,
               referrer: document.referrer || "",
-              metadata: baseMetadata(metadata || {})
+              metadata: metadata(extra || {})
             })
           }).catch(function () {});
         } catch (error) {}
       }
 
-      async function postLead(source, metadata) {
-        var email = currentEmail();
-        if (!validEmail(email)) {
-          throw new Error("email");
-        }
-
-        var response = await fetch(leadUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            session_id: sessionId,
-            email: email,
-            source: source,
-            page_url: window.location.href,
-            referrer: document.referrer || "",
-            metadata: baseMetadata(metadata || {})
-          })
-        });
-
-        if (!response.ok) {
-          throw new Error("lead");
-        }
-
-        return response.json();
+      function scrollPercent() {
+        var doc = document.documentElement;
+        var available = Math.max(doc.scrollHeight - window.innerHeight, 1);
+        return Math.max(0, Math.min(100, Math.round((window.scrollY / available) * 100)));
       }
 
-      if (formEl && emailEl && notesEl && sendNotesBtn) {
-        formEl.addEventListener("submit", async function (event) {
-          event.preventDefault();
-
-          var email = currentEmail();
-          var notes = currentNotes();
-
-          if (!validEmail(email)) {
-            setStatus("Use a valid email for the reply.", "error");
-            emailEl.focus();
-            return;
-          }
-
-          if (notes.length < 10) {
-            setStatus("Paste at least a few real notes first.", "error");
-            notesEl.focus();
-            return;
-          }
-
-          sendNotesBtn.classList.add("disabled");
-          setStatus("Saving notes...", "");
-
-          try {
-            await postLead("messy_notes", {
-              notes: notes,
-              note_length: notes.length
-            });
-            track("note_intake_submit", {
-              note_length: notes.length
-            });
-            if (afterSubmitEl) {
-              afterSubmitEl.classList.add("visible");
-            }
-            setStatus("Notes saved. Alan will reply with a follow-up email preview.", "success");
-          } catch (error) {
-            setStatus("Could not save notes right now. Email Alan directly.", "error");
-          } finally {
-            sendNotesBtn.classList.remove("disabled");
-          }
-        });
-      }
-
-      emailIntentLinks.forEach(function (link) {
+      document.querySelectorAll(".js-email-intent").forEach(function (link) {
         link.addEventListener("click", function () {
-          track("email_intent_click", {
-            position: link.id || "email",
-            money_path: "free_email_preview_payment_after_fit"
-          });
+          track("email_intent_click", { money_path: "free_email_preview_payment_after_fit" });
         });
       });
 
-      [sampleLink, sampleTextLink, heroSampleLink].filter(Boolean).forEach(function (link) {
+      document.querySelectorAll('a[href$="sample.pdf"]').forEach(function (link) {
+        link.href = sampleUrl;
         link.addEventListener("click", function () {
-          track("sample_click", {
-            has_email: validEmail(currentEmail()),
-            destination: link.id || "sample"
-          });
+          track("sample_click", { destination: link.id || "sample" });
         });
       });
 
-      if (sampleDetail) {
-        sampleDetail.addEventListener("toggle", function () {
-          if (sampleDetail.open && !sampleDetail.dataset.logged) {
-            sampleDetail.dataset.logged = "1";
-            track("sample_click", {
-              has_email: validEmail(currentEmail()),
-              destination: "inline_sample"
-            });
-          }
-        });
-      }
-
-      if (emailEl) {
-        emailEl.addEventListener("focus", function () {
-          track("email_focus", {});
-        }, { once: true });
-      }
-
-      if (notesEl) {
-        notesEl.addEventListener("focus", function () {
-          track("note_intake_click", {});
-        }, { once: true });
-
-        notesEl.addEventListener("input", function () {
-          var length = currentNotes().length;
-          if (!notesStarted && length > 0) {
-            notesStarted = true;
-            track("notes_started", { note_length: length });
-          }
-          if (!notesHundred && length >= 100) {
-            notesHundred = true;
-            track("notes_100_chars", { note_length: length });
-          }
-        });
-      }
-
-      function checkScrollDepth() {
+      window.addEventListener("scroll", function () {
         maxScrollPct = Math.max(maxScrollPct, scrollPercent());
         [25, 50, 75, 90].forEach(function (mark) {
           if (maxScrollPct >= mark && !scrollMarks[mark]) {
             scrollMarks[mark] = true;
-            track("scroll_depth", { scroll_pct: mark });
+            track("scroll_depth", { threshold: mark });
           }
         });
-      }
-
-      function trackEngagement(label) {
-        track("page_engagement", {
-          mark: label || "heartbeat",
-          active_seconds: Math.round(activeMs / 1000),
-          elapsed_seconds: Math.round((Date.now() - pageStartedMs) / 1000)
-        });
-      }
-
-      window.addEventListener("scroll", function () {
-        window.clearTimeout(checkScrollDepth._timer);
-        checkScrollDepth._timer = window.setTimeout(checkScrollDepth, 160);
       }, { passive: true });
 
       document.addEventListener("visibilitychange", function () {
-        updateActiveTime();
-        track("page_visibility", { state: document.visibilityState || "" });
-        if (document.hidden) {
-          trackEngagement("hidden");
-        }
+        track("page_visibility", { hidden: document.hidden });
       });
 
-      [10000, 30000, 60000, 120000].forEach(function (ms) {
-        window.setTimeout(function () {
-          if (!engagementMarks[ms]) {
-            engagementMarks[ms] = true;
-            trackEngagement(String(ms / 1000) + "s");
-          }
-        }, ms);
+      track("page_view", {
+        primary_path: "email_alan_free_preview_payment_after_use",
+        lead_api_available: Boolean(leadUrl)
       });
-
-      window.addEventListener("pagehide", function () {
-        updateActiveTime();
-        checkScrollDepth();
-        trackEngagement("pagehide");
-      });
-
-      checkScrollDepth();
-      track("page_view", {});
-    }());
+      window.setTimeout(function () { track("page_engagement", { threshold: "10s" }); }, 10000);
+    })();
   </script>
 </body>
 </html>

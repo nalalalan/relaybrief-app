@@ -4,24 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RelayBrief | one follow-up email</title>
-  <meta name="description" content="RelayBrief is a small manual follow-up email service by Alan Pham. Email one rough call note first. Alan replies with a short follow-up email preview. Pay $1 only if it helps.">
+  <meta name="description" content="RelayBrief is a small manual follow-up email service by Alan Pham. Email one rough call note. Alan replies with one follow-up email preview. No checkout before preview.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="RelayBrief">
   <meta property="og:title" content="RelayBrief">
-  <meta property="og:description" content="Email one rough call note first. Follow-up email preview first. Pay $1 only if it helps. No card details on this site.">
+  <meta property="og:description" content="Email one rough call note. Follow-up email preview first. No checkout before preview. Pay $1 only if it helps.">
   <meta property="og:url" content="https://relaybrief.com/">
   <meta property="og:image" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="RelayBrief. One follow-up email from rough notes. Email first. Preview first. Pay only if useful.">
+  <meta property="og:image:alt" content="RelayBrief. One follow-up email from rough notes. Email first. No checkout before preview.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RelayBrief">
-  <meta name="twitter:description" content="Email one rough call note first. Follow-up email preview first. Pay $1 only if it helps. No card details on this site.">
+  <meta name="twitter:description" content="Email one rough call note. Follow-up email preview first. No checkout before preview. Pay $1 only if it helps.">
   <meta name="twitter:image" content="https://relaybrief.com/og-image-trust-20260517.png">
-  <meta name="twitter:image:alt" content="RelayBrief. One follow-up email from rough notes. Email first. Preview first. Pay only if useful.">
+  <meta name="twitter:image:alt" content="RelayBrief. One follow-up email from rough notes. Email first. No checkout before preview.">
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260508-icon-pass2" />
   <meta name="theme-color" content="#f7f8f5" />
@@ -1158,11 +1158,11 @@
       <section class="trust-page" aria-label="RelayBrief service information" data-primary-money-path="free-email-preview-payment-after-fit">
         <p class="trust-label">relaybrief.com</p>
         <h1 class="trust-title">One follow-up email.</h1>
-        <p class="trust-dek">Email rough notes from one call.<br>Alan replies with a short follow-up email preview.<br>Pay $1 only if it helps.</p>
+        <p class="trust-dek">Email rough notes from one call.<br>Alan replies with one follow-up email preview.<br>No checkout before preview.</p>
 
         <div class="trust-actions">
           <a id="send-notes" class="btn btn-primary js-email-intent" href="mailto:pham.alann@gmail.com?subject=RelayBrief%20follow-up%20email%20preview&body=Hi%20Alan%2C%0A%0AI%20have%20one%20rough%20call%20note.%20Please%20reply%20with%20a%20short%20follow-up%20email%20preview.%0A%0A%5Bpaste%20rough%20notes%20or%20context%20here%3B%20remove%20confidential%20details%20if%20needed%5D">Email rough note</a>
-          <a id="heroCheckout" class="text-link js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after_preview">Stripe $1 after it helps</a>
+          <a class="text-link" href="sample.pdf" id="heroSampleLink">Open example</a>
         </div>
 
         <dl class="trust-list">
@@ -1180,11 +1180,11 @@
           </div>
           <div>
             <dt>Price</dt>
-            <dd>Preview free. Pay $1 if you use it.</dd>
+            <dd>Preview free. If you use it, pay $1.</dd>
           </div>
           <div>
             <dt>Payment</dt>
-            <dd>Stripe link after preview. No card details on this site.</dd>
+            <dd>Alan sends the Stripe link with the preview. No checkout before that.</dd>
           </div>
           <div>
             <dt>Delivery</dt>
@@ -1251,6 +1251,7 @@
       var emailIntentLinks = Array.prototype.slice.call(document.querySelectorAll(".js-email-intent"));
       var sampleLink = document.getElementById("sampleLink");
       var sampleTextLink = document.getElementById("sampleTextLink");
+      var heroSampleLink = document.getElementById("heroSampleLink");
       var sampleDetail = document.getElementById("sampleDetail");
       var pageStartedAt = new Date();
       var pageStartedMs = Date.now();
@@ -1277,6 +1278,9 @@
       }
       if (sampleTextLink) {
         sampleTextLink.href = sampleUrl;
+      }
+      if (heroSampleLink) {
+        heroSampleLink.href = sampleUrl;
       }
 
       function setStatus(message, kind) {
@@ -1489,7 +1493,7 @@
         });
       });
 
-      [sampleLink, sampleTextLink].filter(Boolean).forEach(function (link) {
+      [sampleLink, sampleTextLink, heroSampleLink].filter(Boolean).forEach(function (link) {
         link.addEventListener("click", function () {
           track("sample_click", {
             has_email: validEmail(currentEmail()),

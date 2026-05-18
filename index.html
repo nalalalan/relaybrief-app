@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RelayBrief | call-note cleanup</title>
-  <meta name="description" content="RelayBrief is a $1 call-note cleanup service operated by Alan Pham. Stripe handles checkout. No software download, account, login, or password.">
+  <title>RelayBrief | manual follow-up cleanup</title>
+  <meta name="description" content="RelayBrief is a small manual follow-up cleanup service by Alan Pham. Email one rough call note first. Pay $1 by Stripe only after the job is accepted.">
   <link rel="canonical" href="https://relaybrief.com/" />
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="RelayBrief">
   <meta property="og:title" content="RelayBrief">
-  <meta property="og:description" content="$1 call-note cleanup service operated by Alan Pham. Stripe checkout. No software download, account, login, or password.">
+  <meta property="og:description" content="Email one rough call note first. Pay $1 by Stripe only after the job is accepted. No card details on this site.">
   <meta property="og:url" content="https://relaybrief.com/">
   <meta property="og:image" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:secure_url" content="https://relaybrief.com/og-image-trust-20260517.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="RelayBrief. Call-note cleanup. Stripe checkout. No software download.">
+  <meta property="og:image:alt" content="RelayBrief. Manual follow-up cleanup. Email first. Pay by Stripe after acceptance.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RelayBrief">
-  <meta name="twitter:description" content="$1 call-note cleanup service operated by Alan Pham. Stripe checkout. No software download, account, login, or password.">
+  <meta name="twitter:description" content="Email one rough call note first. Pay $1 by Stripe only after the job is accepted. No card details on this site.">
   <meta name="twitter:image" content="https://relaybrief.com/og-image-trust-20260517.png">
-  <meta name="twitter:image:alt" content="RelayBrief. Call-note cleanup. Stripe checkout. No software download.">
+  <meta name="twitter:image:alt" content="RelayBrief. Manual follow-up cleanup. Email first. Pay by Stripe after acceptance.">
   <link rel="icon" href="/favicon.svg?v=20260508-icon-pass2" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260508-icon-pass2" />
   <meta name="theme-color" content="#f7f8f5" />
@@ -787,7 +787,7 @@
       font-size: 13px;
     }
     .trust-page {
-      max-width: 660px;
+      max-width: 360px;
       margin: 0 auto;
     }
     .trust-label {
@@ -1002,23 +1002,30 @@
       .btn { width: 100%; }
       .trust-list div {
         display: block;
+        max-width: calc(100vw - 28px);
         padding: 12px 0;
       }
       .trust-list dt { margin-bottom: 4px; }
       .trust-list dd {
+        display: block;
         width: 100%;
-        max-width: 100%;
-        overflow-wrap: anywhere;
+        max-width: calc(100vw - 28px);
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: normal;
       }
       .trust-dek {
         width: 100%;
         max-width: 100%;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
       }
       .trust-title {
         width: 100%;
         max-width: 100%;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
+      }
+      .trust-page {
+        max-width: 300px;
       }
       .trust-actions {
         display: grid;
@@ -1148,14 +1155,14 @@
 
   <main class="main">
     <div class="wrap">
-      <section class="trust-page" aria-label="RelayBrief checkout information" data-primary-money-path="checkout-first">
+      <section class="trust-page" aria-label="RelayBrief service information" data-primary-money-path="email-first-payment-after-fit">
         <p class="trust-label">relaybrief.com</p>
-        <h1 class="trust-title">Call-note cleanup.</h1>
-        <p class="trust-dek">$1. Stripe checkout.<br>No download. No login. No password.</p>
+        <h1 class="trust-title">Manual follow-up cleanup.</h1>
+        <p class="trust-dek">Email one rough call note first.<br>Pay $1 by Stripe only after Alan accepts the job.</p>
 
         <div class="trust-actions">
-          <a id="heroCheckout" class="btn btn-primary js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="hero">Open Stripe checkout</a>
-          <a class="text-link" href="mailto:pham.alann@gmail.com">Email Alan first</a>
+          <a id="send-notes" class="btn btn-primary js-email-intent" href="mailto:pham.alann@gmail.com?subject=RelayBrief%20%241%20call%20note&body=Hi%20Alan%2C%0A%0AI%20have%20one%20rough%20call%20note%20for%20RelayBrief.%0A%0A%5Bpaste%20rough%20notes%20or%20context%20here%5D">Email one note</a>
+          <a id="heroCheckout" class="text-link js-checkout" href="https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08" data-checkout-position="after_fit">Stripe $1 after acceptance</a>
         </div>
 
         <dl class="trust-list">
@@ -1165,7 +1172,7 @@
           </div>
           <div>
             <dt>Service</dt>
-            <dd>Clean packet from one rough call note.</dd>
+            <dd>One rough sales or client call note becomes a short follow-up packet.</dd>
           </div>
           <div>
             <dt>Includes</dt>
@@ -1173,19 +1180,19 @@
           </div>
           <div>
             <dt>Price</dt>
-            <dd>$1 for one call.</dd>
+            <dd>$1 after Alan accepts the job.</dd>
           </div>
           <div>
             <dt>Payment</dt>
-            <dd>Stripe checkout on stripe.com.</dd>
+            <dd>Stripe link by email. No card details on this site.</dd>
           </div>
           <div>
             <dt>Delivery</dt>
-            <dd>Email after checkout.</dd>
+            <dd>Finished packet comes by email.</dd>
           </div>
           <div>
             <dt>Safety</dt>
-            <dd>No download. No login. No password.</dd>
+            <dd>No download. No login. No password. No card form.</dd>
           </div>
           <div>
             <dt>Refund</dt>
@@ -1230,7 +1237,7 @@
       var firstMoneyUrl = (config.FIRST_MONEY_CHECKOUT_URL || "").trim();
       var checkoutUrl = firstMoneyUrl || config.PACKET_CHECKOUT_URL || "https://buy.stripe.com/bJe28t7Sa7DLgec29A2Nq08";
       var priceLabel = config.FIRST_MONEY_PRICE_LABEL || "$1";
-      var checkoutLabel = "Open Stripe checkout (" + priceLabel + ")";
+      var checkoutLabel = "Stripe " + priceLabel + " after acceptance";
       var sampleUrl = config.SAMPLE_PDF_URL || "sample.pdf";
       var sessionKey = "ao_relay_session_id";
       var sessionId = localStorage.getItem(sessionKey);
@@ -1241,6 +1248,7 @@
       var sendNotesBtn = document.getElementById("sendNotesBtn");
       var afterSubmitEl = document.getElementById("afterSubmit");
       var checkoutLinks = Array.prototype.slice.call(document.querySelectorAll(".js-checkout"));
+      var emailIntentLinks = Array.prototype.slice.call(document.querySelectorAll(".js-email-intent"));
       var sampleLink = document.getElementById("sampleLink");
       var sampleTextLink = document.getElementById("sampleTextLink");
       var sampleDetail = document.getElementById("sampleDetail");
@@ -1454,9 +1462,9 @@
             if (afterSubmitEl) {
               afterSubmitEl.classList.add("visible");
             }
-            setStatus("Notes saved. Open Stripe checkout when ready.", "success");
+            setStatus("Notes saved. Alan will reply with a Stripe link if accepted.", "success");
           } catch (error) {
-            setStatus("Could not save notes right now. You can still use Stripe checkout or email Alan.", "error");
+            setStatus("Could not save notes right now. Email Alan directly.", "error");
           } finally {
             sendNotesBtn.classList.remove("disabled");
           }
@@ -1468,6 +1476,15 @@
           event.preventDefault();
           Promise.race([captureCheckoutIntent(link.getAttribute("data-checkout-position") || link.id || "checkout"), delay(650)]).finally(function () {
             window.location.href = checkoutUrl;
+          });
+        });
+      });
+
+      emailIntentLinks.forEach(function (link) {
+        link.addEventListener("click", function () {
+          track("email_intent_click", {
+            position: link.id || "email",
+            money_path: "email_first_payment_after_fit"
           });
         });
       });

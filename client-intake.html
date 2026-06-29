@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Alan Pham intake</title>
+  <title>Alan Pham paid intake</title>
   <meta name="description" content="Paid intake for a follow-up email job already accepted by Alan.">
   <link rel="canonical" href="https://relaybrief.com/client-intake.html">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -22,9 +22,14 @@
     h1{font-size:28px;line-height:1.1;margin:0 0 10px}
     p{margin:0;color:var(--muted);font-weight:560}
     form{margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+    form[hidden]{display:none}
+    .field{margin-top:14px}
     label{display:block;margin:0 0 8px;color:var(--muted);font-size:14px;font-weight:700}
-    input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);font:inherit;padding:0 12px}
+    input,select,textarea{width:100%;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);font:inherit}
+    input,select{min-height:44px;padding:0 12px}
+    textarea{min-height:168px;padding:10px 12px;resize:vertical}
     .actions{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+    .fallback[hidden]{display:none}
     button,.button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border:1px solid #242424;border-radius:6px;background:#242424;color:#fff;font-weight:700;cursor:pointer;text-decoration:none}
     .button.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
     .status{min-height:24px;margin-top:14px;color:var(--muted);font-size:14px;font-weight:600}
@@ -62,14 +67,47 @@
       <label for="accessCode">Access code</label>
       <input id="accessCode" type="text" autocomplete="off" placeholder="Access code from email">
       <div class="actions">
-        <button id="redeemBtn" type="submit">Open form</button>
+        <button id="redeemBtn" type="submit">Unlock intake</button>
       </div>
       <div id="status" class="status" role="status" aria-live="polite"></div>
     </form>
 
+    <form id="intakeForm" hidden>
+      <div class="field">
+        <label for="email">Paid email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="clientName">Client or company name</label>
+        <input id="clientName" type="text" autocomplete="organization" placeholder="Client name">
+      </div>
+      <div class="field">
+        <label for="focus">What should this focus on?</label>
+        <input id="focus" type="text" placeholder="Next step, pricing reply, proposal follow-up">
+      </div>
+      <div class="field">
+        <label for="tone">Preferred tone</label>
+        <select id="tone">
+          <option value="Direct and practical">Direct and practical</option>
+          <option value="Warm and professional">Warm and professional</option>
+          <option value="Friendly and casual">Friendly and casual</option>
+          <option value="Reassuring and simple">Reassuring and simple</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rawNotes">Client email, last reply, rough draft, or bullets</label>
+        <textarea id="rawNotes" placeholder="Paste the thread, last reply, messy notes, or bullets."></textarea>
+      </div>
+      <div class="actions">
+        <button id="submitBtn" type="submit">Send intake</button>
+        <a id="fallbackLink" class="button secondary fallback" href="#" target="_blank" rel="noopener" hidden>Fallback form</a>
+      </div>
+      <div id="submitStatus" class="status" role="status" aria-live="polite"></div>
+    </form>
+
     <dl>
-      <div><dt>Payment</dt><dd>Already paid. Stripe keeps card details; this page only opens the call-detail form.</dd></div>
-      <div><dt>Safety</dt><dd>Access code only. No account. No password.</dd></div>
+      <div><dt>Payment</dt><dd>Already paid. Stripe keeps card details; this page only sends the details Alan needs.</dd></div>
+      <div><dt>Safety</dt><dd>Access code plus paid email check. No account. No password.</dd></div>
       <div><dt>Problem</dt><dd>Reply to the intake email or email <a href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a>.</dd></div>
     </dl>
   </main>
@@ -81,22 +119,38 @@
       var input = document.getElementById("accessCode");
       var status = document.getElementById("status");
       var button = document.getElementById("redeemBtn");
+      var intakeForm = document.getElementById("intakeForm");
+      var submitStatus = document.getElementById("submitStatus");
+      var submitButton = document.getElementById("submitBtn");
+      var fallbackLink = document.getElementById("fallbackLink");
+      var accessCode = "";
+      var fallbackUrl = "";
 
-      function setStatus(message, kind) {
-        status.textContent = message || "";
-        status.className = "status" + (kind ? " " + kind : "");
+      function setStatus(target, message, kind) {
+        target.textContent = message || "";
+        target.className = "status" + (kind ? " " + kind : "");
+      }
+
+      function revealFallback() {
+        if (!fallbackUrl) return;
+        fallbackLink.href = fallbackUrl;
+        fallbackLink.hidden = false;
+      }
+
+      function fieldValue(id) {
+        return (document.getElementById(id).value || "").trim();
       }
 
       form.addEventListener("submit", async function (event) {
         event.preventDefault();
-        var accessCode = (input.value || "").trim();
+        accessCode = (input.value || "").trim();
         if (!accessCode) {
-          setStatus("Enter the access code from Alan.", "error");
+          setStatus(status, "Enter the access code from Alan.", "error");
           return;
         }
         button.disabled = true;
         input.disabled = true;
-        setStatus("Checking access.", "");
+        setStatus(status, "Checking access.", "");
         try {
           var response = await fetch(apiBase + "/client-gate/redeem", {
             method: "POST",
@@ -104,17 +158,61 @@
             body: JSON.stringify({ access_code: accessCode })
           });
           var data = await response.json();
-          if (data.status === "ok" && data.client_form_url) {
-            setStatus("Access granted.", "success");
-            window.location.href = data.client_form_url;
+          if (data.status === "ok") {
+            fallbackUrl = data.client_form_url || "";
+            setStatus(status, "Access granted. Send the intake below.", "success");
+            form.hidden = true;
+            intakeForm.hidden = false;
+            document.getElementById("email").focus();
             return;
           }
-          setStatus(data.message || "Access denied.", "error");
+          setStatus(status, data.message || "Access denied.", "error");
         } catch (error) {
-          setStatus("Access check failed. Email Alan if this keeps happening.", "error");
+          setStatus(status, "Access check failed. Email Alan if this keeps happening.", "error");
         } finally {
           button.disabled = false;
           input.disabled = false;
+        }
+      });
+
+      intakeForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var payload = {
+          access_code: accessCode,
+          email: fieldValue("email"),
+          client_name: fieldValue("clientName"),
+          focus: fieldValue("focus"),
+          tone: fieldValue("tone"),
+          raw_notes: fieldValue("rawNotes")
+        };
+        if (!payload.email) {
+          setStatus(submitStatus, "Enter the email used for payment.", "error");
+          return;
+        }
+        if (!payload.raw_notes) {
+          setStatus(submitStatus, "Paste the client notes or email thread.", "error");
+          return;
+        }
+        submitButton.disabled = true;
+        setStatus(submitStatus, "Sending intake.", "");
+        try {
+          var response = await fetch(apiBase + "/client-gate/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          var data = await response.json();
+          if (data.status === "processed") {
+            setStatus(submitStatus, "Submitted. The follow-up email is being prepared.", "success");
+            return;
+          }
+          revealFallback();
+          setStatus(submitStatus, data.message || data.summary || "Submit failed. Use the fallback form or email Alan.", "error");
+        } catch (error) {
+          revealFallback();
+          setStatus(submitStatus, "Submit failed. Use the fallback form or email Alan.", "error");
+        } finally {
+          submitButton.disabled = false;
         }
       });
     })();

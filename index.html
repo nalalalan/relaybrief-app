@@ -121,6 +121,95 @@
       text-decoration: underline;
       text-underline-offset: 3px;
     }
+    .contact-panel {
+      display: grid;
+      gap: 13px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+    }
+    .contact-panel[hidden] { display: none; }
+    .contact-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+    .contact-head h2 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .contact-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 560;
+    }
+    .mini-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--soft);
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+    #notesForm {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+    }
+    .field label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 720;
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+      line-height: 1.42;
+    }
+    .field input { min-height: 42px; padding: 0 12px; }
+    .field textarea {
+      min-height: 138px;
+      padding: 11px 12px;
+      resize: vertical;
+    }
+    .contact-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .contact-status {
+      min-height: 20px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .contact-status[data-state="ok"] { color: #25633d; }
+    .contact-status[data-state="error"] { color: #8a2d20; }
     .facts {
       margin: 4px 0 0;
       border-top: 1px solid var(--line);
@@ -213,12 +302,16 @@
       .lead,
       .facts,
       .example,
+      .contact-panel,
       .actions,
       .quiet { max-width: calc(100vw - 30px); min-width: 0; }
       h1 { font-size: 28px; }
       .lead { font-size: 16px; }
       .actions { display: grid; grid-template-columns: minmax(0, 1fr); }
       .btn { width: 100%; }
+      .contact-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+      .contact-actions .btn,
+      .contact-actions .mini-btn { width: 100%; }
       .facts div { display: block; }
       .facts dt { margin-bottom: 4px; }
     }
@@ -228,7 +321,7 @@
   <header>
     <div class="wrap top">
       <a class="name" href="/">Alan Pham</a>
-      <a class="text-link" href="mailto:pham.alann@gmail.com">pham.alann@gmail.com</a>
+      <a class="text-link js-open-contact" href="#contact-alan">pham.alann@gmail.com</a>
     </div>
   </header>
 
@@ -238,9 +331,35 @@
       <p class="lead">Paste the last message or your rough draft.<br>Remove private details.<br>I send back <strong>one short reply</strong>.<br>Pay $1 afterward only if you use it.</p>
 
       <div class="actions">
-        <a id="send-notes" class="btn js-email-intent" href="mailto:pham.alann@gmail.com?subject=Stuck%20client%20email%20reply&body=Hi%20Alan%2C%0A%0AI%20have%20one%20stuck%20client%20email.%20Please%20write%20one%20reply%20draft.%0A%0ALast%20message%2C%20rough%20draft%2C%20or%20bullets%3A%0A%0AWhat%20I%20want%20the%20reply%20to%20get%3A%0A">Email Alan</a>
+        <a id="send-notes" class="btn js-email-intent js-open-contact" href="#contact-alan">Email Alan</a>
         <a id="heroSampleLink" class="text-link" href="sample.pdf">Open example</a>
       </div>
+
+      <section id="contact-alan" class="contact-panel" hidden aria-label="Send Alan a stuck client email">
+        <div class="contact-head">
+          <div>
+            <h2>Send the stuck email</h2>
+            <p>This form sends the request directly. No mail app required.</p>
+          </div>
+          <button class="mini-btn" type="button" id="copyEmail">Copy email</button>
+        </div>
+
+        <form id="notesForm">
+          <div class="field">
+            <label for="contactEmail">Email for the reply</label>
+            <input id="contactEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="contactNotes">Last message, rough draft, or bullets</label>
+            <textarea id="contactNotes" name="notes" placeholder="Paste the stuck client email here. Remove private details." required></textarea>
+          </div>
+          <div class="contact-actions">
+            <button class="btn" id="submitNotes" type="submit">Send request</button>
+            <a class="mini-btn" id="openGmail" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=pham.alann%40gmail.com&su=Stuck%20client%20email%20reply&body=Hi%20Alan%2C%0A%0AI%20have%20one%20stuck%20client%20email.%20Please%20write%20one%20reply%20draft.%0A%0ALast%20message%2C%20rough%20draft%2C%20or%20bullets%3A%0A%0AWhat%20I%20want%20the%20reply%20to%20get%3A%0A">Open Gmail</a>
+          </div>
+          <p class="contact-status" id="contactStatus" aria-live="polite"></p>
+        </form>
+      </section>
 
       <dl class="facts">
         <div>
@@ -352,11 +471,137 @@
         return Math.max(0, Math.min(100, Math.round((window.scrollY / available) * 100)));
       }
 
-      document.querySelectorAll(".js-email-intent").forEach(function (link) {
-        link.addEventListener("click", function () {
+      var contactPanel = document.getElementById("contact-alan");
+      var notesForm = document.getElementById("notesForm");
+      var contactEmail = document.getElementById("contactEmail");
+      var contactNotes = document.getElementById("contactNotes");
+      var contactStatus = document.getElementById("contactStatus");
+      var submitNotes = document.getElementById("submitNotes");
+      var copyEmail = document.getElementById("copyEmail");
+      var openGmail = document.getElementById("openGmail");
+      var alanEmail = "pham.alann@gmail.com";
+
+      function setContactStatus(message, state) {
+        if (!contactStatus) return;
+        contactStatus.textContent = message || "";
+        if (state) {
+          contactStatus.dataset.state = state;
+        } else {
+          contactStatus.removeAttribute("data-state");
+        }
+      }
+
+      function openContactPanel() {
+        if (!contactPanel) return;
+        contactPanel.hidden = false;
+        contactPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(function () {
+          if (contactNotes) contactNotes.focus({ preventScroll: true });
+        }, 180);
+      }
+
+      function gmailUrl(notes) {
+        var body = [
+          "Hi Alan,",
+          "",
+          "I have one stuck client email. Please write one reply draft.",
+          "",
+          "Last message, rough draft, or bullets:",
+          notes || "",
+          "",
+          "What I want the reply to get:"
+        ].join("\n");
+        return "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(alanEmail) +
+          "&su=" + encodeURIComponent("Stuck client email reply") +
+          "&body=" + encodeURIComponent(body);
+      }
+
+      document.querySelectorAll(".js-open-contact").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          openContactPanel();
           track("email_intent_click", { money_path: "free_email_preview_payment_after_fit" });
+          event.preventDefault();
         });
       });
+
+      if (copyEmail) {
+        copyEmail.addEventListener("click", function () {
+          function done() {
+            setContactStatus("Copied pham.alann@gmail.com.", "ok");
+            track("email_copy_click", { target: "alan_email" });
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(alanEmail).then(done).catch(function () {
+              setContactStatus("Email: " + alanEmail, "ok");
+            });
+          } else {
+            setContactStatus("Email: " + alanEmail, "ok");
+          }
+        });
+      }
+
+      if (openGmail) {
+        openGmail.addEventListener("click", function () {
+          openGmail.href = gmailUrl(contactNotes ? contactNotes.value.trim() : "");
+          track("email_gmail_click", { money_path: "free_email_preview_payment_after_fit" });
+        });
+      }
+
+      if (notesForm) {
+        notesForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var email = (contactEmail && contactEmail.value || "").trim();
+          var notes = (contactNotes && contactNotes.value || "").trim();
+          if (!email || !notes) {
+            setContactStatus("Add your email and the stuck message first.", "error");
+            return;
+          }
+          if (submitNotes) {
+            submitNotes.disabled = true;
+            submitNotes.textContent = "Sending...";
+          }
+          setContactStatus("Sending request...", "");
+          track("note_intake_submit", { note_length: notes.length, source: "messy_notes" });
+          try {
+            fetch(leadUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                session_id: sessionId,
+                email: email,
+                source: "messy_notes",
+                page_url: window.location.href,
+                referrer: document.referrer || "",
+                metadata: metadata({
+                  notes: notes,
+                  note_length: notes.length,
+                  money_path: "free_email_preview_payment_after_fit"
+                })
+              })
+            }).then(function (response) {
+              if (!response.ok) throw new Error("submit failed");
+              return response.json();
+            }).then(function () {
+              setContactStatus("Sent. I have the request.", "ok");
+              if (submitNotes) submitNotes.textContent = "Sent";
+              track("note_intake_submit_ok", { note_length: notes.length, source: "messy_notes" });
+            }).catch(function () {
+              setContactStatus("Could not send here. Open Gmail or copy the email above.", "error");
+              if (submitNotes) {
+                submitNotes.disabled = false;
+                submitNotes.textContent = "Send request";
+              }
+              track("note_intake_submit_error", { source: "messy_notes" });
+            });
+          } catch (error) {
+            setContactStatus("Could not send here. Open Gmail or copy the email above.", "error");
+            if (submitNotes) {
+              submitNotes.disabled = false;
+              submitNotes.textContent = "Send request";
+            }
+          }
+        });
+      }
 
       document.querySelectorAll('a[href$="sample.pdf"]').forEach(function (link) {
         link.href = sampleUrl;

@@ -113,6 +113,7 @@
       font-weight: 720;
       white-space: nowrap;
       max-width: 100%;
+      cursor: pointer;
     }
     .text-link {
       color: var(--muted);
@@ -121,15 +122,37 @@
       text-decoration: underline;
       text-underline-offset: 3px;
     }
+    button.text-link {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+    }
     .contact-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      border: 0;
+      border-radius: 0;
+      background: rgba(29, 27, 24, .42);
+    }
+    .contact-panel[hidden] { display: none; }
+    .contact-card {
+      width: min(100%, 520px);
+      max-height: calc(100vh - 36px);
       display: grid;
       gap: 13px;
-      padding: 16px;
+      overflow: auto;
+      padding: 18px;
       border: 1px solid var(--line);
       border-radius: 6px;
       background: var(--panel);
+      box-shadow: 0 22px 70px rgba(29, 27, 24, .2);
     }
-    .contact-panel[hidden] { display: none; }
     .contact-head {
       display: flex;
       justify-content: space-between;
@@ -302,7 +325,7 @@
       .lead,
       .facts,
       .example,
-      .contact-panel,
+      .contact-card,
       .actions,
       .quiet { max-width: calc(100vw - 30px); min-width: 0; }
       h1 { font-size: 28px; }
@@ -321,7 +344,7 @@
   <header>
     <div class="wrap top">
       <a class="name" href="/">Alan Pham</a>
-      <a class="text-link js-open-contact" href="#contact-alan">pham.alann@gmail.com</a>
+      <button class="text-link js-open-contact" type="button">pham.alann@gmail.com</button>
     </div>
   </header>
 
@@ -331,34 +354,37 @@
       <p class="lead">Paste the last message or your rough draft.<br>Remove private details.<br>I send back <strong>one short reply</strong>.<br>Pay $1 afterward only if you use it.</p>
 
       <div class="actions">
-        <a id="send-notes" class="btn js-email-intent js-open-contact" href="#contact-alan">Email Alan</a>
+        <button id="send-notes" class="btn js-email-intent js-open-contact" type="button">Email Alan</button>
         <a id="heroSampleLink" class="text-link" href="sample.pdf">Open example</a>
       </div>
 
       <section id="contact-alan" class="contact-panel" hidden aria-label="Send Alan a stuck client email">
-        <div class="contact-head">
-          <div>
-            <h2>Send the stuck email</h2>
-            <p>This form sends the request directly. No mail app required.</p>
+        <div class="contact-card" role="dialog" aria-modal="true" aria-labelledby="contactTitle" tabindex="-1">
+          <div class="contact-head">
+            <div>
+              <h2 id="contactTitle">Send the stuck email</h2>
+              <p>This form sends the request directly. No mail app required.</p>
+            </div>
+            <button class="mini-btn" type="button" id="closeContact">Close</button>
           </div>
-          <button class="mini-btn" type="button" id="copyEmail">Copy email</button>
-        </div>
 
-        <form id="notesForm">
-          <div class="field">
-            <label for="contactEmail">Email for the reply</label>
-            <input id="contactEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-          </div>
-          <div class="field">
-            <label for="contactNotes">Last message, rough draft, or bullets</label>
-            <textarea id="contactNotes" name="notes" placeholder="Paste the stuck client email here. Remove private details." required></textarea>
-          </div>
-          <div class="contact-actions">
-            <button class="btn" id="submitNotes" type="submit">Send request</button>
-            <a class="mini-btn" id="openGmail" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=pham.alann%40gmail.com&su=Stuck%20client%20email%20reply&body=Hi%20Alan%2C%0A%0AI%20have%20one%20stuck%20client%20email.%20Please%20write%20one%20reply%20draft.%0A%0ALast%20message%2C%20rough%20draft%2C%20or%20bullets%3A%0A%0AWhat%20I%20want%20the%20reply%20to%20get%3A%0A">Open Gmail</a>
-          </div>
-          <p class="contact-status" id="contactStatus" aria-live="polite"></p>
-        </form>
+          <form id="notesForm">
+            <div class="field">
+              <label for="contactEmail">Email for the reply</label>
+              <input id="contactEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+              <label for="contactNotes">Last message, rough draft, or bullets</label>
+              <textarea id="contactNotes" name="notes" placeholder="Paste the stuck client email here. Remove private details." required></textarea>
+            </div>
+            <div class="contact-actions">
+              <button class="btn" id="submitNotes" type="submit">Send request</button>
+              <a class="mini-btn" id="openGmail" target="_blank" rel="noopener" href="https://mail.google.com/mail/?view=cm&fs=1&to=pham.alann%40gmail.com&su=Stuck%20client%20email%20reply&body=Hi%20Alan%2C%0A%0AI%20have%20one%20stuck%20client%20email.%20Please%20write%20one%20reply%20draft.%0A%0ALast%20message%2C%20rough%20draft%2C%20or%20bullets%3A%0A%0AWhat%20I%20want%20the%20reply%20to%20get%3A%0A">Open Gmail</a>
+              <button class="mini-btn" type="button" id="copyEmail">Copy email</button>
+            </div>
+            <p class="contact-status" id="contactStatus" aria-live="polite"></p>
+          </form>
+        </div>
       </section>
 
       <dl class="facts">
@@ -472,6 +498,7 @@
       }
 
       var contactPanel = document.getElementById("contact-alan");
+      var contactCard = document.querySelector(".contact-card");
       var notesForm = document.getElementById("notesForm");
       var contactEmail = document.getElementById("contactEmail");
       var contactNotes = document.getElementById("contactNotes");
@@ -479,7 +506,10 @@
       var submitNotes = document.getElementById("submitNotes");
       var copyEmail = document.getElementById("copyEmail");
       var openGmail = document.getElementById("openGmail");
+      var closeContact = document.getElementById("closeContact");
       var alanEmail = "pham.alann@gmail.com";
+      var lastContactTrigger = null;
+      var contactPointerScroll = null;
 
       function setContactStatus(message, state) {
         if (!contactStatus) return;
@@ -491,13 +521,36 @@
         }
       }
 
-      function openContactPanel() {
+      function openContactPanel(trigger) {
         if (!contactPanel) return;
+        var pointerScroll = contactPointerScroll;
+        contactPointerScroll = null;
+        var keepX = pointerScroll ? pointerScroll.x : (window.scrollX || 0);
+        var keepY = pointerScroll ? pointerScroll.y : (window.scrollY || 0);
+        function restoreScroll() {
+          window.scrollTo(keepX, keepY);
+        }
+        lastContactTrigger = trigger || document.activeElement;
         contactPanel.hidden = false;
-        contactPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.documentElement.classList.add("contact-open");
+        document.body.classList.add("contact-open");
+        restoreScroll();
+        window.requestAnimationFrame(restoreScroll);
         window.setTimeout(function () {
-          if (contactNotes) contactNotes.focus({ preventScroll: true });
-        }, 180);
+          if (contactCard) contactCard.focus({ preventScroll: true });
+          restoreScroll();
+        }, 40);
+        window.setTimeout(restoreScroll, 160);
+      }
+
+      function closeContactPanel() {
+        if (!contactPanel) return;
+        contactPanel.hidden = true;
+        document.documentElement.classList.remove("contact-open");
+        document.body.classList.remove("contact-open");
+        if (lastContactTrigger && lastContactTrigger.focus) {
+          lastContactTrigger.focus({ preventScroll: true });
+        }
       }
 
       function gmailUrl(notes) {
@@ -517,11 +570,30 @@
       }
 
       document.querySelectorAll(".js-open-contact").forEach(function (link) {
-        link.addEventListener("click", function (event) {
-          openContactPanel();
-          track("email_intent_click", { money_path: "free_email_preview_payment_after_fit" });
-          event.preventDefault();
+        link.addEventListener("pointerdown", function () {
+          contactPointerScroll = { x: window.scrollX || 0, y: window.scrollY || 0 };
         });
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          openContactPanel(link);
+          track("email_intent_click", { money_path: "free_email_preview_payment_after_fit" });
+        });
+      });
+
+      if (closeContact) {
+        closeContact.addEventListener("click", closeContactPanel);
+      }
+
+      if (contactPanel) {
+        contactPanel.addEventListener("click", function (event) {
+          if (event.target === contactPanel) closeContactPanel();
+        });
+      }
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && contactPanel && !contactPanel.hidden) {
+          closeContactPanel();
+        }
       });
 
       if (copyEmail) {
